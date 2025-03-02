@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" path="res://ui/draw_pile_ui.gd" id="1_0pwl2"]
 
-[node name="DrawPileUI" type="Control"]
+[node name="DrawPileUI" type="Panel"]
 custom_minimum_size = Vector2(200, 300)
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

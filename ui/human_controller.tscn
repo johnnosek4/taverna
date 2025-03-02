@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvo34iq6qx7y6"]
+
+[ext_resource type="Script" path="res://human_controller.gd" id="1_nr7en"]
+
+[node name="HumanController" type="Node"]
+script = ExtResource("1_nr7en")

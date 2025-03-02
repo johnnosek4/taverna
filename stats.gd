@@ -21,11 +21,15 @@ enum Effect {
 
 var name: String = "Flub"
 var player_type: PlayerType = PlayerType.HUMAN
-var current_health: int = 20: set = set_current_health
-var max_health: int = 20
+var current_health: int = 40: set = set_current_health
+var max_health: int = 40
 var card_pile: Array = [] #Array of Cards
 var deck: Array = [] #Array of Cards
 var effects: Dictionary = {} #Effect/Count key/value
+
+
+func apply_damage(dmg: int) -> void:
+	var vulnerable_count = effects.get
 
 
 func set_current_health(value: int) -> void:

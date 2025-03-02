@@ -1,5 +1,5 @@
 class_name PlayerStatsUI
-extends Control
+extends Panel
 
 var stats: Stats
 
