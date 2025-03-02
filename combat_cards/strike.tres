@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dtthtvqxplcfk"]
+
+[ext_resource type="Script" path="res://combat_cards/strike.gd" id="1_7dirx"]
+
+[resource]
+script = ExtResource("1_7dirx")
