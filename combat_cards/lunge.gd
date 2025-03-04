@@ -11,22 +11,23 @@ func _init():
 
 
 func apply_run_effect(
+	logger: CombatLog,
 	run_index: int,
-	current_stats: Stats, 
-	noncurrent_stats: Stats,
-	current_player_card_state: CombatCardState,
-	noncurrent_player_card_state: CombatCardState,
+	current_controller: PlayerController,
+	opponent_controller: PlayerController
 	) -> void:
 	var dmg = base_dmg
 	if run_index != 0:
-		if current_player_card_state.run[run_index-1].get('base_dmg'):
-			dmg = current_player_card_state.run[run_index-1].base_dmg * multiplier
+		if current_controller.combat_cards.run[run_index-1].get('base_dmg'):
+			dmg = current_controller.combat_cards.run[run_index-1].base_dmg * multiplier
 	print('evaluate: ', name)
-	print('noncurrent: ', noncurrent_stats.name)
-	print('dmg: ', dmg)
-	noncurrent_stats.current_health -= dmg
-	print('health after: ', noncurrent_stats.current_health)
-	current_stats.add_effect(Stats.Effect.VULNERABLE)
+	
+	var dmg_dealt = current_controller.stats.modify_damage_dealt(dmg)
+	opponent_controller.stats.apply_damage(dmg_dealt)
+	
+	var vulnerable = Vulnerable.new()
+	vulnerable.duration = 2
+	current_controller.stats.add_effect(vulnerable)
 
 
 func get_card_name() -> String:
@@ -38,3 +39,6 @@ func get_card_description() -> String:
 	
 func get_probabilty() -> float:
 	return self.probability
+	
+func get_copy() -> CombatCard:
+	return Lunge.new()

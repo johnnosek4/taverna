@@ -18,11 +18,11 @@ func update_health_label(current: int, max: int) -> void:
 	health_label.text = str(current) + ' / ' + str(max)
 	
 
-func update_effects_container(effects: Dictionary) -> void:
+func update_effects_container(effects: Array[Effect]) -> void:
 	for child in effects_container.get_children():
 		child.queue_free()
 	for effect in effects:
 		var new_label = Label.new()
-		var counter = '' if effects[effect] == 0 else 'x ' + str(effects[effect])
-		new_label.text = Stats.Effect.keys()[effect] + counter
+		
+		new_label.text = effect.get_name() + ' ' + str(effect.duration) + 'x'
 		effects_container.add_child(new_label)

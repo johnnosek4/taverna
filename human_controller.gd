@@ -10,9 +10,11 @@ func _input(event):
 		#And THEN, when roll is selected, that ends the player turn
 		#and the combat_handler processes the actual state of the cards
 		if event.is_action_pressed("draw"):
-			print('draw event was pressed')
-			combat_cards.draw_card()
+			#print('draw event was pressed')
+			var card = draw_card()
+			if card:
+				#call the callback passed by combat_controller
+				on_card_drawn.call(card)
 		elif event.is_action_pressed("roll"):
-			print('roll event was pressed')
+			#print('roll event was pressed')
 			end_turn()
-

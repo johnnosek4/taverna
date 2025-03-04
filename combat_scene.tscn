@@ -94,10 +94,10 @@ anchor_left = 0.844
 anchor_top = 0.5
 anchor_right = 0.844
 anchor_bottom = 0.5
-offset_left = -225.48
-offset_top = -11.0
-offset_right = -29.4801
-offset_bottom = 49.0
+offset_left = -189.48
+offset_top = -88.0
+offset_right = 6.5199
+offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 4
@@ -111,14 +111,23 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 492.0
-offset_top = 65.0
-offset_right = 656.0
-offset_bottom = 123.0
+offset_left = 491.0
+offset_top = -17.0
+offset_right = 655.0
+offset_bottom = 41.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 36
 text = "End Turn"
+
+[node name="ViewCardsButton" type="Button" parent="CombatUI"]
+unique_name_in_owner = true
+offset_left = 1418.0
+offset_top = 598.0
+offset_right = 1635.0
+offset_bottom = 669.0
+theme_override_font_sizes/font_size = 36
+text = "View Cards"
 
 [node name="MenuUI" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

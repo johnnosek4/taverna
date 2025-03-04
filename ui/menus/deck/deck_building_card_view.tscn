@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://da10ii5k602cu"]
+
+[ext_resource type="Script" path="res://ui/menus/deck/deck_building_card_view.gd" id="1_skv2b"]
+[ext_resource type="PackedScene" uid="uid://krse23lt50kg" path="res://ui/card_ui.tscn" id="2_o5wrh"]
+
+[node name="DeckBuildingCardView" type="MarginContainer"]
+offset_right = 220.0
+offset_bottom = 322.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_skv2b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CardUI" parent="VBoxContainer" instance=ExtResource("2_o5wrh")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="IncreaseCount" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 36
+text = "+"
+
+[node name="CountLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+[node name="DecreaseCount" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 36
+text = "-"

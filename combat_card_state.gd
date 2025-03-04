@@ -1,7 +1,7 @@
 class_name CombatCardState
 extends RefCounted
 
-signal card_drawn(card: CombatCard)
+#signal card_drawn(card: CombatCard)
 
 '''
 this is basically a data container for combat scene state
@@ -14,14 +14,13 @@ var run: Array = []
 var run_probability: float
 var run_dmg: int
 
-
-func draw_card() -> void:
-	if len(draw_pile) > 0:
-		#Game Logic
-		var drawn_card = draw_pile.pop_front()
-		run.append(drawn_card)
-		card_drawn.emit(drawn_card)
-		
+#going to try to move this to player controller for now
+#func draw_card() -> void:
+	#if len(draw_pile) > 0:
+		##Game Logic
+		#var drawn_card = draw_pile.pop_front()
+		#run.append(drawn_card)
+		#card_drawn.emit(drawn_card)
 
 
 func reshuffle_draw_pile() -> void:
