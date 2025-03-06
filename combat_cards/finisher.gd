@@ -25,13 +25,13 @@ func on_draw_effect(
 	current_controller: PlayerController,
 	opponent_controller: PlayerController
 	) -> void:
-		
-	logger.log_event(current_controller.stats.name + ' plays ' + name)
+	print('evaluate: ', name)
+	logger.log_event(current_controller.stats.name + ' performs finisher, applying lethal to their strike and ending round')
 	
 	var lethal = Lethal.new()
 	current_controller.stats.add_effect(lethal)
 	
-	roll_run.call(current_controller, opponent_controller)
+	await roll_run.call(current_controller, opponent_controller)
 	
 	current_controller.end_turn()
 

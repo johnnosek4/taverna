@@ -20,6 +20,7 @@ func apply_run_effect(
 	print('evaluate: ', name)
 	var protected = Protected.new()
 	current_controller.stats.add_effect(protected)
+	logger.log_event(current_controller.stats.name + ' enters guard, applying protected to themself')
 
 
 func get_card_name() -> String:

@@ -1,5 +1,5 @@
 class_name CombatLog
-extends Control
+extends Panel
 
 @onready var rich_text_label = %RichTextLabel
 

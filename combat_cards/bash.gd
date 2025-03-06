@@ -15,12 +15,12 @@ func apply_run_effect(
 	current_controller: PlayerController,
 	opponent_controller: PlayerController
 	) -> void:
-	logger.log_event(current_controller.stats.name + ' deals ' + str(base_dmg))
+	print('evaluate: ', name)
 	var dmg_dealt = current_controller.stats.modify_damage_dealt(base_dmg)
 	opponent_controller.stats.apply_damage(dmg_dealt)
 	var clumsy = Clumsy.new()
 	clumsy.duration = 2
-	logger.log_event(current_controller.stats.name + ' applies `clumsy` to ' + opponent_controller.stats.name)
+	logger.log_event(current_controller.stats.name + ' bashes ' + opponent_controller.stats.name + ' for ' + str(dmg_dealt) + ' and applies `clumsy` to them')
 	opponent_controller.stats.add_effect(clumsy)
 
 

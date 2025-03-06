@@ -18,6 +18,7 @@ func apply_run_effect(
 	print('evaluate: ', name)
 	var dmg_dealt = current_controller.stats.modify_damage_dealt(base_dmg)
 	opponent_controller.stats.apply_damage(dmg_dealt)
+	logger.log_event(current_controller.stats.name + ' executes a strike for ' + str(dmg_dealt) + ' damage!')
 
 
 func get_card_name() -> String:

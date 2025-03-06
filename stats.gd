@@ -37,7 +37,7 @@ func apply_damage(dmg: int) -> void:
 	var dmg_taken = dmg
 	for effect in effects:
 		dmg_taken = effect.modify_damage_taken(dmg_taken)
-	logger.log_event(name + ' takes ' + str(dmg_taken) + ' damage!')
+	#logger.log_event(name + ' takes ' + str(dmg_taken) + ' damage!')
 	current_health -= roundi(dmg_taken)
 	
 

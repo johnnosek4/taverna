@@ -21,6 +21,8 @@ func apply_run_effect(
 	var vulnerable = Vulnerable.new()
 	vulnerable.duration = 2
 	opponent_controller.stats.add_effect(vulnerable)
+	logger.log_event(current_controller.stats.name + ' feints, applying vulnerable to ' + opponent_controller.stats.name)
+
 
 
 func get_card_name() -> String:

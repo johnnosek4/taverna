@@ -10,8 +10,9 @@ func on_draw_effect(
 	current_controller: PlayerController,
 	opponent_controller: PlayerController
 	) -> void:
-	print('Passage played!')
-	roll_run.call(current_controller, opponent_controller)
+	print('evaluate: ', name)
+	logger.log_event(current_controller.stats.name + ' performs a pass, rolling the current run and starting a new one!')
+	await roll_run.call(current_controller, opponent_controller)
 
 
 func get_card_name() -> String:

@@ -25,4 +25,5 @@ func update_effects_container(effects: Array[Effect]) -> void:
 		var new_label = Label.new()
 		
 		new_label.text = effect.get_name() + ' ' + str(effect.duration) + 'x'
+		new_label.add_theme_font_size_override('font_size', 36)
 		effects_container.add_child(new_label)

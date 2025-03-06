@@ -21,6 +21,7 @@ func apply_run_effect(
 	var distracted = Distracted.new()
 	distracted.duration = 2
 	opponent_controller.stats.add_effect(distracted)
+	logger.log_event(current_controller.stats.name + ' flourishes, distracting ' + opponent_controller.stats.name)
 
 
 func get_card_name() -> String:

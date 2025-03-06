@@ -25,9 +25,12 @@ func apply_run_effect(
 	var dmg_dealt = current_controller.stats.modify_damage_dealt(dmg)
 	opponent_controller.stats.apply_damage(dmg_dealt)
 	
+	logger.log_event(current_controller.stats.name + ' lunges, dealing ' + str(dmg_dealt) + ' to ' + opponent_controller.stats.name + ', becoming vulnerable to retaliation')
 	var vulnerable = Vulnerable.new()
 	vulnerable.duration = 2
 	current_controller.stats.add_effect(vulnerable)
+
+
 
 
 func get_card_name() -> String:

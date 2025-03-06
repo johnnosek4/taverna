@@ -1,7 +1,7 @@
 class_name PlayerController
 extends Node
 
-signal card_drawn(card: CombatCard)
+#signal card_drawn(card: CombatCard)
 
 var stats: Stats
 var combat_cards: CombatCardState
@@ -9,6 +9,7 @@ var ui: PlayerUI
 var controllers_turn: bool = false
 var on_turn_ended: Callable
 var on_card_drawn: Callable
+var check_rolling: Callable
 
 func start_turn() -> void:
 	print('start turn for: ' + stats.name)
@@ -22,11 +23,14 @@ func start_turn() -> void:
 
 
 func draw_card(): #optionally returns a combat card if one exists
-	if len(combat_cards.draw_pile) > 0:
+	if check_rolling.call(): #prevents controller from drawing a card when a roll is in session (particularly important for on_draw_effects like passage)
+		return
+	if len(combat_cards.draw_pile) > 0: #<this should never be needed based on the last clause
 		var drawn_card = combat_cards.draw_pile.pop_front()
 		combat_cards.run.append(drawn_card)
-		card_drawn.emit(drawn_card)
-		return drawn_card
+		#card_drawn.emit(drawn_card)
+		#call the callback passed by combat_controller
+		await on_card_drawn.call(drawn_card)
 		
 	if len(combat_cards.draw_pile) == 0:
 		end_turn()

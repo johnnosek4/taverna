@@ -10,11 +10,10 @@ func on_draw_effect(
 	current_controller: PlayerController,
 	opponent_controller: PlayerController
 	) -> void:
-	print('Disengage played - Clears all combat effects!')
-	roll_run.call(current_controller, opponent_controller)
-	current_controller.stats.clear_effects()
-	opponent_controller.stats.clear_effects()
-	current_controller.end_turn()
+	print('evaluate: ', name, ' on DRAW')
+	logger.log_event(current_controller.stats.name + ' attempts to disengage!')
+	await roll_run.call(current_controller, opponent_controller)
+	return
 		
 	'''
 	so in order to accomplish 1) end round, roll, and clear effects
@@ -32,7 +31,34 @@ func on_draw_effect(
 	3) ORRR? does the game machine have no state, and just exists as
 		a set of functions that the two controllers are able to manipulate
 	'''
-	pass
+
+	
+func apply_run_effect(
+	logger: CombatLog,
+	run_index: int,
+	current_controller: PlayerController,
+	opponent_controller: PlayerController
+	) -> void:
+	print('evaluate: ', name, ' on ROLL')
+	logger.log_event(current_controller.stats.name + ' disengages, clearing effects and ending their round!')
+	current_controller.stats.clear_effects()
+	opponent_controller.stats.clear_effects()
+
+
+func after_run_completes(
+	logger: CombatLog,
+	current_controller: PlayerController,
+	opponent_controller: PlayerController
+	) -> void:
+	current_controller.end_turn()
+
+
+func on_run_fails(
+	logger: CombatLog,
+	current_controller: PlayerController,
+	opponent_controller: PlayerController
+	) -> void:
+	current_controller.end_turn()
 
 
 func get_card_name() -> String:

@@ -35,6 +35,30 @@ func on_draw_effect(
 	pass
 
 
+func before_run_starts(
+	logger: CombatLog,
+	current_controller: PlayerController,
+	opponent_controller: PlayerController
+	) -> void:
+	pass
+
+
+func after_run_completes(
+	logger: CombatLog,
+	current_controller: PlayerController,
+	opponent_controller: PlayerController
+	) -> void:
+	pass
+	
+
+func on_run_fails(
+	logger: CombatLog,
+	current_controller: PlayerController,
+	opponent_controller: PlayerController
+	) -> void:
+	pass
+
+
 func get_copy() -> CombatCard:
 	print('WARNING: NOT IMPLEMENTED')
 	return CombatCard.new()

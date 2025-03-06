@@ -21,6 +21,7 @@ func apply_run_effect(
 	var focused = Focused.new()
 	focused.duration = 2
 	current_controller.stats.add_effect(focused)
+	logger.log_event(current_controller.stats.name + ' measures the situation, gaining focus for their next move')
 
 
 func get_card_name() -> String:

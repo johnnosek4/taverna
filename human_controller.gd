@@ -11,10 +11,7 @@ func _input(event):
 		#and the combat_handler processes the actual state of the cards
 		if event.is_action_pressed("draw"):
 			#print('draw event was pressed')
-			var card = draw_card()
-			if card:
-				#call the callback passed by combat_controller
-				on_card_drawn.call(card)
+			draw_card()
 		elif event.is_action_pressed("roll"):
 			#print('roll event was pressed')
 			end_turn()

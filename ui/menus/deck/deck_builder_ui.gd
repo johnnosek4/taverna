@@ -1,3 +1,4 @@
+class_name DeckBuilderUI
 extends ColorRect
 
 var stats: Stats
@@ -12,7 +13,6 @@ const card_view_scene = preload("res://ui/menus/deck/deck_building_card_view.tsc
 func _ready() -> void:
 	close_button.pressed.connect(_on_close_button_pressed)
 	save_button.pressed.connect(_generate_new_card_pile)
-	generate_card_views()
 
 	
 func generate_card_views() -> void:
