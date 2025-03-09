@@ -152,8 +152,8 @@ func on_turn_ended() -> void:
 	'''
 	if current_controller.combat_cards.run and !rolling:
 		await roll_run(current_controller, get_noncurrent_controller())
-	current_controller.combat_cards.draw_pile = current_controller.combat_cards.source_draw_pile.duplicate(true)
-	current_controller.ui.draw_pile.update()
+	#current_controller.combat_cards.draw_pile = current_controller.combat_cards.source_draw_pile.duplicate(true)
+	#current_controller.ui.draw_pile.update()
 	switch_current_controller()
 	current_controller.start_turn()
 

@@ -15,3 +15,6 @@ func _input(event):
 		elif event.is_action_pressed("roll"):
 			#print('roll event was pressed')
 			end_turn()
+		elif event.is_action_pressed("reshuffle"):
+			reshuffle()
+			end_turn()

@@ -11,6 +11,7 @@ var on_turn_ended: Callable
 var on_card_drawn: Callable
 var check_rolling: Callable
 
+
 func start_turn() -> void:
 	print('start turn for: ' + stats.name)
 	combat_cards.draw_pile.shuffle()
@@ -33,12 +34,15 @@ func draw_card(): #optionally returns a combat card if one exists
 		await on_card_drawn.call(drawn_card)
 		
 	if len(combat_cards.draw_pile) == 0:
-		end_turn()
+		reshuffle()
 
 		#drawn_card.on_draw_effect(
 			#
 		#)
-	
+
+func reshuffle() -> void:
+	combat_cards.reshuffle_draw_pile()
+	ui.draw_pile.update()
 
 
 func end_turn() -> void:
