@@ -4,7 +4,19 @@ extends Node2D
 '''
 for now we'll plan on p1 is a human player and p2 is an AI opponent
 but as best we can, try and plan for PVP
+
+there are two PRIMARY phases of combat
+>the setup
+>the action
+all different player modes revolve around handling the setup
+differently, but they all converge at the action, where both
+players' hands are known and things can go from there.
+
+not quite sure how to handle the different setups but for now
+we'll assume hotseat, and then focus on the Action Logic
+
 '''
+
 
 var p1_stats: Stats #Persistent Player State
 var p2_stats: Stats
@@ -16,6 +28,8 @@ var current_controller: PlayerController
 var p1_ui: PlayerUI #Convenience class for grouping all UI elements of single player into one interface
 var p2_ui: PlayerUI
 var rolling: bool = false
+var p1_setup: bool = false #these are the variables used to determine when to start the Action
+var p2_setup: bool = false
 
 const card_ui_scene = preload("res://ui/card_ui.tscn")
 const end_menu_scene = preload("res://ui/menus/end_game_menu.tscn")
@@ -44,12 +58,10 @@ const deck_builder_scene = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 
 func initialize() -> void:
 	p1_combat_cards_state = CombatCardState.new()
-	p1_combat_cards_state.source_draw_pile = p1_stats.deck.duplicate(true)
-	p1_combat_cards_state.reshuffle_draw_pile()
+	p1_combat_cards_state.init_deck(p1_stats.deck)
 	
 	p2_combat_cards_state = CombatCardState.new()
-	p2_combat_cards_state.source_draw_pile = p2_stats.deck.duplicate(true)
-	p2_combat_cards_state.reshuffle_draw_pile()
+	p2_combat_cards_state.init_deck(p2_stats.deck)
 	
 	view_cards_button.pressed.connect(_on_view_cards_pressed)
 	
@@ -86,11 +98,9 @@ func initialize() -> void:
 	p2_controller = HumanController.new() if p2_stats.player_type == Stats.PlayerType.HUMAN else AIController.new()
 	p1_controller.stats = p1_stats
 	p1_controller.combat_cards = p1_combat_cards_state
-	p1_controller.check_rolling = check_rolling
 	p1_controller.ui = p1_ui
 	p2_controller.stats = p2_stats
 	p2_controller.combat_cards = p2_combat_cards_state
-	p2_controller.check_rolling = check_rolling
 	p2_controller.ui = p2_ui
 	add_child(p1_controller)
 	add_child(p2_controller)
@@ -139,23 +149,24 @@ func calc_cumulative_probability(card_state: CombatCardState, effects: Array[Eff
 		cumulative_probability = effect.modify_roll_probability(cumulative_probability)
 	return cumulative_probability
 
-func on_turn_ended() -> void:
-	#await get_tree().create_timer(0.5).timeout
-	print('ON TURN ENDED CALLED')
-	'''
-	Rolling the run here causes a problem because for something like disengage, the run_roll gets called when the card is drawn, 
-	so if it gets called here when the turn is over its getting called twice
-	But we can't simply end the turn after rolling the run either
-	OK, so maybe we check if there are cards to roll on turn ended
-	if there are, we roll the run
 
-	'''
-	if current_controller.combat_cards.run and !rolling:
-		await roll_run(current_controller, get_noncurrent_controller())
-	#current_controller.combat_cards.draw_pile = current_controller.combat_cards.source_draw_pile.duplicate(true)
-	#current_controller.ui.draw_pile.update()
-	switch_current_controller()
-	current_controller.start_turn()
+func on_turn_ended(controller: PlayerController) -> void:
+	# Update readiness for action based on which controllers have called the callback
+	if controller == p1_controller:
+		p1_setup = true
+	else:
+		p2_setup = true
+		
+	# Check whether both setups are complete
+	if p1_setup and p2_setup:
+		#Kick Off Action Logic
+		pass
+		
+	# MAYBEE call an end turn here or dispatch to a new func
+	# to determine what happens next based off the game mode
+	# would definitely need to await completion of the action tho
+	#switch_current_controller()
+	#current_controller.start_turn()
 
 
 func evaluate_effects(current_controller: PlayerController, opponent_controller: PlayerController) -> void:
@@ -272,7 +283,3 @@ func _on_view_cards_pressed() -> void:
 	var deck_builder_menu = deck_builder_scene.instantiate()
 	deck_builder_menu.stats = current_controller.stats
 	menu_ui.add_child(deck_builder_menu)
-
-
-func check_rolling() -> bool:
-	return rolling

@@ -2,7 +2,8 @@ class_name CombatCard
 extends Resource
 
 
-var probability: float = 0.9
+var power: int
+var toughness: int
 
 
 func get_card_name() -> String:
@@ -11,10 +12,6 @@ func get_card_name() -> String:
 
 func get_card_description() -> String:
 	return "not implemented"
-
-
-func get_probability() -> float:
-	return probability
 
 
 func apply_run_effect(

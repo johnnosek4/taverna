@@ -6,6 +6,7 @@ var stats: Stats
 @onready var name_label = %NameLabel
 @onready var health_label = %HealthLabel
 @onready var effects_container = %EffectsContainer
+@onready var timer_label: Label = %TimerLabel
 
 
 func update() -> void:

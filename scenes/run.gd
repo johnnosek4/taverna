@@ -2,6 +2,13 @@ class_name Run
 extends Node
 
 
+enum mode {
+	SINGLE,
+	HOTSEAT,
+	MULTI_SYNC,
+	MULTI_ASYNC,
+}
+
 const COMBAT_SCENE = preload("res://combat_scene.tscn")
 const DECK_BUILDER_SCENE = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 
@@ -58,43 +65,16 @@ func _change_view(scene: PackedScene) -> Node:
 
 
 func _generate_default_stats() -> void:
-	var strike = Strike.new()
-	var lunge = Lunge.new()
-	var guard = Guard.new()
-	var flourish = Flourish.new()
-	var feint = Feint.new()
-	var disengage = Disengage.new()
-	#var passage = Passage.new()
-	var bash = Bash.new()
-	var finisher = Finisher.new()
-	var measured = Measured.new()
+
 	
 	p1_stats = Stats.new()
 	p1_stats.card_pile = {
-		strike: 1,
-		lunge: 1,
-		guard: 1,
-		flourish: 1,
-		feint: 1,
-		disengage: 1,
-		#passage: 1,
-		bash: 1,
-		finisher: 1,
-		measured: 1
+
 		}
 		
 	p2_stats = Stats.new()
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
 	p2_stats.card_pile = {
-		strike: 1,
-		lunge: 1,
-		guard: 1,
-		flourish: 1,
-		feint: 1,
-		disengage: 1,
-		#passage: 1,
-		bash: 1,
-		finisher: 1,
-		measured: 1
+
 		}
