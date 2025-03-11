@@ -2,7 +2,7 @@ class_name Run
 extends Node
 
 
-enum mode {
+enum Mode {
 	SINGLE,
 	HOTSEAT,
 	MULTI_SYNC,
@@ -17,6 +17,7 @@ const DECK_BUILDER_SCENE = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 
 var p1_stats: Stats
 var p2_stats: Stats
+var mode: Mode = Mode.HOTSEAT
 
 
 func _ready() -> void:
@@ -51,6 +52,7 @@ func _on_combat_menu_pvp_button_pressed() -> void:
 	sp_combat_scene.p1_stats = p1_stats
 	sp_combat_scene.p2_stats = p2_stats
 	sp_combat_scene.initialize()
+	sp_combat_scene.start_combat()
 
 
 func _change_view(scene: PackedScene) -> Node:
@@ -65,16 +67,16 @@ func _change_view(scene: PackedScene) -> Node:
 
 
 func _generate_default_stats() -> void:
-
+	var feaster = Feaster.new()
 	
 	p1_stats = Stats.new()
 	p1_stats.card_pile = {
-
+		feaster: 6
 		}
 		
 	p2_stats = Stats.new()
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
 	p2_stats.card_pile = {
-
+		feaster: 4
 		}

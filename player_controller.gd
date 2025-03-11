@@ -8,6 +8,7 @@ with the exception of that needed to accept and respond to inputs
 otherwise its all references to other objects
 '''
 
+var player: CombatScene.Player
 var stats: Stats
 var combat_cards: CombatCardState
 var ui: PlayerUI
@@ -17,13 +18,13 @@ var seconds_per_round: int = 60
 var seconds_left: int
 var timer: Timer
 
-var on_turn_ended: Callable
+var on_setup_ended: Callable
 var on_card_drawn: Callable
 
 
-func start_turn() -> void:
-	print('start turn for: ' + stats.name)
-	start_timer()
+func start_setup() -> void:
+	print('start setup for: ' + stats.name)
+	_start_timer()
 	stats.update_effect_durations() #NOTE: may not be necessary in 2.0
 	
 	#Adding in this timer because I suspect the 'roll' event input is causing issues by 'lasting too long'
@@ -32,12 +33,12 @@ func start_turn() -> void:
 	accept_inputs = true
 
 
-func draw_card(): #optionally returns a combat card if one exists
+func draw_card(): #optionally resetups a combat card if one exists
 	combat_cards.draw_card()
 	#card_drawn.emit(combat_cards.drawn_card)
 	#call the callback passed by combat_controller
 	if combat_cards.drawn_card:
-		await on_card_drawn.call(combat_cards.drawn_card)
+		await on_card_drawn.call(self, combat_cards.drawn_card)
 		
 	if len(combat_cards.deck) == 0:
 		combat_cards.reshuffle_discard()
@@ -49,13 +50,14 @@ func draw_card(): #optionally returns a combat card if one exists
 	#responsibility of the combat scene
 
 
-func end_turn() -> void:
+func end_setup() -> void:
 	accept_inputs = false
-	print('end turn for: ' + stats.name)
-	on_turn_ended.call(self)
-	
+	print('end setup for: ' + stats.name)
+	_clear_timer()
+	on_setup_ended.call(self)
 
-func start_timer() -> void:
+
+func _start_timer() -> void:
 	# Create a new Timer instance
 	seconds_left = seconds_per_round
 	timer = Timer.new()
@@ -71,7 +73,16 @@ func start_timer() -> void:
 	timer.start()
 
 
-func _on_timer_timeout():
+func _clear_timer() -> void:
+	if timer:
+		timer.queue_free()
+		ui.stats.timer_label.text = "Set"
+
+
+func _on_timer_timeout() -> void:
 	seconds_left -= 1
 	ui.stats.timer_label.text = "Time: " + str(seconds_left)
+	if seconds_left == 0:
+		end_setup()
+		
 	

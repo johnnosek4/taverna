@@ -1,15 +1,16 @@
 [gd_scene load_steps=2 format=3 uid="uid://c15q3vixo7lx0"]
 
-[ext_resource type="Script" path="res://ui/draw_pile_ui.gd" id="1_0pwl2"]
+[ext_resource type="Script" path="res://ui/stack_pile_ui.gd" id="1_1ukae"]
 
-[node name="DrawPileUI" type="Panel"]
-custom_minimum_size = Vector2(200, 300)
+[node name="StackPileUI" type="Control"]
+custom_minimum_size = Vector2(240, 280)
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0pwl2")
+script = ExtResource("1_1ukae")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -19,10 +20,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="PileName" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
-text = "Draw Pile"
+text = "Stack Pile"
 
 [node name="CardCount" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true

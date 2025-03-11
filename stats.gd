@@ -38,10 +38,10 @@ func _on_card_pile_update(value) -> void:
 	deck = construct_deck_from_pile(card_pile)
 
 
-static func construct_deck_from_pile(card_pile: Dictionary) -> Array[CombatCard]:
+static func construct_deck_from_pile(pile: Dictionary) -> Array[CombatCard]:
 	var new_deck: Array[CombatCard] = []
-	for card in card_pile:
-		for i in range(card_pile[card]):
+	for card in pile:
+		for i in range(pile[card]):
 			var copy = card.get_copy()
 			new_deck.append(copy)
 	return new_deck

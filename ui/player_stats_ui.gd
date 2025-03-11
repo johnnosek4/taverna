@@ -15,8 +15,8 @@ func update() -> void:
 	update_effects_container(stats.effects)
 
 
-func update_health_label(current: int, max: int) -> void:
-	health_label.text = str(current) + ' / ' + str(max)
+func update_health_label(current: int, max_health: int) -> void:
+	health_label.text = str(current) + ' / ' + str(max_health)
 	
 
 func update_effects_container(effects: Array[Effect]) -> void:

@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjf3r43ggyfs"]
+[gd_scene load_steps=11 format=3 uid="uid://cjf3r43ggyfs"]
 
 [ext_resource type="Script" path="res://combat_scene.gd" id="1_vor2b"]
+[ext_resource type="Theme" uid="uid://owgyr10s2ebc" path="res://themes/main.tres" id="2_6pf7h"]
 [ext_resource type="Texture2D" uid="uid://bjujtd1i53mt3" path="res://assets/table-background.jpg" id="2_dildo"]
+[ext_resource type="PackedScene" uid="uid://bki0do4ufqg32" path="res://card_animator.tscn" id="2_evv14"]
 [ext_resource type="PackedScene" uid="uid://co24ufbs8g3pc" path="res://ui/player_stats_ui.tscn" id="3_l7flj"]
 [ext_resource type="PackedScene" uid="uid://d4jhhllblwlj" path="res://ui/combat_log.tscn" id="4_8a6i1"]
-[ext_resource type="PackedScene" uid="uid://c15q3vixo7lx0" path="res://ui/draw_pile_ui.tscn" id="5_2bxfb"]
+[ext_resource type="PackedScene" uid="uid://c15q3vixo7lx0" path="res://ui/stack_pile_ui.tscn" id="5_2bxfb"]
+[ext_resource type="PackedScene" uid="uid://dfwtshw3l5hkw" path="res://ui/spread_pile_ui.tscn" id="5_soc0n"]
+[ext_resource type="PackedScene" uid="uid://dkilmqm0lfoqg" path="res://ui/hand_stats_ui.tscn" id="6_0jxve"]
+[ext_resource type="Script" path="res://player_controller.gd" id="10_fnlpy"]
 
 [node name="CombatScene" type="Node2D"]
 script = ExtResource("1_vor2b")
@@ -12,6 +17,7 @@ metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(1920, 1080)
+theme = ExtResource("2_6pf7h")
 texture = ExtResource("2_dildo")
 expand_mode = 1
 
@@ -23,65 +29,91 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
+[node name="MenuTopBar" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
 
-[node name="ViewCardsButton" type="Button" parent="TextureRect/VBoxContainer/HBoxContainer4"]
+[node name="ViewCardsButton" type="Button" parent="TextureRect/VBoxContainer/MenuTopBar"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "View Cards"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
+[node name="P2CardPiles" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
 
-[node name="DrawPileUIP2" parent="TextureRect/VBoxContainer/HBoxContainer" instance=ExtResource("5_2bxfb")]
+[node name="DrawPileP2" parent="TextureRect/VBoxContainer/P2CardPiles" instance=ExtResource("5_2bxfb")]
 unique_name_in_owner = true
 layout_mode = 2
+pile_name = "Deck P2"
 
-[node name="RunHBoxP2" type="HBoxContainer" parent="TextureRect/VBoxContainer/HBoxContainer"]
+[node name="SpreadPileP2" parent="TextureRect/VBoxContainer/P2CardPiles" instance=ExtResource("5_soc0n")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(1100, 280)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DummyCarrySpacerP2" type="Control" parent="TextureRect/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 300)
+[node name="DiscardPileP2" parent="TextureRect/VBoxContainer/P2CardPiles" instance=ExtResource("5_2bxfb")]
+unique_name_in_owner = true
 layout_mode = 2
+pile_name = "Discard P2"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
+[node name="GraveyardPileP2" parent="TextureRect/VBoxContainer/P2CardPiles" instance=ExtResource("5_2bxfb")]
+unique_name_in_owner = true
+layout_mode = 2
+pile_name = "Graveyard P2"
+
+[node name="PlayerStatsAndLog" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Player2StatsUI" parent="TextureRect/VBoxContainer/HBoxContainer2" instance=ExtResource("3_l7flj")]
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/VBoxContainer/PlayerStatsAndLog"]
+layout_mode = 2
+
+[node name="Player2StatsUI" parent="TextureRect/VBoxContainer/PlayerStatsAndLog/VBoxContainer" instance=ExtResource("3_l7flj")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CombatLog" parent="TextureRect/VBoxContainer/HBoxContainer2" instance=ExtResource("4_8a6i1")]
+[node name="HandStatsUIP2" parent="TextureRect/VBoxContainer/PlayerStatsAndLog/VBoxContainer" instance=ExtResource("6_0jxve")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CombatLog" parent="TextureRect/VBoxContainer/PlayerStatsAndLog" instance=ExtResource("4_8a6i1")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Player1StatsUI" parent="TextureRect/VBoxContainer/HBoxContainer2" instance=ExtResource("3_l7flj")]
+[node name="VBoxContainer2" type="VBoxContainer" parent="TextureRect/VBoxContainer/PlayerStatsAndLog"]
+layout_mode = 2
+
+[node name="Player1StatsUI" parent="TextureRect/VBoxContainer/PlayerStatsAndLog/VBoxContainer2" instance=ExtResource("3_l7flj")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
-layout_mode = 2
-
-[node name="DummyCarrySpacerP1" type="Control" parent="TextureRect/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(200, 300)
-layout_mode = 2
-
-[node name="RunHBoxP1" type="HBoxContainer" parent="TextureRect/VBoxContainer/HBoxContainer3"]
+[node name="HandStatsUIP1" parent="TextureRect/VBoxContainer/PlayerStatsAndLog/VBoxContainer2" instance=ExtResource("6_0jxve")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(1100, 280)
+layout_mode = 2
+
+[node name="P1CardPiles" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="GraveyardPileP1" parent="TextureRect/VBoxContainer/P1CardPiles" instance=ExtResource("5_2bxfb")]
+unique_name_in_owner = true
+layout_mode = 2
+pile_name = "Graveyard P1"
+
+[node name="DiscardPileP1" parent="TextureRect/VBoxContainer/P1CardPiles" instance=ExtResource("5_2bxfb")]
+unique_name_in_owner = true
+layout_mode = 2
+pile_name = "Discard P1"
+
+[node name="SpreadPileP1" parent="TextureRect/VBoxContainer/P1CardPiles" instance=ExtResource("5_soc0n")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DrawPileUIP1" parent="TextureRect/VBoxContainer/HBoxContainer3" instance=ExtResource("5_2bxfb")]
+[node name="DrawPileP1" parent="TextureRect/VBoxContainer/P1CardPiles" instance=ExtResource("5_2bxfb")]
 unique_name_in_owner = true
 layout_mode = 2
+pile_name = "Deck P1"
 
 [node name="Background" type="Sprite2D" parent="."]
 visible = false
@@ -127,4 +159,10 @@ theme_override_font_sizes/font_size = 36
 text = "End Turn"
 
 [node name="MenuUI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="PlayerController" type="Node" parent="."]
+script = ExtResource("10_fnlpy")
+
+[node name="CardAnimator" parent="." instance=ExtResource("2_evv14")]
 unique_name_in_owner = true
