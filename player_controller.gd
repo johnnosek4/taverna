@@ -13,6 +13,7 @@ var stats: Stats
 var combat_cards: CombatCardState
 var ui: PlayerUI
 var accept_inputs: bool = false
+var combat_log: CombatLog
 
 var seconds_per_round: int = 60
 var seconds_left: int
@@ -23,7 +24,7 @@ var on_card_drawn: Callable
 
 
 func start_setup() -> void:
-	print('start setup for: ' + stats.name)
+	combat_log.log_event(stats.name + ' starts setup!')
 	_start_timer()
 	stats.update_effect_durations() #NOTE: may not be necessary in 2.0
 	
@@ -52,7 +53,7 @@ func draw_card(): #optionally resetups a combat card if one exists
 
 func end_setup() -> void:
 	accept_inputs = false
-	print('end setup for: ' + stats.name)
+	combat_log.log_event(stats.name + ' ends setup!')
 	_clear_timer()
 	on_setup_ended.call(self)
 

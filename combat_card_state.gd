@@ -4,6 +4,7 @@ extends RefCounted
 #signal card_drawn(card: CombatCard)
 signal card_moved(controller: PlayerController, card: CombatCard, from: CardTarget, to: CardTarget)
 signal hand_stats_updated
+signal lost
 
 '''
 this is basically a data container for combat scene state
@@ -70,6 +71,12 @@ func _calc_hand_stats() -> void:
 	hand_stats_updated.emit()
 
 
+func perform_loss_check() -> bool:
+	if not discard_pile and not deck and not hand:
+		return true
+	return false
+		
+
 #func _card_state_changed() -> void:
 	#_calc_hand_stats()
 	#card_state_updated.emit()
@@ -95,11 +102,9 @@ func init_deck(source_deck: Array[CombatCard]) -> void:
 
 func reshuffle_discard() -> void:
 	var discard_copy = discard_pile.duplicate()
-	#for card in 
-	deck = discard_pile
-	discard_pile = []
+	for card in discard_copy:
+		move_card(card, CardTarget.DISCARD, CardTarget.DECK)
 	deck.shuffle()
-	#_card_state_changed()
 	
 	
 	#OLD CODE:

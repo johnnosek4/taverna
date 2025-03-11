@@ -135,12 +135,11 @@ func initialize() -> void:
 	p2_controller.ui = p2_ui
 	add_child(p1_controller)
 	add_child(p2_controller)
-	
-	#p1_controller.card_drawn.connect(draw_card_ui)
-	#p2_controller.card_drawn.connect(draw_card_ui)
 
 	p1_controller.player = Player.ONE
 	p2_controller.player = Player.TWO
+	p1_controller.combat_log = combat_log
+	p2_controller.combat_log = combat_log
 	p1_controller.on_setup_ended = on_setup_ended
 	p1_controller.on_card_drawn = on_card_drawn
 	p2_controller.on_setup_ended = on_setup_ended
@@ -172,9 +171,20 @@ func start_round() -> void:
 	else:
 		for controller in controllers:
 			controller.start_setup()
+
+
+func end_round() -> void:
+	if p1_controller.combat_cards.perform_loss_check():
+		_on_death(p1_controller.stats)
+	if p2_controller.combat_cards.perform_loss_check():
+		_on_death(p2_controller.stats)
+		
+	combat_log.log_event('Round Ends!')
 	
+	p1_is_setup = false
+	p2_is_setup = false
 	
-#func controller_dispatcher() -> void:
+	start_round()
 
 
 func on_setup_ended(controller: PlayerController) -> void:
@@ -193,62 +203,15 @@ func on_setup_ended(controller: PlayerController) -> void:
 	if p1_is_setup and p2_is_setup:
 		#Kick Off Action Logic
 		start_action()
-		
-	# MAYBEE call an end setup here or dispatch to a new func
-	# to determine what happens next based off the game mode
-	# would definitely need to await completion of the action tho
-	#switch_current_controller()
-	#current_controller.start_setup()
 
 
 func switch_current_controller() -> void:
 	current_controller_idx = wrapi(current_controller_idx + 1,0,2)
-	combat_log.log_event('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-	combat_log.log_event(controllers[current_controller_idx].stats.name + 's setup!')
+	combat_log.log_event('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
-#
+
 func get_opposing_controller(controller: PlayerController) -> PlayerController:
 	return p1_controller if controller == p2_controller else p2_controller
-
-# NOTE: TEMP funcs designed to test viability - would likely be replaced by custom hbox scenes 
-# displaying the hand that get connected to the combat card state
-# this is to see how bad the performance is and catch any other stuff
-#func update_card_ui_p1() -> void:
-	#print('update_card_ui_p1 CALLED')
-	#for child in run_hbox_p1.get_children():
-		#child.queue_free()
-	#for card in p1_controller.combat_cards.hand:
-		#var new_card_ui = card_ui_scene.instantiate()
-		#new_card_ui.card = card
-		#run_hbox_p1.add_child(new_card_ui)
-	#draw_pile_ui_p1.update()
-	##TODO: add graveyard and discard!
-	#
-#func update_card_ui_p2() -> void:
-	#print('update_card_ui_p2 CALLED')
-	#for child in run_hbox_p2.get_children():
-		#child.queue_free()
-	#for card in p2_controller.combat_cards.hand:
-		#var new_card_ui = card_ui_scene.instantiate()
-		#new_card_ui.card = card
-		#run_hbox_p2.add_child(new_card_ui)
-	#draw_pile_ui_p2.update()
-
-
-#TODO: this may be unecessary
-# though i do like the performance implications of not recreating all the cards all the time
-func draw_card_ui(controller: PlayerController, card: CombatCard) -> void:
-	var new_card_ui = card_ui_scene.instantiate()
-	new_card_ui.card = card
-	
-	controller.ui.run.add_child(new_card_ui)
-	
-	#var prob = calc_cumulative_probability(current_controller.combat_cards, current_controller.stats.effects)
-	#combat_log.log_event(current_controller.stats.name + ' drew card: ' + card.name + ' - new probability: ' + str(prob).pad_decimals(2))
-	#
-	controller.ui.draw_pile.update()
-	#await get_tree().create_timer(0.5).timeout #TEMP: just to allow people to process card draws that 'end setup'
-	#TODO: UPDATE hand stats (fate, attack, toughness)
 
 
 func _on_death(stats: Stats) -> void: #TODO: move up to run?
@@ -330,6 +293,8 @@ func start_action() -> void:
 			# Subtract spillover from defender HP
 			var dmg = attacker.combat_cards.hand_power - defender.combat_cards.hand_toughness
 			defender.stats.apply_damage(dmg)
+			combat_log.log_event('Attacker(' + attacker.stats.name + ') succeedes and deals ' + str(dmg) + ' damage!')
+
 
 			# Destroy all cards in defenders hand (calling on destroy)
 			# NOTE: this is all kinda throwaway, prototype stuff.  Cuz we'll need
@@ -352,6 +317,8 @@ func start_action() -> void:
 			
 		else: # Succesful Defence
 			# Call on_defend_succedes in defenders hand #TODO: move into funcs
+			combat_log.log_event('Defender(' + defender.stats.name + ') succeedes!')
+
 			var defender_hand = defender.combat_cards.hand.duplicate()
 			while defender_hand:
 				var card = defender_hand.pop_front()
@@ -367,21 +334,24 @@ func start_action() -> void:
 	elif p1_action and not p2_action:
 		var dmg = p1_controller.combat_cards.hand_power
 		p2_controller.stats.apply_damage(dmg)
+		combat_log.log_event(p1_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p2_controller.stats.name)
+
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
 	elif not p1_action and p2_action:
 		var dmg = p2_controller.combat_cards.hand_power
 		p1_controller.stats.apply_damage(dmg)
+		combat_log.log_event(p2_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p1_controller.stats.name)
+
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
 	else:
 		# Both rolls fail
+		combat_log.log_event('Both Actions Fail!')
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
 	
-	combat_log.log_event('Round Ends!')
-	start_round()
-
+	end_round()
 
 
 static func discard_hand(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
