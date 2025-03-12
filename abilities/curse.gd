@@ -22,3 +22,4 @@ func on_action_succedes(
 	for card in opp_controller.combat_cards.hand:
 		var doom = Doom.new()
 		card.add_ability(doom)
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

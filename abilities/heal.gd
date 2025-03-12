@@ -22,3 +22,4 @@ func on_action_succedes(
 	opp_controller: PlayerController) -> void:
 	cur_controller.stats.boost_hp(hp_boost)
 	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' heals ' + cur_controller.stats.name + ' +1 hp via Heal')
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

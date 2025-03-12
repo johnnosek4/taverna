@@ -40,4 +40,11 @@ func get_remove_location(card: CombatCard) -> Vector2:
 	print('ERROR - card not located in SpreadPileUI children')
 	return global_position
 
+
+func get_card_ui(card: CombatCard):
+	for child in card_spread_hbox.get_children():
+		if child.card == card:
+			return child
+	
+
 	

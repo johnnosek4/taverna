@@ -66,6 +66,7 @@ const deck_builder_scene = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 #@onready var draw_button = %DrawButton
 #@onready var end_setup_button = %EndsetupButton
 @onready var view_cards_button: Button = %ViewCardsButton
+#@onready var d10_dice_ui: D10DiceUI = %D10DiceUI
 
 
 func initialize() -> void:
@@ -170,6 +171,7 @@ func start_combat() -> void:
 
 
 func start_round() -> void:
+	#d10_dice_ui.roll_die()
 	if mode == Run.Mode.HOTSEAT:
 		controllers[current_controller_idx].start_setup()
 	else:
@@ -265,13 +267,19 @@ func start_action() -> void:
 	# TRIGGER on_action_succedes/fails abilities
 	if p1_action:
 		for card in p1_controller.combat_cards.hand:
-			card.on_action_succedes(p1_controller, p2_controller)
+			var card_ui = spread_pile_p1.get_card_ui(card) as CardUI
+			card_ui.select()
+			await card.on_action_succedes(p1_controller, p2_controller)
+			card_ui.deselect()
 	else:
 		for card in p1_controller.combat_cards.hand:
 			card.on_action_fails(p1_controller, p2_controller)
 	if p2_action:
 		for card in p2_controller.combat_cards.hand:
-			card.on_action_succedes(p2_controller, p1_controller)
+			var card_ui = spread_pile_p2.get_card_ui(card) as CardUI
+			card_ui.select()
+			await card.on_action_succedes(p2_controller, p1_controller)
+			card_ui.deselect()
 	else:
 		for card in p2_controller.combat_cards.hand:
 			card.on_action_fails(p2_controller, p1_controller)

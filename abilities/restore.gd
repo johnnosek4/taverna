@@ -22,3 +22,4 @@ func on_action_succedes(
 	for card in cur_controller.combat_cards.hand:
 		var heal = Heal.new()
 		card.add_ability(heal)
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

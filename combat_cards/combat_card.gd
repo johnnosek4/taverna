@@ -23,6 +23,9 @@ the deck from the player gets copied over to the deck of the combat stats, which
 create new instances of base abilities
 '''
 
+const DISCARD_TIME = 0.2
+const DESTROY_TIME = 0.2
+
 var _base_power: int
 var _base_toughness: int
 var _base_abilities: Array[Ability] #of abilities (basically arbirtrary code)
@@ -110,6 +113,7 @@ func on_destroy(cur_controller: PlayerController, opp_controller: PlayerControll
 			self, 
 			CombatCardState.CardTarget.HAND,
 			CombatCardState.CardTarget.GRAVEYARD)
+		await cur_controller.get_tree().create_timer(DESTROY_TIME).timeout
 
 
 func on_discard(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
@@ -122,6 +126,8 @@ func on_discard(cur_controller: PlayerController, opp_controller: PlayerControll
 			self, 
 			CombatCardState.CardTarget.HAND,
 			CombatCardState.CardTarget.DISCARD)
+		await cur_controller.get_tree().create_timer(DISCARD_TIME).timeout
+
 	
 	
 # This is one proposed way of doing it, where destruction still happens at the top level
