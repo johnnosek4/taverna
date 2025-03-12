@@ -51,6 +51,11 @@ func draw_card() -> void:
 
 
 func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> void:
+	# NOTE/TODO: do we need to perform a check here to make sure the card is still in the from pile
+	# e.g. if 6 cards are in a failed hand, and card 1 has already moved the card 3 out of the hand
+	# for some reason, when Card 3 goes to move itself out of the hand, we're gonna have issues
+	if not pile_mapping[from_pile].has(card):
+		print('WARNING: CARD: ' + card.get_card_name() + ' HAS ALREADY BEEN MOVED FROM: ' + CardTarget.keys()[from_pile])
 	pile_mapping[from_pile].erase(card)
 	pile_mapping[to_pile].append(card)
 	_calc_hand_stats()
@@ -61,6 +66,17 @@ func add_card(card: CombatCard, to_pile: CardTarget, source: Node = controller.u
 	pile_mapping[to_pile].append(card)
 	_calc_hand_stats()
 	card_added.emit(controller, card, to_pile, source)
+	
+	
+func return_first_instance(card: CombatCard, pile: CardTarget) -> CombatCard: #returns either Combat Card or Null
+	var first_instance: CombatCard
+	for iter_card in pile_mapping[pile]:
+		if is_instance_of(card, iter_card.get_class()):
+			first_instance = iter_card
+			break
+	#if first_instance: #leftover from when it was pop first instance
+		#pile_mapping[pile].erase(first_instance)
+	return first_instance
 
 
 func _calc_hand_stats() -> void:
@@ -68,8 +84,8 @@ func _calc_hand_stats() -> void:
 	var power: int = 0
 	var toughness: int = 0
 	for card in hand:
-		#if fateless continue
-		fate -= 0.10
+		if not card.has_ability_by_name("Fateless"):
+			fate -= 0.10
 		power += card.get_power()
 		toughness += card.get_toughness()
 		

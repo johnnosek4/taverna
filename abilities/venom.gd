@@ -23,3 +23,4 @@ func on_defend_succedes(
 	for card in opp_hand:
 		opp_controller.combat_cards.move_card(card, CombatCardState.CardTarget.HAND, CombatCardState.CardTarget.GRAVEYARD)
 	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' destroys all cards in the opponents hand via Venom')
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

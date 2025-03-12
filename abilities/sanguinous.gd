@@ -22,3 +22,4 @@ func on_draw(
 	if cur_controller.stats.current_health > cur_controller.stats.max_health:
 		cur_controller.combat_log.log_event(cur_card.get_card_name() + ' destroys itself via Sanguinous')
 		cur_controller.combat_cards.move_card(cur_card, CombatCardState.CardTarget.HAND, CombatCardState.CardTarget.GRAVEYARD)
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

@@ -1,9 +1,9 @@
-class_name Doom
+class_name Brittle
 extends Ability
 
 
-const NAME = "Doom"
-const DESC = "When this card fails to execute, destroy it."
+const NAME = "Brittle"
+const DESC = "Destroy this card after it defends."
 
 
 func get_name() -> String:
@@ -12,12 +12,14 @@ func get_name() -> String:
 	
 func get_description() -> String:
 	return DESC
+	
 
-
-func on_action_fails(
+func on_defend_succedes(
 	cur_card: CombatCard, 
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> void:
-	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' is Doomed and is destroyed!')
 	cur_controller.combat_cards.move_card(cur_card, CombatCardState.CardTarget.HAND, CombatCardState.CardTarget.GRAVEYARD)
+	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' is BRITTLE and crumbles after a succesful defense!')
 	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+
+		

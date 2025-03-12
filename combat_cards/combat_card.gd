@@ -63,10 +63,43 @@ func get_abilities() -> Array[Ability]:
 	return _all_abilities
 
 
-func add_ability(ability) -> void:
+func add_ability(ability: Ability) -> void:
 	_additional_abilities.append(ability)
 	_all_abilities = _base_abilities + _additional_abilities
-	
+
+
+func remove_ability(ability: Ability) -> void:
+	var base_abilities_dupe = _base_abilities.duplicate()
+	for base_ability in base_abilities_dupe:
+		if is_instance_of(ability, base_ability.get_class()):
+			_base_abilities.erase(base_ability)
+	var additional_abilities_dupe = _additional_abilities.duplicate()
+	for additional_ability in additional_abilities_dupe:
+		if is_instance_of(ability, additional_ability.get_class()):
+			_additional_abilities.erase(additional_ability)
+		
+	#_base_abilities.erase(ability) <not sure this method will work, since each ability is its own object with a uniqui pointer, so even if its a new object of the same type it wouldnt be erase i dont think
+	#_additional_abilities.erase(ability)
+	_all_abilities = _base_abilities + _additional_abilities
+
+
+func clear_added_abilities() -> void:
+	_additional_abilities = []
+	_all_abilities = _base_abilities + _additional_abilities
+
+
+func has_ability(ability: Ability) -> bool:
+	if get_abilities().has(ability):
+		return true
+	return false
+
+
+func has_ability_by_name(name: String) -> bool:
+	for ability in get_abilities():
+		if ability.get_name() == name:
+			return true
+	return false
+
 
 func get_copy() -> CombatCard:
 	print('WARNING: NOT IMPLEMENTED')

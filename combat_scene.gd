@@ -22,6 +22,8 @@ enum Player {
 	TWO
 }
 
+const LONG_PAUSE: float = 1.7
+const SHORT_PAUSE: float = 0.5
 
 var p1_stats: Stats #Persistent Player State
 var p2_stats: Stats
@@ -121,9 +123,20 @@ func initialize() -> void:
 	p1_ui = PlayerUI.new()
 	p2_ui = PlayerUI.new()
 	
+	
+	p1_ui.deck = draw_pile_p1
+	p1_ui.discard_pile = discard_pile_p1
+	p1_ui.graveyard_pile = graveyard_pile_p1
+	p1_ui.void_pile = graveyard_pile_p1 #TODO: update this reference
+	p1_ui.hand = spread_pile_p1
 	p1_ui.stats = player1_stats_ui
 	p1_ui.hand_stats = hand_stats_ui_p1
 	
+	p2_ui.deck = draw_pile_p2
+	p2_ui.discard_pile = discard_pile_p2
+	p2_ui.graveyard_pile = graveyard_pile_p2
+	p2_ui.void_pile = graveyard_pile_p2 #TODO: update this reference
+	p2_ui.hand = spread_pile_p2
 	p2_ui.stats = player2_stats_ui
 	p2_ui.hand_stats = hand_stats_ui_p2
 	
@@ -247,24 +260,28 @@ func start_action() -> void:
 	var p1_action: bool = false
 	var p2_action: bool = false
 	
-	#ROLL fate of each hand
-	var p1_roll = randi_range(0,9)
-	var p2_roll = randi_range(0,9)
+	#await get_tree().create_timer(LONG_PAUSE).timeout
+	combat_log.log_event('Start Action!')
 	
-	# CHECK against hand fates
+	combat_log.log_event('P1 needs to match or beat ' + str(int((1 - p1_controller.combat_cards.hand_fate) * 10)) + ' with a fate of ' + str(p1_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
+	await get_tree().create_timer(LONG_PAUSE).timeout
+	
+	# ROLL fate of hand1
+	var p1_roll = randi_range(0,9)
+	combat_log.log_event('P1 rolls ' + str(p1_roll))
+	await get_tree().create_timer(LONG_PAUSE).timeout
+	
+	# CHECK against hand1 fate
 	if p1_roll >= int((1 - p1_controller.combat_cards.hand_fate) * 10):
-		combat_log.log_event('P1 Action Succeeds with a roll of ' + str(p1_roll) + ' vs fate of ' + str(p1_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
+		#combat_log.log_event('P1 Action Succeeds with a roll of ' + str(p1_roll) + ' vs fate of ' + str(p1_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
+		combat_log.log_event('P1 Action Succeeds!')
 		p1_action = true
 	else:
-		combat_log.log_event('P1 Action Fails with a roll of ' + str(p1_roll) + ' vs fate of ' + str(p1_controller.combat_cards.hand_fate).pad_decimals(2) +'%')
-		
-	if p2_roll >= int((1 - p2_controller.combat_cards.hand_fate) * 10):
-		combat_log.log_event('P2 Action Succeeds with a roll of ' + str(p2_roll) + ' vs fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
-		p2_action = true
-	else:
-		combat_log.log_event('P2 Action Fails with a roll of ' + str(p2_roll) + ' vs fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) +'%')
-
-	# TRIGGER on_action_succedes/fails abilities
+		#combat_log.log_event('P1 Action Fails with a roll of ' + str(p1_roll) + ' vs fate of ' + str(p1_controller.combat_cards.hand_fate).pad_decimals(2) +'%')
+		combat_log.log_event('P1 Action Fails!')
+	await get_tree().create_timer(SHORT_PAUSE).timeout
+	
+	# TRIGGER on_action_succedes/fails abilities P1
 	if p1_action:
 		for card in p1_controller.combat_cards.hand:
 			var card_ui = spread_pile_p1.get_card_ui(card) as CardUI
@@ -273,7 +290,31 @@ func start_action() -> void:
 			card_ui.deselect()
 	else:
 		for card in p1_controller.combat_cards.hand:
+			var card_ui = spread_pile_p1.get_card_ui(card) as CardUI
+			card_ui.select()
 			card.on_action_fails(p1_controller, p2_controller)
+			card_ui.deselect()
+	
+	
+	combat_log.log_event('P2 needs to match or beat ' + str(int((1 - p2_controller.combat_cards.hand_fate) * 10)) + ' with a fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
+	await get_tree().create_timer(LONG_PAUSE).timeout
+
+	# ROLL fate of hand2
+	var p2_roll = randi_range(0,9)
+	combat_log.log_event('P2 rolls ' + str(p2_roll))
+	await get_tree().create_timer(LONG_PAUSE).timeout
+	
+	# CHECK against hand2 fate
+	if p2_roll >= int((1 - p2_controller.combat_cards.hand_fate) * 10):
+		#combat_log.log_event('P2 Action Succeeds with a roll of ' + str(p2_roll) + ' vs fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
+		combat_log.log_event('P2 Action Succeeds!')
+		p2_action = true
+	else:
+		#combat_log.log_event('P2 Action Fails with a roll of ' + str(p2_roll) + ' vs fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) +'%')
+		combat_log.log_event('P1 Action Fails!')
+	await get_tree().create_timer(SHORT_PAUSE).timeout
+	
+	# TRIGGER on_action_succedes/fails abilities P1
 	if p2_action:
 		for card in p2_controller.combat_cards.hand:
 			var card_ui = spread_pile_p2.get_card_ui(card) as CardUI
@@ -282,8 +323,12 @@ func start_action() -> void:
 			card_ui.deselect()
 	else:
 		for card in p2_controller.combat_cards.hand:
+			var card_ui = spread_pile_p2.get_card_ui(card) as CardUI
+			card_ui.select()
 			card.on_action_fails(p2_controller, p1_controller)
+			card_ui.deselect()
 	
+	await get_tree().create_timer(LONG_PAUSE).timeout
 	# Combat branches based on action outcomes
 	if p1_action and p2_action:
 		# DETERMINE Attacker / Defender if both actions succede
@@ -306,7 +351,7 @@ func start_action() -> void:
 		defender = p1_controller if attacker == p2_controller else p2_controller
 		combat_log.log_event('Attacker is ' + attacker.stats.name + ', Defender is ' + defender.stats.name)
 
-		
+		await get_tree().create_timer(SHORT_PAUSE).timeout
 		# DETERMINE whether attack or defend succedes
 		if attacker.combat_cards.hand_power > defender.combat_cards.hand_toughness:
 			# Subtract spillover from defender HP
@@ -320,29 +365,45 @@ func start_action() -> void:
 			# to be more dynamic with things like Void.  E.g. no way to erase the card via void as constructed below
 			# NOTE: maybe we wanna dupe card state entirely at the start of this process? just depends on mechanics and whether we want changes at one step to affect the next step
 			var defender_hand = defender.combat_cards.hand.duplicate()
-			while defender_hand:
-				var card = defender_hand.pop_front()
+			for card in defender_hand:
+				var card_ui = defender.ui.hand.get_card_ui(card) as CardUI
+				card_ui.select()
 				await card.on_destroy(defender, attacker)
-
+				if is_instance_valid(card_ui):
+					card_ui.deselect()
+			await get_tree().create_timer(SHORT_PAUSE).timeout
+			
 			
 			# Call on_attack_succedes abilities in attackers hand
 			# Discard all cards in attackers hand (calling on_discard)
 			var attacker_hand = attacker.combat_cards.hand.duplicate()
-			while attacker_hand:
-				var card = attacker_hand.pop_front()
+			for card in attacker_hand:
+				var card_ui = attacker.ui.hand.get_card_ui(card) as CardUI
+				card_ui.select()
 				await card.on_attack_succedes(attacker, defender)
-				await card.on_discard(attacker, defender) #can this go here or should it go somehwere else
+				card_ui.deselect()
+
+			await get_tree().create_timer(SHORT_PAUSE).timeout
 			
+			# Discard all cards in attackers hand
+			await discard_hand(attacker, defender)
+			#attacker_hand = attacker.combat_cards.hand.duplicate()
+			#for card in attacker_hand:
+				#var card_ui = attacker.ui.hand.get_card_ui(card) as CardUI
+				#card_ui.select()
+				#await card.on_discard(attacker, defender) #can this go here or should it go somehwere else
+				#card_ui.deselect()
 			
 		else: # Succesful Defence
 			# Call on_defend_succedes in defenders hand #TODO: move into funcs
 			combat_log.log_event('Defender(' + defender.stats.name + ') succeedes!')
 
 			var defender_hand = defender.combat_cards.hand.duplicate()
-			while defender_hand:
-				var card = defender_hand.pop_front()
+			for card in defender_hand:
+				var card_ui = defender.ui.hand.get_card_ui(card) as CardUI
+				card_ui.select()
 				await card.on_defend_succedes(defender, attacker)
-			
+				card_ui.deselect()
 			# Discard all cards in defenders hand
 			await discard_hand(defender, attacker)
 
@@ -372,12 +433,16 @@ func start_action() -> void:
 	
 	end_round()
 
-
-static func discard_hand(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+# NOTE: was a static func but can't call get tree within it - honestly not even sure we want the timers in here
+func discard_hand(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
 	var cur_controller_hand = cur_controller.combat_cards.hand.duplicate()
-	while cur_controller_hand:
-		var card = cur_controller_hand.pop_front()
+	for card in cur_controller_hand:
+		var card_ui = cur_controller.ui.hand.get_card_ui(card) as CardUI
+		card_ui.select()
 		await card.on_discard(cur_controller, opp_controller)
+		if is_instance_valid(card_ui):
+			card_ui.deselect()
+	await get_tree().create_timer(SHORT_PAUSE).timeout
 
 
 

@@ -67,28 +67,59 @@ func _change_view(scene: PackedScene) -> Node:
 
 
 func _generate_default_stats() -> void:
-	var feaster = Feaster.new()
-	var killer_instinct = KillerInstinct.new()
 	var bite_and_claw = BiteAndClaw.new()
-	var spider_fang_mail = SpiderFangMail.new()
+	var boiling_tar_boots = BoilingTarBoots.new()
+	var chains_of_malice = ChainsOfMalice.new()
+	var crystal_skin = CrystalSkin.new()
+	var death_ray = DeathRay.new()
+	var dragon_scale_kite = DragonScaleKite.new()
+	var feaster = Feaster.new() # I made this one as test
+	var harden_scales = HardenScales.new()
 	var heartstring_bow = HeartStringBow.new()
+	var killer_instinct = KillerInstinct.new()
+	var spider_fang_mail = SpiderFangMail.new()
+	var stone_fists = StoneFists.new()
+	var turn_to_smoke = TurnToSmoke.new()
+	var wand_of_affliction = WandOfAffliction.new()
+	var worm_fetish = WormFetish.new()
+
 	
 	p1_stats = Stats.new()
 	p1_stats.card_pile = {
-		feaster: 2,
-		killer_instinct: 2,
-		bite_and_claw: 2,
-		spider_fang_mail: 2,
-		heartstring_bow: 2,
+		bite_and_claw: 1,
+		boiling_tar_boots: 1,
+		chains_of_malice: 1,
+		crystal_skin: 1,
+		death_ray: 1,
+		dragon_scale_kite: 1,
+		feaster: 1,
+		harden_scales: 1,
+		heartstring_bow: 1,
+		killer_instinct: 1,
+		spider_fang_mail: 1,
+		stone_fists: 1,
+		turn_to_smoke: 1,
+		wand_of_affliction: 1,
+		worm_fetish: 1,
 		}
 		
 	p2_stats = Stats.new()
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
 	p2_stats.card_pile = {
-		feaster: 2,
-		killer_instinct: 2,
-		bite_and_claw: 2,
-		spider_fang_mail: 2,
-		heartstring_bow: 2,
+		bite_and_claw: 1,
+		boiling_tar_boots: 1,
+		chains_of_malice: 1,
+		crystal_skin: 1,
+		death_ray: 1,
+		dragon_scale_kite: 1,
+		feaster: 1,
+		harden_scales: 1,
+		heartstring_bow: 1,
+		killer_instinct: 1,
+		spider_fang_mail: 1,
+		stone_fists: 1,
+		turn_to_smoke: 1,
+		wand_of_affliction: 1,
+		worm_fetish: 1,
 		}

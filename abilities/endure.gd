@@ -16,4 +16,5 @@ func on_discard(
 	opp_controller: PlayerController) -> bool:
 	# This prevents default behavior of moving card from hand to discard
 	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' endures!')
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
 	return false

@@ -24,3 +24,4 @@ func on_defend_succedes(
 	opp_controller: PlayerController) -> void:
 	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' Grows, gaining +1 Toughness!')
 	toughness_increase += 1
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

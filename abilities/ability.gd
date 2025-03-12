@@ -1,7 +1,7 @@
 class_name Ability
 extends RefCounted
 
-const PROCESS_TIME: float = 1.7
+const PROCESS_TIME: float = 2.2
 
 
 func get_name() -> String:

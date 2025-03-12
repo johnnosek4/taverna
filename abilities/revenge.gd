@@ -20,3 +20,4 @@ func on_defend_succedes(
 	opp_controller: PlayerController) -> void:
 	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' deals ' + str(cur_card.get_power()) + ' to ' + opp_controller.stats.name + 'via Revenge!')
 	opp_controller.stats.apply_damage(cur_card.get_power())
+	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

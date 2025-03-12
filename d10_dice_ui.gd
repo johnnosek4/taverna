@@ -65,6 +65,8 @@ func _ready():
 	set_die_face(current_value)
 	start_position = position
 	
+	roll_die()
+	
 func _process(delta):
 	if rolling:
 		# Randomly change the displayed face while rolling

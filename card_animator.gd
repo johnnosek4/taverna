@@ -1,6 +1,12 @@
 class_name CardAnimator
 extends Node2D
 
+'''
+DEV notes I think theres an opportunity to sync this better with 
+the playerUI (<the current object container with references to 
+each player's UI objects)
+'''
+
 const card_ui_scene = preload("res://ui/card_ui.tscn")
 
 var p1_ui_mapping := {}
@@ -8,7 +14,7 @@ var p2_ui_mapping := {}
 
 
 func move_card_with_animation(controller: PlayerController, card: CombatCard, from_pile: CombatCardState.CardTarget, to_pile: CombatCardState.CardTarget):
-	print('move_card_with_animation')
+	#print('move_card_with_animation')
 	# Instantiate card ui for tween
 	var temp_card = card_ui_scene.instantiate()
 	temp_card.card = card
@@ -25,11 +31,11 @@ func move_card_with_animation(controller: PlayerController, card: CombatCard, fr
 	# Call get_remove_location of card from 'from_pile'
 	var remove_location = from_pile_ui.get_remove_location(card)
 	temp_card.global_position = remove_location
-	print('remove_location: ', remove_location)
+	#print('remove_location: ', remove_location)
 	
 	# Call get_add_location of card from 'to_pile'
 	var add_location = to_pile_ui.get_add_location()
-	print('add_location: ', add_location)
+	#print('add_location: ', add_location)
 	
 	# Tween between those two locations
 	var tween = get_tree().create_tween()
