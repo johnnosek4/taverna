@@ -72,10 +72,14 @@ func initialize() -> void:
 	p1_combat_cards_state = CombatCardState.new()
 	p1_combat_cards_state.init_deck(p1_stats.deck)
 	p1_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
+	p1_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
+
 	
 	p2_combat_cards_state = CombatCardState.new()
 	p2_combat_cards_state.init_deck(p2_stats.deck)
 	p2_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
+	p2_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
+
 
 	#view_cards_button.pressed.connect(_on_view_cards_pressed)
 	
@@ -178,7 +182,14 @@ func end_round() -> void:
 		_on_death(p1_controller.stats)
 	if p2_controller.combat_cards.perform_loss_check():
 		_on_death(p2_controller.stats)
-		
+	
+	# TODO: implement method on spread piles to reorganize 
+	# and call it here (e.g. Endure may mean some spaces after discard)
+	# might need this for stack piles too, i'm not sure
+	
+	# TODO: also need to call a function on abilities of cards remaining to update their states as well
+	# e.g. if something endures but also gains +1 attack at the end of the round
+	
 	combat_log.log_event('Round Ends!')
 	
 	p1_is_setup = false

@@ -22,5 +22,5 @@ func on_attack_succedes(
 	cur_card: CombatCard, 
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> void:
-		
+	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' Feeds, gaining +1 Attack!')
 	power_increase += 1

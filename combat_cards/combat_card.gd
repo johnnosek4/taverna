@@ -115,7 +115,7 @@ func on_destroy(cur_controller: PlayerController, opp_controller: PlayerControll
 func on_discard(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
 	var default: bool = true
 	for ability in _all_abilities:
-		var default_from_ability = await ability.on_destroy(self, cur_controller, opp_controller)
+		var default_from_ability = await ability.on_discard(self, cur_controller, opp_controller)
 		default = default and default_from_ability
 	if default:
 		cur_controller.combat_cards.move_card(

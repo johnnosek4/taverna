@@ -43,6 +43,33 @@ func move_card_with_animation(controller: PlayerController, card: CombatCard, fr
 	to_pile_ui.add_card(card)
 	
 	
+func add_card_with_animation(controller: PlayerController, card: CombatCard, to_pile: CombatCardState.CardTarget, source: Node):
+	# Instantiate card ui for tween
+	var temp_card = card_ui_scene.instantiate()
+	temp_card.card = card
+	add_child(temp_card)
+	
+	# Assign the respective pile_objects based on enum and player conroller
+	var mapping = p1_ui_mapping if controller.player == CombatScene.Player.ONE else p2_ui_mapping
+	var to_pile_ui = mapping[to_pile] as PileUI
+	 
+	temp_card.global_position = source.global_position
+	
+	# Call get_add_location of card from 'to_pile'
+	var add_location = to_pile_ui.get_add_location()
+	
+	# Tween between those two locations
+	var tween = get_tree().create_tween()
+	tween.tween_property(temp_card, "global_position", add_location, 0.5)
+
+	# After animation, remove temp card and update UI
+	await tween.finished
+	temp_card.queue_free()
+
+	# Call add_card on 'to_pile'
+	to_pile_ui.add_card(card)
+	
+	
 func setup_ui_mapping(
 	p1_deck_ui: PileUI, 
 	p1_discard_ui: PileUI,

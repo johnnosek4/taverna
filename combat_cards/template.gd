@@ -1,12 +1,10 @@
-class_name Feaster
+class_name TemplateCombatCard
 extends CombatCard
 
-'''
-DEV NOTES 2.0
-Test card
-'''
 
-const NAME = "Feaster"
+const NAME = "NOT IMPLEMENTED"
+const DESC = "..."
+
 
 func _init() -> void:
 	_base_power = 1
@@ -20,7 +18,7 @@ func get_card_name() -> String:
 
 
 func get_card_description() -> String:
-	return "hungry...hungry all the time"
+	return DESC
 
 
 func get_copy() -> Feaster:

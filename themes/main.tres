@@ -2,6 +2,6 @@
 
 [resource]
 Button/font_sizes/font_size = 36
-Label/font_sizes/font_size = 36
+Label/font_sizes/font_size = 26
 TooltipLabel/font_sizes/font_size = 28
 TooltipPanel/font_sizes/title_font_size = 28

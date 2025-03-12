@@ -52,7 +52,11 @@ func apply_damage(dmg: int) -> void:
 	for effect in effects:
 		dmg_taken = effect.modify_damage_taken(dmg_taken)
 	current_health -= roundi(dmg_taken)
-	
+
+
+func boost_hp(amt: int) -> void:
+	current_health += amt
+
 
 func modify_damage_dealt(dmg: int) -> int:
 	var dmg_dealt = dmg

@@ -3,6 +3,8 @@ extends RefCounted
 
 #signal card_drawn(card: CombatCard)
 signal card_moved(controller: PlayerController, card: CombatCard, from: CardTarget, to: CardTarget)
+signal card_added(controller: PlayerController, card: CombatCard, to: CardTarget, source: Node) #Not sure what to do about source
+
 signal hand_stats_updated
 signal lost
 
@@ -53,6 +55,12 @@ func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> 
 	pile_mapping[to_pile].append(card)
 	_calc_hand_stats()
 	card_moved.emit(controller, card, from_pile, to_pile)
+	
+	
+func add_card(card: CombatCard, to_pile: CardTarget, source: Node = controller.ui.stats) -> void:
+	pile_mapping[to_pile].append(card)
+	_calc_hand_stats()
+	card_added.emit(controller, card, to_pile, source)
 
 
 func _calc_hand_stats() -> void:

@@ -27,7 +27,7 @@ func update_abilities_container() -> void:
 		child.queue_free()
 	for ability in card.get_abilities():
 		var ability_tag = Label.new()
-		ability_tag.add_theme_font_size_override('font_size',28)
+		ability_tag.add_theme_font_size_override('font_size',24)
 		ability_tag.text = ability.get_name()
 		ability_tag.tooltip_text = ability.get_description()
 		abilities_container.add_child(ability_tag)

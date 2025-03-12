@@ -68,15 +68,27 @@ func _change_view(scene: PackedScene) -> Node:
 
 func _generate_default_stats() -> void:
 	var feaster = Feaster.new()
+	var killer_instinct = KillerInstinct.new()
+	var bite_and_claw = BiteAndClaw.new()
+	var spider_fang_mail = SpiderFangMail.new()
+	var heartstring_bow = HeartStringBow.new()
 	
 	p1_stats = Stats.new()
 	p1_stats.card_pile = {
-		feaster: 6
+		feaster: 2,
+		killer_instinct: 2,
+		bite_and_claw: 2,
+		spider_fang_mail: 2,
+		heartstring_bow: 2,
 		}
 		
 	p2_stats = Stats.new()
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
 	p2_stats.card_pile = {
-		feaster: 4
+		feaster: 2,
+		killer_instinct: 2,
+		bite_and_claw: 2,
+		spider_fang_mail: 2,
+		heartstring_bow: 2,
 		}
