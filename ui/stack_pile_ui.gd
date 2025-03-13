@@ -27,6 +27,10 @@ func _ready() -> void:
 func update() -> void:
 	#TODO: can make cooler effects here for stack pile
 	card_count.text = str(len(card_pile))
+	var names = []
+	for card in card_pile:
+		names.append(card.get_card_name())
+	tooltip_text = ', '.join(names)
 
 
 func add_card(_card: CombatCard) -> void:
@@ -43,3 +47,11 @@ func get_add_location() -> Vector2:
 
 func get_remove_location(card: CombatCard) -> Vector2:
 	return global_position
+
+
+#func _make_custom_tooltip(for_text):
+	#var tooltip = Label.new()
+	#tooltip.text = for_text
+	#tooltip.autowrap_mode = TextServer.AUTOWRAP_WORD  # Enable word wrap
+	#tooltip.set_size(Vector2(200, 0))  # Set max width (height auto-adjusts)
+	#return tooltip

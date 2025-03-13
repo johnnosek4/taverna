@@ -16,5 +16,5 @@ func on_attack_succedes(
 	opp_controller: PlayerController) -> void:
 	var endure = Endure.new()
 	cur_card.add_ability(endure)
-	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' gains `Endure`!')
+	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' gains ENDURE via BLOODLUST!')
 	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

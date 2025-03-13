@@ -71,11 +71,13 @@ func add_ability(ability: Ability) -> void:
 func remove_ability(ability: Ability) -> void:
 	var base_abilities_dupe = _base_abilities.duplicate()
 	for base_ability in base_abilities_dupe:
-		if is_instance_of(ability, base_ability.get_class()):
+		if base_ability.get_script() == ability.get_script():
+		#if is_instance_of(ability, base_ability.get_class()):
 			_base_abilities.erase(base_ability)
 	var additional_abilities_dupe = _additional_abilities.duplicate()
 	for additional_ability in additional_abilities_dupe:
-		if is_instance_of(ability, additional_ability.get_class()):
+		if additional_ability.get_script() == ability.get_script():
+		#if is_instance_of(ability, additional_ability.get_class()):
 			_additional_abilities.erase(additional_ability)
 		
 	#_base_abilities.erase(ability) <not sure this method will work, since each ability is its own object with a uniqui pointer, so even if its a new object of the same type it wouldnt be erase i dont think
@@ -150,18 +152,21 @@ func on_destroy(cur_controller: PlayerController, opp_controller: PlayerControll
 
 
 func on_discard(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+	print('IN ON_DISCARD FOR CARD: ' + get_card_name() + '- HAND: ' + cur_controller.combat_cards.get_cards_as_str(CombatCardState.CardTarget.HAND))
+
 	var default: bool = true
 	for ability in _all_abilities:
 		var default_from_ability = await ability.on_discard(self, cur_controller, opp_controller)
 		default = default and default_from_ability
 	if default:
+		print('ABOUT TO CALL MOVE: HAND>DISCARD for ' + get_card_name() + ' - DEFAULT BEHAVIOR')
 		cur_controller.combat_cards.move_card(
 			self, 
 			CombatCardState.CardTarget.HAND,
 			CombatCardState.CardTarget.DISCARD)
 		await cur_controller.get_tree().create_timer(DISCARD_TIME).timeout
 
-	
+
 	
 # This is one proposed way of doing it, where destruction still happens at the top level
 # Default behavior is return true, but some on_destroy effects may return false

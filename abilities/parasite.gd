@@ -21,5 +21,5 @@ func on_draw(
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> void:
 	cur_controller.stats.apply_damage(hp_drain)
-	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' drains ' + str(hp_drain) + ' hp from its host ' + cur_controller.stats.name)
+	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' is a PARASITE and drains ' + str(hp_drain) + ' hp from its host ' + cur_controller.stats.name)
 	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

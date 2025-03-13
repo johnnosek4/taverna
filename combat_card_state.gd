@@ -51,6 +51,7 @@ func draw_card() -> void:
 
 
 func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> void:
+	print('MOVE CARD (' + CombatScene.Player.keys()[controller.player] + '): ' + card.get_card_name() + ' FROM ' + CardTarget.keys()[from_pile] + ' TO ' + CardTarget.keys()[to_pile])
 	# NOTE/TODO: do we need to perform a check here to make sure the card is still in the from pile
 	# e.g. if 6 cards are in a failed hand, and card 1 has already moved the card 3 out of the hand
 	# for some reason, when Card 3 goes to move itself out of the hand, we're gonna have issues
@@ -71,7 +72,8 @@ func add_card(card: CombatCard, to_pile: CardTarget, source: Node = controller.u
 func return_first_instance(card: CombatCard, pile: CardTarget) -> CombatCard: #returns either Combat Card or Null
 	var first_instance: CombatCard
 	for iter_card in pile_mapping[pile]:
-		if is_instance_of(card, iter_card.get_class()):
+		if iter_card.get_script() == card.get_script():
+		#if is_instance_of(card, iter_card.get_class()):
 			first_instance = iter_card
 			break
 	#if first_instance: #leftover from when it was pop first instance
@@ -99,7 +101,13 @@ func perform_loss_check() -> bool:
 	if not discard_pile and not deck and not hand:
 		return true
 	return false
-		
+
+
+func get_cards_as_str(pile: CardTarget) -> String:
+	var names = []
+	for card in pile_mapping[pile]:
+		names.append(card.get_card_name())
+	return ', '.join(names)
 
 #func _card_state_changed() -> void:
 	#_calc_hand_stats()

@@ -18,7 +18,7 @@ func on_action_succedes(
 	cur_card: CombatCard, 
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> void:
-	cur_controller.combat_log.log_event('All cards in ' + cur_controller.stats.name + ' gain Heal via Restore')
+	cur_controller.combat_log.log_event('All cards in ' + cur_controller.stats.name + ' gain HEAL via RESTORE')
 	for card in cur_controller.combat_cards.hand:
 		var heal = Heal.new()
 		card.add_ability(heal)
