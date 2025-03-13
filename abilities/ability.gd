@@ -3,6 +3,8 @@ extends RefCounted
 
 const PROCESS_TIME: float = 2.2
 
+var state: Dictionary = {} # Used to store arbitrary state for the ability, e.g. Honed can store amount of times its been honed
+
 
 func get_name() -> String:
 	return 'not implemented'

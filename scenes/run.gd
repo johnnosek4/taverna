@@ -74,6 +74,7 @@ func _generate_default_stats() -> void:
 	var death_ray = DeathRay.new()
 	var dragon_scale_kite = DragonScaleKite.new()
 	var feaster = Feaster.new() # I made this one as test
+	var glacier_stone = GlacierStone.new()
 	var harden_scales = HardenScales.new()
 	var heartstring_bow = HeartStringBow.new()
 	var killer_instinct = KillerInstinct.new()
@@ -82,6 +83,7 @@ func _generate_default_stats() -> void:
 	var turn_to_smoke = TurnToSmoke.new()
 	var wand_of_affliction = WandOfAffliction.new()
 	var worm_fetish = WormFetish.new()
+	
 
 	
 	p1_stats = Stats.new()
@@ -93,6 +95,7 @@ func _generate_default_stats() -> void:
 		death_ray: 1,
 		dragon_scale_kite: 1,
 		feaster: 1,
+		glacier_stone: 10,
 		harden_scales: 1,
 		heartstring_bow: 1,
 		killer_instinct: 1,
@@ -114,6 +117,7 @@ func _generate_default_stats() -> void:
 		death_ray: 1,
 		dragon_scale_kite: 1,
 		feaster: 1,
+		glacier_stone: 10,
 		harden_scales: 1,
 		heartstring_bow: 1,
 		killer_instinct: 1,

@@ -96,11 +96,19 @@ func has_ability(ability: Ability) -> bool:
 	return false
 
 
-func has_ability_by_name(name: String) -> bool:
+func has_ability_by_name(name: String) -> bool: # Used for things like check if a card has Fate, w/o having to instantiate Fate.new() each time
 	for ability in get_abilities():
 		if ability.get_name() == name:
 			return true
 	return false
+
+
+func get_ability_by_name(name: String) -> Ability: # Used for something like HONE, to check if a card already has HONED
+	var selected_ability: Ability
+	for ability in get_abilities():
+		if ability.get_name() == name:
+			selected_ability = ability
+	return selected_ability
 
 
 func get_copy() -> CombatCard:
