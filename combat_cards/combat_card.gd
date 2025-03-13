@@ -31,6 +31,7 @@ var _base_toughness: int
 var _base_abilities: Array[Ability] #of abilities (basically arbirtrary code)
 var _additional_abilities: Array[Ability] = [] #these are granted during the course of combat
 var _all_abilities: Array[Ability] #set this in init and when adding additial abilities
+var combat_ui_manager: CombatUIManager
 
 
 func _init() -> void:
@@ -63,12 +64,14 @@ func get_abilities() -> Array[Ability]:
 	return _all_abilities
 
 
-func add_ability(ability: Ability) -> void:
+# NOTE/TODO: source_card = self is temp for now, to avoid breaking changes
+func add_ability(ability: Ability, source_ability: Ability, source_card: CombatCard = self) -> void:
 	_additional_abilities.append(ability)
 	_all_abilities = _base_abilities + _additional_abilities
+	await combat_ui_manager.on_ability_added(ability, self, source_ability, source_card)
 
 
-func remove_ability(ability: Ability) -> void:
+func remove_ability(ability: Ability, source_ability: Ability, source_card: CombatCard = self) -> void:
 	var base_abilities_dupe = _base_abilities.duplicate()
 	for base_ability in base_abilities_dupe:
 		if base_ability.get_script() == ability.get_script():
@@ -83,11 +86,14 @@ func remove_ability(ability: Ability) -> void:
 	#_base_abilities.erase(ability) <not sure this method will work, since each ability is its own object with a uniqui pointer, so even if its a new object of the same type it wouldnt be erase i dont think
 	#_additional_abilities.erase(ability)
 	_all_abilities = _base_abilities + _additional_abilities
+	await combat_ui_manager.on_ability_removed(ability, self, source_ability, source_card)
 
 
-func clear_added_abilities() -> void:
+func clear_added_abilities(source_ability: Ability, source_card: CombatCard = self) -> void:
 	_additional_abilities = []
 	_all_abilities = _base_abilities + _additional_abilities
+	await combat_ui_manager.on_abilities_removed(self, source_ability, source_card)
+
 
 
 func has_ability(ability: Ability) -> bool:

@@ -20,6 +20,6 @@ func on_draw(
 	opp_controller: PlayerController) -> void:
 	var copy = cur_controller.combat_cards.return_first_instance(cur_card, CombatCardState.CardTarget.DECK)
 	if copy:
-		cur_controller.combat_cards.move_card(copy, CombatCardState.CardTarget.DECK, CombatCardState.CardTarget.HAND)
+		await cur_controller.combat_cards.move_card(copy, CombatCardState.CardTarget.DECK, CombatCardState.CardTarget.HAND)
 		cur_controller.combat_log.log_event(cur_card.get_card_name() + ' SWARMS, adding another copy to the Hand from the Deck')
-		await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+		#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

@@ -20,6 +20,6 @@ func on_action_succedes(
 	opp_controller: PlayerController) -> void:
 	for card in opp_controller.combat_cards.hand:
 		var brittle = Brittle.new()
-		card.add_ability(brittle)
+		await card.add_ability(brittle, self, cur_card)
 	cur_controller.combat_log.log_event(opp_controller.stats.name + '`s hand is PETRIFIED, all cards gain BRITTLE!')
-	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+	#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

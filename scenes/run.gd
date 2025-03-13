@@ -78,11 +78,13 @@ func _generate_default_stats() -> void:
 	var harden_scales = HardenScales.new()
 	var heartstring_bow = HeartStringBow.new()
 	var killer_instinct = KillerInstinct.new()
+	var pocked_smithy = PockedSmithy.new()
 	var spider_fang_mail = SpiderFangMail.new()
 	var stone_fists = StoneFists.new()
 	var turn_to_smoke = TurnToSmoke.new()
 	var wand_of_affliction = WandOfAffliction.new()
 	var worm_fetish = WormFetish.new()
+
 	
 
 	
@@ -95,10 +97,11 @@ func _generate_default_stats() -> void:
 		death_ray: 1,
 		dragon_scale_kite: 1,
 		feaster: 1,
-		glacier_stone: 10,
+		glacier_stone: 1,
 		harden_scales: 1,
 		heartstring_bow: 1,
 		killer_instinct: 1,
+		pocked_smithy: 1,
 		spider_fang_mail: 1,
 		stone_fists: 1,
 		turn_to_smoke: 1,
@@ -117,10 +120,11 @@ func _generate_default_stats() -> void:
 		death_ray: 1,
 		dragon_scale_kite: 1,
 		feaster: 1,
-		glacier_stone: 10,
+		glacier_stone: 1,
 		harden_scales: 1,
 		heartstring_bow: 1,
 		killer_instinct: 1,
+		pocked_smithy: 1,
 		spider_fang_mail: 1,
 		stone_fists: 1,
 		turn_to_smoke: 1,

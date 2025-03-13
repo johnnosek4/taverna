@@ -12,6 +12,8 @@ signal lost
 this is basically a data container for combat scene state
 '''
 
+const MOVE_TIME : float = 1.2
+
 enum CardTarget {
 	DECK,
 	DISCARD,
@@ -61,12 +63,17 @@ func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> 
 	pile_mapping[to_pile].append(card)
 	_calc_hand_stats()
 	card_moved.emit(controller, card, from_pile, to_pile)
+
+	await controller.get_tree().create_timer(MOVE_TIME).timeout
 	
 	
 func add_card(card: CombatCard, to_pile: CardTarget, source: Node = controller.ui.stats) -> void:
 	pile_mapping[to_pile].append(card)
 	_calc_hand_stats()
 	card_added.emit(controller, card, to_pile, source)
+	
+	await controller.get_tree().create_timer(MOVE_TIME).timeout
+
 	
 	
 func return_first_instance(card: CombatCard, pile: CardTarget) -> CombatCard: #returns either Combat Card or Null
@@ -124,10 +131,12 @@ func reset_round() -> void:
 	hand_toughness = 0
 
 
-func init_deck(source_deck: Array[CombatCard]) -> void:
+func init_deck(source_deck: Array[CombatCard], combat_ui_manager: CombatUIManager) -> void:
 	#TODO: I think we may need a custom duplicate to actually duplicate card instances
 	for card in source_deck:
-		deck.append(card.get_copy())
+		var copy = card.get_copy()
+		copy.combat_ui_manager = combat_ui_manager
+		deck.append(copy)
 	deck.shuffle()
 	#_card_state_changed()
 

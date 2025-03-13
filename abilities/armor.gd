@@ -18,8 +18,10 @@ func on_destroy(
 	cur_card: CombatCard, 
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> bool:
-	cur_card.remove_ability(Armor.new())
-	cur_controller.combat_cards.move_card(cur_card, CombatCardState.CardTarget.HAND, CombatCardState.CardTarget.DISCARD)
+		
+	await cur_card.remove_ability(Armor.new(), self, cur_card)
+	await cur_controller.combat_cards.move_card(cur_card, CombatCardState.CardTarget.HAND, CombatCardState.CardTarget.DISCARD)
+	
 	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' loses ARMOR but averts destruction and is discarded instead.')
-	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+	#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
 	return false

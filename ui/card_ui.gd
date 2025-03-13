@@ -12,10 +12,10 @@ var card: CombatCard
 
 func _ready() -> void:
 	if card:
-		setup()
+		update()
 
 
-func setup() -> void:
+func update() -> void:
 	card_name_label.text = card.get_card_name()
 	power_toughness_label.text = str(card.get_power()) + ' / ' + str(card.get_toughness())
 	description_label.text = card.get_card_description()

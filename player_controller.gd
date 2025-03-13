@@ -11,6 +11,7 @@ otherwise its all references to other objects
 var player: CombatScene.Player
 var stats: Stats
 var combat_cards: CombatCardState
+var combat_ui_manager: CombatUIManager
 var ui: PlayerUI
 var accept_inputs: bool = false
 var combat_log: CombatLog

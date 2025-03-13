@@ -19,6 +19,6 @@ func on_defend_succedes(
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> void:
 	var endure = Endure.new()
-	cur_card.add_ability(endure)
-	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' gains ENDURE via GUARD')
-	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+	await cur_card.add_ability(endure, self, cur_card)
+	#cur_controller.combat_log.log_event(cur_card.get_card_name() + ' gains ENDURE via GUARD')
+	#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

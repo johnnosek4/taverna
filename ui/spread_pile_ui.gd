@@ -41,10 +41,12 @@ func get_remove_location(card: CombatCard) -> Vector2:
 	return global_position
 
 
-func get_card_ui(card: CombatCard):
+func get_card_ui(card: CombatCard) -> CardUI:
+	var card_ui: CardUI
 	for child in card_spread_hbox.get_children():
 		if child.card == card:
-			return child
+			card_ui = child
+	return card_ui
 	
 
 	

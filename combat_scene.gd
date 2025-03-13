@@ -22,8 +22,8 @@ enum Player {
 	TWO
 }
 
-const LONG_PAUSE: float = 1.7
-const SHORT_PAUSE: float = 0.5
+const LONG_PAUSE: float = 2.5
+const SHORT_PAUSE: float = 1.0
 
 var p1_stats: Stats #Persistent Player State
 var p2_stats: Stats
@@ -33,6 +33,7 @@ var p1_controller: PlayerController
 var p2_controller: PlayerController
 var controllers: Array[PlayerController]
 var current_controller_idx: int = 0 #this is purely for determining whether setup is done concurrently, or serially
+var combat_ui_manager: CombatUIManager
 var p1_ui: PlayerUI #Convenience class for grouping all UI elements of single player into one interface
 var p2_ui: PlayerUI
 var rolling: bool = false
@@ -72,14 +73,18 @@ const deck_builder_scene = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 
 
 func initialize() -> void:
+	combat_ui_manager = CombatUIManager.new()
+	combat_ui_manager.log = combat_log
+	add_child(combat_ui_manager)
+	
 	p1_combat_cards_state = CombatCardState.new()
-	p1_combat_cards_state.init_deck(p1_stats.deck)
+	p1_combat_cards_state.init_deck(p1_stats.deck, combat_ui_manager)
 	p1_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
 	p1_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
 
 	
 	p2_combat_cards_state = CombatCardState.new()
-	p2_combat_cards_state.init_deck(p2_stats.deck)
+	p2_combat_cards_state.init_deck(p2_stats.deck, combat_ui_manager)
 	p2_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
 	p2_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
 
@@ -140,6 +145,9 @@ func initialize() -> void:
 	p2_ui.stats = player2_stats_ui
 	p2_ui.hand_stats = hand_stats_ui_p2
 	
+	combat_ui_manager.p1_ui = p1_ui
+	combat_ui_manager.p2_ui = p2_ui
+	
 	#TODO: streamline initialization and configuration of controllers
 	p1_controller = HumanController.new() if p1_stats.player_type == Stats.PlayerType.HUMAN else AIController.new()
 	p2_controller = HumanController.new() if p2_stats.player_type == Stats.PlayerType.HUMAN else AIController.new()
@@ -153,6 +161,9 @@ func initialize() -> void:
 	p2_controller.ui = p2_ui
 	add_child(p1_controller)
 	add_child(p2_controller)
+	
+	p1_controller.combat_ui_manager = combat_ui_manager
+	p2_controller.combat_ui_manager = combat_ui_manager
 
 	p1_controller.player = Player.ONE
 	p2_controller.player = Player.TWO

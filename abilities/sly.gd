@@ -18,8 +18,8 @@ func on_action_fails(
 	cur_card: CombatCard, 
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> void:
-	cur_card.add_ability(Fateless.new())
-	cur_card.add_ability(Endure.new())
-	cur_card.remove_ability(Sly.new())
-	cur_controller.combat_log.log_event(cur_card.get_card_name() + ' gains FATELESS and ENDURE, losing SLY via SLY')
-	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+	await cur_card.add_ability(Fateless.new(), self, cur_card)
+	await cur_card.add_ability(Endure.new(), self, cur_card)
+	await cur_card.remove_ability(Sly.new(), self, cur_card)
+	#cur_controller.combat_log.log_event(cur_card.get_card_name() + ' gains FATELESS and ENDURE, losing SLY via SLY')
+	#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

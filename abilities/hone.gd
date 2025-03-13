@@ -19,6 +19,7 @@ func on_action_succedes(
 	cur_controller: PlayerController, 
 	opp_controller: PlayerController) -> void:
 	var min_attack_card = cur_card
+	#TODO: see the same issue as forged
 	for card in cur_controller.combat_cards.hand:
 		if card.get_power() < min_attack_card.get_power():
 			min_attack_card = card
@@ -28,6 +29,6 @@ func on_action_succedes(
 		honed.state[Honed.HONED_AMOUNT] += 1
 	else:
 		honed = Honed.new()
-		min_attack_card.add_ability(honed)
+		await min_attack_card.add_ability(honed, self, cur_card)
 	cur_controller.combat_log.log_event(min_attack_card.get_card_name() + 'is HONED with +1 Power by HONE')
-	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+	#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

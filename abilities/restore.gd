@@ -21,5 +21,5 @@ func on_action_succedes(
 	cur_controller.combat_log.log_event('All cards in ' + cur_controller.stats.name + ' gain HEAL via RESTORE')
 	for card in cur_controller.combat_cards.hand:
 		var heal = Heal.new()
-		card.add_ability(heal)
-	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+		await card.add_ability(heal, self, cur_card)
+	#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

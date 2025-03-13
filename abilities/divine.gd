@@ -20,6 +20,6 @@ func on_action_succedes(
 	opp_controller: PlayerController) -> void:
 	for card in cur_controller.combat_cards.hand:
 		var fateless = Fateless.new()
-		card.add_ability(fateless)
+		await card.add_ability(fateless, self, cur_card)
 	cur_controller.combat_log.log_event('All cards in ' + cur_controller.stats.name + '`s hand gain FATELESS via DIVINE!')
-	await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout
+	#await cur_controller.get_tree().create_timer(PROCESS_TIME).timeout

@@ -11,7 +11,7 @@ var card_count: int: set = _update_count_label
 
 func _ready() -> void:
 	card_ui.card = combat_card
-	card_ui.setup()
+	card_ui.update()
 	count_label.text = str(card_count)
 	increase_count.pressed.connect(increment_count)
 	decrease_count.pressed.connect(decrement_count)
