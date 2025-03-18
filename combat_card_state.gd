@@ -31,8 +31,8 @@ var void_pile: Array[CombatCard] = []
 var hand: Array[CombatCard] = []
 var drawn_card: CombatCard #TODO: decide if this is actually necessary?  maybe for UI?
 var hand_fate: float
-var hand_power: int
-var hand_toughness: int
+var hand_attack: int
+var hand_defense: int
 
 var pile_mapping := {
 	CardTarget.DECK: deck,
@@ -88,19 +88,23 @@ func return_first_instance(card: CombatCard, pile: CardTarget) -> CombatCard: #r
 	return first_instance
 
 
+#TODO: update this to reflect damage and absorb
 func _calc_hand_stats() -> void:
 	var fate: float = 1.0
-	var power: int = 0
-	var toughness: int = 0
+	var base_attack: int = 0
+	var base_defense: int = 0
+	var attack_mult: float = 1.0
+	var defense_mult: float = 1.0
+	var attack: int = 0
+	var defense: int = 0
 	for card in hand:
-		if not card.has_ability_by_name("Fateless"):
-			fate -= 0.10
-		power += card.get_power()
-		toughness += card.get_toughness()
+		fate -= card.get_fate_cost()
+		base_attack += card.get_attack()
+		base_defense += card.get_defense()
 		
 	hand_fate = fate
-	hand_power = power
-	hand_toughness = toughness
+	hand_attack = round(base_attack * attack_mult)
+	hand_defense = round(base_defense * defense_mult)
 	hand_stats_updated.emit()
 
 
@@ -127,8 +131,8 @@ func reset_round() -> void:
 	drawn_card = null
 	hand = [] #will need to check for cards that have ENDURE ability
 	hand_fate = 1.0
-	hand_power = 0
-	hand_toughness = 0
+	hand_attack = 0
+	hand_defense = 0
 
 
 func init_deck(source_deck: Array[CombatCard], combat_ui_manager: CombatUIManager) -> void:

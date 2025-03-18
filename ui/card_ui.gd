@@ -17,21 +17,21 @@ func _ready() -> void:
 
 func update() -> void:
 	card_name_label.text = card.get_card_name()
-	power_toughness_label.text = str(card.get_power()) + ' / ' + str(card.get_toughness())
+	#power_toughness_label.text = str(card.get_power()) + ' / ' + str(card.get_toughness())
 	description_label.text = card.get_card_description()
-	update_abilities_container()
+	#update_abilities_container()
 	
 
-func update_abilities_container() -> void:
-	for child in abilities_container.get_children():
-		child.queue_free()
-	for ability in card.get_abilities():
-		var ability_tag = Label.new()
-		ability_tag.add_theme_font_size_override('font_size',24)
-		ability_tag.text = ability.get_name()
-		ability_tag.tooltip_text = ability.get_description()
-		abilities_container.add_child(ability_tag)
-		ability_tag.mouse_filter = Control.MOUSE_FILTER_STOP
+#func update_abilities_container() -> void:
+	#for child in abilities_container.get_children():
+		#child.queue_free()
+	#for ability in card.get_abilities():
+		#var ability_tag = Label.new()
+		#ability_tag.add_theme_font_size_override('font_size',24)
+		#ability_tag.text = ability.get_name()
+		#ability_tag.tooltip_text = ability.get_description()
+		#abilities_container.add_child(ability_tag)
+		#ability_tag.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func select() -> void:
