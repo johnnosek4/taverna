@@ -32,6 +32,7 @@ var p2_combat_cards_state: CombatCardState
 var p1_controller: PlayerController
 var p2_controller: PlayerController
 var controllers: Array[PlayerController]
+var current_controller: PlayerController
 var current_controller_idx: int = 0 #this is purely for determining whether setup is done concurrently, or serially
 var combat_ui_manager: CombatUIManager
 var p1_ui: PlayerUI #Convenience class for grouping all UI elements of single player into one interface
@@ -191,6 +192,7 @@ func initialize() -> void:
 
 
 func start_combat() -> void:
+	current_controller = p1_controller
 	start_round()
 
 
@@ -201,7 +203,7 @@ func start_round() -> void:
 	combat_log.log_event('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 	if mode == Run.Mode.HOTSEAT:
-		controllers[current_controller_idx].start_setup()
+		current_controller.start_setup()
 	else:
 		for controller in controllers:
 			controller.start_setup()
@@ -232,22 +234,25 @@ func on_setup_ended(controller: PlayerController) -> void:
 	# Update readiness for action based on which controllers have called the callback
 	if controller == p1_controller:
 		p1_is_setup = true
-		if mode == Run.Mode.HOTSEAT:
+		if mode == Run.Mode.HOTSEAT and not p2_is_setup:
 			switch_current_controller()
-			controllers[current_controller_idx].start_setup()
+			current_controller.start_setup()
 	else:
 		p2_is_setup = true
-		if mode == Run.Mode.HOTSEAT:
+		if mode == Run.Mode.HOTSEAT and not p1_is_setup:
 			switch_current_controller()
+			current_controller.start_setup()
 		
 	# Check whether both setups are complete
 	if p1_is_setup and p2_is_setup:
+		# Switch the current controller away from whoever took the last setup turn
+		switch_current_controller()
 		#Kick Off Action Logic
 		start_action()
 
 
 func switch_current_controller() -> void:
-	current_controller_idx = wrapi(current_controller_idx + 1,0,2)
+	current_controller = p1_controller if current_controller == p2_controller else p2_controller
 	combat_log.log_event('<<<<<<<<<<<<<<<<<<<<CONTROLLER SWITCH>>>>>>>>>>>>>>>>>>>>>>>>')
 
 
@@ -382,6 +387,11 @@ func start_action() -> void:
 					attacker = p1_controller
 				else:
 					attacker = p2_controller
+					
+		# Set the current_controller for the next round as the attacker - 
+		# TODO? or only on succesful attack?
+		current_controller = attacker
+					
 		defender = p1_controller if attacker == p2_controller else p2_controller
 		combat_log.log_event('Attacker is ' + attacker.stats.name + ', Defender is ' + defender.stats.name)
 
@@ -394,7 +404,7 @@ func start_action() -> void:
 
 
 		var defender_net_attack = defender.combat_cards.hand_attack - attacker.combat_cards.hand_defense
-		attacker.stats.apply_damage(attacker_net_attack)
+		attacker.stats.apply_damage(defender_net_attack)
 		combat_log.log_event('Defender(' + defender.stats.name + ') succeedes and deals ' + str(defender_net_attack) + ' damage!')
 		
 		# Discard all cards in attackers hand
@@ -473,6 +483,9 @@ func start_action() -> void:
 		p2_controller.stats.apply_damage(dmg)
 		combat_log.log_event(p1_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p2_controller.stats.name)
 
+		#set current controller for next round to p1 if p2 fails
+		current_controller = p1_controller
+
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
 	elif not p1_action and p2_action:
@@ -482,6 +495,10 @@ func start_action() -> void:
 		p1_controller.stats.apply_damage(dmg)
 		combat_log.log_event(p2_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p1_controller.stats.name)
 
+
+		#set current controller for next round to p2 if p1 fails
+		current_controller = p2_controller
+		
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
 	else:

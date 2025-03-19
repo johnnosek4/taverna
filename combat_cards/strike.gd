@@ -8,9 +8,6 @@ const DESC = "Add 5 Attack"
 
 func _init() -> void:
 	_base_attack = 5
-	#_base_absorb = 0
-	#_base_damage_mult = 1.0
-	#_base_absorb_mult = 1.0
 
 
 func get_card_name() -> String:
@@ -19,22 +16,6 @@ func get_card_name() -> String:
 
 func get_card_description() -> String:
 	return DESC
-
-
-#func get_damage() -> int:
-	#return _base_damage
-
-
-#func get_absorb() -> int:
-	#return _base_absorb
-	#
-#
-#func get_damage_mult() -> float:
-	#return _base_damage_mult
-#
-#
-#func get_absorb_mult() -> float:
-	#return _base_absorb_mult
 
 
 func get_copy() -> Strike:

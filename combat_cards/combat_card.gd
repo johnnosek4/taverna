@@ -9,8 +9,8 @@ const DESTROY_TIME = 0.2
 
 var _base_attack: int = 0
 var _base_defense: int = 0
-var _base_attack_mult: float = 1.0
-var _base_defense_mult: float = 1.0
+var _base_attack_mult: float = 0.0
+var _base_defense_mult: float = 0.0
 var _base_fate_cost: float = 0.1
 #var _base_abilities: Array[Ability] #of abilities (basically arbirtrary code)
 #var _additional_abilities: Array[Ability] = [] #these are granted during the course of combat
@@ -30,23 +30,23 @@ func get_card_description() -> String:
 	return "not implemented"
 
 
-func get_attack() -> int:
+func get_attack(hand: Array[CombatCard]) -> int:
 	return _base_attack
 
 
-func get_defense() -> int:
+func get_defense(hand: Array[CombatCard]) -> int:
 	return _base_defense
 	
 
-func get_attack_mult() -> float:
+func get_attack_mult(hand: Array[CombatCard]) -> float:
 	return _base_attack_mult
 
 
-func get_defense_mult() -> float:
+func get_defense_mult(hand: Array[CombatCard]) -> float:
 	return _base_defense_mult
 	
 
-func get_fate_cost() -> float:
+func get_fate_cost(hand: Array[CombatCard]) -> float:
 	return _base_fate_cost
 
 
@@ -71,8 +71,8 @@ func on_action_succedes(cur_controller: PlayerController, opp_controller: Player
 	#pass
 #
 #
-#func on_attack_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
-	#pass
+func on_attack_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+	pass
 #
 #
 #func on_defend_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:

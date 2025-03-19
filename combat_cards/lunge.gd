@@ -8,9 +8,6 @@ const DESC = "Add 1.5x the Attack of the prior card, or 5 Attack; enter Vulnerab
 
 func _init() -> void:
 	_base_attack = 5
-	_base_defense = 0
-	_base_attack_mult = 1.0
-	_base_defense_mult = 1.0
 	_base_fate_cost = 0.1
 
 
@@ -22,23 +19,23 @@ func get_card_description() -> String:
 	return DESC
 
 
-func get_attack() -> int:
+func get_attack(hand: Array[CombatCard]) -> int:
 	return _base_attack
 
 
-func get_defense() -> int:
+func get_defense(hand: Array[CombatCard]) -> int:
 	return _base_defense
 	
 
-func get_attack_mult() -> float:
+func get_attack_mult(hand: Array[CombatCard]) -> float:
 	return _base_attack_mult
 
 
-func get_defense_mult() -> float:
+func get_defense_mult(hand: Array[CombatCard]) -> float:
 	return _base_defense_mult
 	
 
-func get_fate_cost() -> float:
+func get_fate_cost(hand: Array[CombatCard]) -> float:
 	return _base_fate_cost
 
 

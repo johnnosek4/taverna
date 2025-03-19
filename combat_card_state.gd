@@ -31,6 +31,10 @@ var void_pile: Array[CombatCard] = []
 var hand: Array[CombatCard] = []
 var drawn_card: CombatCard #TODO: decide if this is actually necessary?  maybe for UI?
 var hand_fate: float
+var hand_base_attack: int
+var hand_base_defense: int
+var hand_attack_mult: float
+var hand_defense_mult: float
 var hand_attack: int
 var hand_defense: int
 
@@ -90,22 +94,28 @@ func return_first_instance(card: CombatCard, pile: CardTarget) -> CombatCard: #r
 
 #TODO: update this to reflect damage and absorb
 func _calc_hand_stats() -> void:
-	var fate: float = 1.0
-	var base_attack: int = 0
-	var base_defense: int = 0
-	var attack_mult: float = 1.0
-	var defense_mult: float = 1.0
-	var attack: int = 0
-	var defense: int = 0
+	reset_hand_stats()
 	for card in hand:
-		fate -= card.get_fate_cost()
-		base_attack += card.get_attack()
-		base_defense += card.get_defense()
+		hand_fate -= card.get_fate_cost(hand)
+		hand_base_attack += card.get_attack(hand)
+		hand_base_defense += card.get_defense(hand)
+		hand_attack_mult += card.get_attack_mult(hand)
+		hand_defense_mult += card.get_defense_mult(hand)
 		
-	hand_fate = fate
-	hand_attack = round(base_attack * attack_mult)
-	hand_defense = round(base_defense * defense_mult)
+	hand_attack = round(hand_base_attack * (1.0 + hand_attack_mult))
+	hand_defense = round(hand_base_defense * (1.0 + hand_defense_mult))
 	hand_stats_updated.emit()
+	
+	
+func reset_hand_stats() -> void:
+	hand_fate = 1.0
+	hand_base_attack = 0
+	hand_base_defense = 0
+	hand_attack_mult = 0.0
+	hand_defense_mult = 0.0
+	hand_attack = 0
+	hand_defense = 0
+	#hand_stats_updated.emit()
 
 
 func perform_loss_check() -> bool:

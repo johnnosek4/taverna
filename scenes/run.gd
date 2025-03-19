@@ -69,6 +69,19 @@ func _change_view(scene: PackedScene) -> Node:
 func _generate_default_stats() -> void:
 	var strike = Strike.new()
 	var feint = Feint.new()
+	var salve = Salve.new()
+	var greater_salve = GreaterSalve.new()
+	var posturing = Posturing.new()
+	var vainglory = Vainglory.new()
+	var gestalt = Gestalt.new()
+	var turtle = Turtle.new()
+	var block = Block.new()
+	var riposte = Riposte.new()
+	var deadly = Deadly.new()
+	var noxious = Noxious.new()
+	var finisher = Finisher.new()
+	var swarm = Swarm.new()
+	var trojka = Trojka.new()
 	
 	#var bite_and_claw = BiteAndClaw.new()
 	#var boiling_tar_boots = BoilingTarBoots.new()
@@ -94,7 +107,22 @@ func _generate_default_stats() -> void:
 	p1_stats = Stats.new()
 	p1_stats.card_pile = {
 		strike: 5,
-		feint: 5,
+		block: 5,
+		riposte: 1,
+		deadly: 3,
+		feint: 2,
+		salve: 1,
+		greater_salve: 1,
+		posturing: 1,
+		vainglory: 1,
+		gestalt: 1,
+		turtle: 1, 
+		noxious: 1,
+		finisher: 1,
+		swarm: 5,
+		trojka: 2,
+
+
 		#bite_and_claw: 1,
 		#boiling_tar_boots: 1,
 		#chains_of_malice: 1,
@@ -119,7 +147,9 @@ func _generate_default_stats() -> void:
 	p2_stats.player_type = Stats.PlayerType.AI
 	p2_stats.card_pile = {
 		strike: 5,
-		feint: 5,
+		swarm: 5,
+		trojka: 3,
+		finisher: 3,
 		#bite_and_claw: 1,
 		#boiling_tar_boots: 1,
 		#chains_of_malice: 1,

@@ -17,10 +17,43 @@ offset_bottom = 40.0
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PowerLabel" type="Label" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="AttackVbox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="AttackLabel" type="Label" parent="VBoxContainer/HBoxContainer/AttackVbox"]
+layout_mode = 2
+text = "Attack"
+
+[node name="Attack" type="Label" parent="VBoxContainer/HBoxContainer/AttackVbox"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ToughnessLabel" type="Label" parent="VBoxContainer"]
+[node name="BaseAttack" type="Label" parent="VBoxContainer/HBoxContainer/AttackVbox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AttackMult" type="Label" parent="VBoxContainer/HBoxContainer/AttackVbox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DefenseVbox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="DefenseLabel" type="Label" parent="VBoxContainer/HBoxContainer/DefenseVbox"]
+layout_mode = 2
+text = "Defense"
+
+[node name="Defense" type="Label" parent="VBoxContainer/HBoxContainer/DefenseVbox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BaseDefense" type="Label" parent="VBoxContainer/HBoxContainer/DefenseVbox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DefenseMult" type="Label" parent="VBoxContainer/HBoxContainer/DefenseVbox"]
 unique_name_in_owner = true
 layout_mode = 2

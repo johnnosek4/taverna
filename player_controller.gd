@@ -16,6 +16,7 @@ var ui: PlayerUI
 var accept_inputs: bool = false
 var combat_log: CombatLog
 
+var timer_enabled: bool = false
 var seconds_per_round: int = 60
 var seconds_left: int
 var timer: Timer
@@ -26,7 +27,8 @@ var on_card_drawn: Callable
 
 func start_setup() -> void:
 	combat_log.log_event(stats.name + ' starts setup!')
-	_start_timer()
+	if timer_enabled:
+		_start_timer()
 	stats.update_effect_durations() #NOTE: may not be necessary in 2.0
 	
 	#Adding in this timer because I suspect the 'roll' event input is causing issues by 'lasting too long'
@@ -55,7 +57,8 @@ func draw_card(): #optionally resetups a combat card if one exists
 func end_setup() -> void:
 	accept_inputs = false
 	combat_log.log_event(stats.name + ' ends setup!')
-	_clear_timer()
+	if timer_enabled:
+		_clear_timer()
 	on_setup_ended.call(self)
 
 
