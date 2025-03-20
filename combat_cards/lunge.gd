@@ -9,6 +9,7 @@ const DESC = "Add 1.5x the Attack of the prior card, or 5 Attack; enter Vulnerab
 func _init() -> void:
 	_base_attack = 5
 	_base_fate_cost = 0.1
+	_card_type = Type.DEFENSIVE
 
 
 func get_card_name() -> String:

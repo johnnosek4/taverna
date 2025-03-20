@@ -8,6 +8,7 @@ const DESC = "This card has no effect"
 
 func _init() -> void:
 	_base_fate_cost = 0.0
+	_card_type = Type.CHAOTIC
 
 
 func get_card_name() -> String:

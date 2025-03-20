@@ -82,6 +82,9 @@ func _generate_default_stats() -> void:
 	var finisher = Finisher.new()
 	var swarm = Swarm.new()
 	var trojka = Trojka.new()
+	var balance = Balance.new()
+	var bloodlust = Bloodlust.new()
+	var fortify = Fortify.new()
 	
 	#var bite_and_claw = BiteAndClaw.new()
 	#var boiling_tar_boots = BoilingTarBoots.new()
@@ -121,6 +124,9 @@ func _generate_default_stats() -> void:
 		finisher: 1,
 		swarm: 5,
 		trojka: 2,
+		balance: 1,
+		bloodlust: 1,
+		fortify: 3,
 
 
 		#bite_and_claw: 1,
@@ -146,9 +152,12 @@ func _generate_default_stats() -> void:
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
 	p2_stats.card_pile = {
+		bloodlust: 2,
+		#balance: 2,
 		strike: 5,
+		#block: 5,
 		swarm: 5,
-		trojka: 3,
+		#trojka: 3,
 		finisher: 3,
 		#bite_and_claw: 1,
 		#boiling_tar_boots: 1,

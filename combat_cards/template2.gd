@@ -12,6 +12,7 @@ func _init() -> void:
 	_base_attack_mult = 1.0
 	_base_defense_mult = 1.0
 	_base_fate_cost = 0.1
+	_card_type = Type.OFFENSIVE
 
 
 func get_card_name() -> String:
@@ -38,7 +39,7 @@ func get_defense_mult(hand: Array[CombatCard]) -> float:
 	return _base_defense_mult
 	
 
-func get_fate_cost(hand: Array[CombatCard]) -> float:
+func get_fate_cost() -> float:
 	return _base_fate_cost
 
 

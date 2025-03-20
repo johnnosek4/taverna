@@ -4,8 +4,9 @@ extends Control
 var card: CombatCard
 
 @onready var card_name_label = %CardNameLabel
-@onready var power_toughness_label: Label = %PowerToughnessLabel
+@onready var fate_cost_label: Label = %FateCostLabel
 @onready var abilities_container: HFlowContainer = %AbilitiesContainer
+@onready var card_type_label: Label = %CardTypeLabel
 @onready var description_label = %DescriptionLabel
 @onready var color_rect: ColorRect = %ColorRect
 
@@ -17,6 +18,8 @@ func _ready() -> void:
 
 func update() -> void:
 	card_name_label.text = card.get_card_name()
+	fate_cost_label.text = str(card.get_fate_cost())
+	card_type_label.text = CombatCard.Type.keys()[card.get_card_type()]
 	#power_toughness_label.text = str(card.get_power()) + ' / ' + str(card.get_toughness())
 	description_label.text = card.get_card_description()
 	#update_abilities_container()

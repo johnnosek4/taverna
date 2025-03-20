@@ -13,8 +13,8 @@ base class for both the player and any AI opponents
 var name: String = "Flub"
 var player_type: PlayerType = PlayerType.HUMAN
 var logger: CombatLog
-var current_health: int = 40: set = set_current_health
-var max_health: int = 40
+var current_health: int = 100: set = set_current_health
+var max_health: int = 100
 var card_pile: Dictionary = {}: set = _on_card_pile_update #Dictionary of cards w/ key/value being card/card_count_of_deck
 var deck: Array = [CombatCard] #Array of Cards
 var effects: Array[Effect] = [] #May not be needed in 2.0

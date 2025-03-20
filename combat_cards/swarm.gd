@@ -10,6 +10,7 @@ var attack_per_swarm: int = 2
 func _init() -> void:
 	_base_attack = 3
 	_base_fate_cost = 0.1
+	_card_type = Type.OFFENSIVE
 
 
 func get_card_name() -> String:
@@ -26,10 +27,6 @@ func get_attack(hand: Array[CombatCard]) -> int:
 		if card.get_card_name() == NAME:
 			swarm_count += 1
 	return _base_attack + (attack_per_swarm * (swarm_count -1))
-	
-
-func get_fate_cost(hand: Array[CombatCard]) -> float:
-	return _base_fate_cost
 
 
 func get_copy() -> Swarm:

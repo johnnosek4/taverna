@@ -96,7 +96,7 @@ func return_first_instance(card: CombatCard, pile: CardTarget) -> CombatCard: #r
 func _calc_hand_stats() -> void:
 	reset_hand_stats()
 	for card in hand:
-		hand_fate -= card.get_fate_cost(hand)
+		hand_fate -= card.get_fate_cost()
 		hand_base_attack += card.get_attack(hand)
 		hand_base_defense += card.get_defense(hand)
 		hand_attack_mult += card.get_attack_mult(hand)

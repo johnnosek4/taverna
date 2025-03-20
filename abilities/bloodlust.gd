@@ -1,4 +1,4 @@
-class_name Bloodlust
+class_name BloodlustOLD
 extends Ability
 
 

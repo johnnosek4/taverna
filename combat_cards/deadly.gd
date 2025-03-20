@@ -9,6 +9,7 @@ const DESC = "Add 50% Attack Mult"
 func _init() -> void:
 	_base_attack_mult = 0.5
 	_base_fate_cost = 0.1
+	_card_type = Type.OFFENSIVE
 
 
 func get_card_name() -> String:

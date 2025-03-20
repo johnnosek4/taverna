@@ -10,6 +10,7 @@ func _init() -> void:
 	_base_defense = 10
 	_base_attack_mult = -1.
 	_base_fate_cost = 0.1
+	_card_type = Type.DEFENSIVE
 
 
 func get_card_name() -> String:

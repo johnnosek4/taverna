@@ -7,8 +7,9 @@ const DESC = "Add 3 Defense; Add 2 Attack"
 
 
 func _init() -> void:
-	_base_attack = 3
-	_base_defense = 2
+	_base_attack = 2
+	_base_defense = 3
+	_card_type = Type.DEFENSIVE
 
 
 func get_card_name() -> String:

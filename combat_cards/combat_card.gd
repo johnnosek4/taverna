@@ -1,6 +1,12 @@
 class_name CombatCard
 extends Resource
 
+enum Type {
+	OFFENSIVE,
+	DEFENSIVE,
+	CHAOTIC,
+}
+
 '''
 '''
 
@@ -12,6 +18,7 @@ var _base_defense: int = 0
 var _base_attack_mult: float = 0.0
 var _base_defense_mult: float = 0.0
 var _base_fate_cost: float = 0.1
+var _card_type: Type
 #var _base_abilities: Array[Ability] #of abilities (basically arbirtrary code)
 #var _additional_abilities: Array[Ability] = [] #these are granted during the course of combat
 #var _all_abilities: Array[Ability] #set this in init and when adding additial abilities
@@ -28,6 +35,10 @@ func get_card_name() -> String:
 
 func get_card_description() -> String:
 	return "not implemented"
+	
+
+func get_card_type() -> Type:
+	return _card_type
 
 
 func get_attack(hand: Array[CombatCard]) -> int:
@@ -46,12 +57,12 @@ func get_defense_mult(hand: Array[CombatCard]) -> float:
 	return _base_defense_mult
 	
 
-func get_fate_cost(hand: Array[CombatCard]) -> float:
+func get_fate_cost() -> float:
 	return _base_fate_cost
 
 
 func get_copy() -> CombatCard:
-	print('WARNING: NOT IMPLEMENTED')
+	print('WARNING: get_copy() NOT IMPLEMENTED ON CARD ' + get_card_name())
 	return CombatCard.new()
 	
 	

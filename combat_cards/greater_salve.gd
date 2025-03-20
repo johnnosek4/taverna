@@ -10,6 +10,7 @@ var hp_boost: int = 2
 
 func _init() -> void:
 	_base_fate_cost = 0.1
+	_card_type = Type.DEFENSIVE
 
 
 func get_card_name() -> String:
