@@ -78,12 +78,12 @@ func on_action_succedes(cur_controller: PlayerController, opp_controller: Player
 	pass
 
 
-#func on_action_fails(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
-	#pass
-#
-#
-func on_attack_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+func on_action_fails(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
 	pass
+
+
+#func on_attack_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+	#pass
 #
 #
 #func on_defend_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:

@@ -22,8 +22,8 @@ enum Player {
 	TWO
 }
 
-const LONG_PAUSE: float = 1.1
-const SHORT_PAUSE: float = 1.1
+const LONG_PAUSE: float = 1.0
+const SHORT_PAUSE: float = 1.0
 
 var p1_stats: Stats #Persistent Player State
 var p2_stats: Stats
@@ -311,21 +311,21 @@ func start_action() -> void:
 	
 	# TRIGGER on_action_succedes/fails abilities P1
 	if p1_action:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL P1 Action Succedes----------------------------')
+		#combat_log.log_event('')
+		#combat_log.log_event('----------------------------EVAL P1 Action Succedes----------------------------')
 		for card in p1_controller.combat_cards.hand:
 			var card_ui = spread_pile_p1.get_card_ui(card) as CardUI
 			card_ui.select()
 			await card.on_action_succedes(p1_controller, p2_controller)
 			card_ui.deselect()
 	else:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL P1 Action Fails----------------------------')
-		#for card in p1_controller.combat_cards.hand:
-			#var card_ui = spread_pile_p1.get_card_ui(card) as CardUI
-			#card_ui.select()
-			#card.on_action_fails(p1_controller, p2_controller)
-			#card_ui.deselect()
+		#combat_log.log_event('')
+		#combat_log.log_event('----------------------------EVAL P1 Action Fails----------------------------')
+		for card in p1_controller.combat_cards.hand:
+			var card_ui = spread_pile_p1.get_card_ui(card) as CardUI
+			card_ui.select()
+			card.on_action_fails(p1_controller, p2_controller)
+			card_ui.deselect()
 	
 	combat_log.log_event('')
 	combat_log.log_event('----------------------------P2 Action Roll----------------------------')
@@ -345,31 +345,34 @@ func start_action() -> void:
 	else:
 		#combat_log.log_event('P2 Action Fails with a roll of ' + str(p2_roll) + ' vs fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) +'%')
 		combat_log.log_event('P2 Action Fails!')
-	await get_tree().create_timer(SHORT_PAUSE).timeout
+	
+	#await get_tree().create_timer(SHORT_PAUSE).timeout
 	
 	# TRIGGER on_action_succedes/fails abilities P1
 	if p2_action:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL P2 Action Succedes----------------------------')
+		#combat_log.log_event('')
+		#combat_log.log_event('----------------------------EVAL P2 Action Succedes----------------------------')
 		for card in p2_controller.combat_cards.hand:
 			var card_ui = spread_pile_p2.get_card_ui(card) as CardUI
 			card_ui.select()
 			await card.on_action_succedes(p2_controller, p1_controller)
 			card_ui.deselect()
 	else:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL P2 Action Fails----------------------------')
-		#for card in p2_controller.combat_cards.hand:
-			#var card_ui = spread_pile_p2.get_card_ui(card) as CardUI
-			#card_ui.select()
-			#card.on_action_fails(p2_controller, p1_controller)
-			#card_ui.deselect()
+		#combat_log.log_event('')
+		#combat_log.log_event('----------------------------EVAL P2 Action Fails----------------------------')
+		for card in p2_controller.combat_cards.hand:
+			var card_ui = spread_pile_p2.get_card_ui(card) as CardUI
+			card_ui.select()
+			card.on_action_fails(p2_controller, p1_controller)
+			card_ui.deselect()
 	
 	await get_tree().create_timer(LONG_PAUSE).timeout
 	# Combat branches based on action outcomes
+	combat_log.log_event('')
+	combat_log.log_event('----------------------------EVAL Attack/Defense----------------------------')
+
 	if p1_action and p2_action:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL Attack/Defend----------------------------')
+
 		# DETERMINE Attacker / Defender if both actions succede
 		var attacker: PlayerController
 		var defender: PlayerController
@@ -393,19 +396,19 @@ func start_action() -> void:
 		current_controller = attacker
 					
 		defender = p1_controller if attacker == p2_controller else p2_controller
-		combat_log.log_event('Attacker is ' + attacker.stats.name + ', Defender is ' + defender.stats.name)
+		#combat_log.log_event('Attacker is ' + attacker.stats.name + ', Defender is ' + defender.stats.name)
 
 		await get_tree().create_timer(SHORT_PAUSE).timeout
 		
 		# TODO: TAVERNA Edits - concurrent attack/defense calcs
-		var attacker_net_attack = attacker.combat_cards.hand_attack - defender.combat_cards.hand_defense
+		var attacker_net_attack = max(attacker.combat_cards.hand_attack - defender.combat_cards.hand_defense, 0)
 		defender.stats.apply_damage(attacker_net_attack)
-		combat_log.log_event('Attacker(' + attacker.stats.name + ') succeedes and deals ' + str(attacker_net_attack) + ' damage!')
+		combat_log.log_event(attacker.stats.name + ' deals ' + str(attacker_net_attack) + ' damage to ' + defender.stats.name + ' (' + str(attacker.combat_cards.hand_attack) + ' - ' + str(defender.combat_cards.hand_defense) + ')')
 
 
-		var defender_net_attack = defender.combat_cards.hand_attack - attacker.combat_cards.hand_defense
+		var defender_net_attack = max(defender.combat_cards.hand_attack - attacker.combat_cards.hand_defense, 0)
 		attacker.stats.apply_damage(defender_net_attack)
-		combat_log.log_event('Defender(' + defender.stats.name + ') succeedes and deals ' + str(defender_net_attack) + ' damage!')
+		combat_log.log_event(defender.stats.name + ' deals ' + str(defender_net_attack) + ' damage to ' + attacker.stats.name + ' (' + str(defender.combat_cards.hand_attack) + ' - ' + str(attacker.combat_cards.hand_defense) + ')')
 		
 		# Discard all cards in attackers hand
 		await discard_hand(attacker, defender)
@@ -477,11 +480,11 @@ func start_action() -> void:
 
 
 	elif p1_action and not p2_action:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL Pass/Fail----------------------------')
+		#combat_log.log_event('')
+		#combat_log.log_event('----------------------------EVAL Pass/Fail----------------------------')
 		var dmg = p1_controller.combat_cards.hand_attack
 		p2_controller.stats.apply_damage(dmg)
-		combat_log.log_event(p1_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p2_controller.stats.name)
+		combat_log.log_event(p1_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p2_controller.stats.name  + ' (' + str(p1_controller.combat_cards.hand_attack) + ' - 0)')
 
 		#set current controller for next round to p1 if p2 fails
 		current_controller = p1_controller
@@ -489,11 +492,11 @@ func start_action() -> void:
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
 	elif not p1_action and p2_action:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL Fail/Pass----------------------------')
+		#combat_log.log_event('')
+		#combat_log.log_event('----------------------------EVAL Fail/Pass----------------------------')
 		var dmg = p2_controller.combat_cards.hand_attack
 		p1_controller.stats.apply_damage(dmg)
-		combat_log.log_event(p2_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p1_controller.stats.name)
+		combat_log.log_event(p2_controller.stats.name + ' deals '+str(dmg)+ ' damage to ' + p1_controller.stats.name  + ' (' + str(p2_controller.combat_cards.hand_attack) + ' - 0)')
 
 
 		#set current controller for next round to p2 if p1 fails
@@ -502,8 +505,8 @@ func start_action() -> void:
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
 	else:
-		combat_log.log_event('')
-		combat_log.log_event('----------------------------EVAL Fail/Fail----------------------------')
+		#combat_log.log_event('')
+		#combat_log.log_event('----------------------------EVAL Fail/Fail----------------------------')
 
 		# Both rolls fail
 		combat_log.log_event('Both Actions Fail!')
@@ -521,7 +524,7 @@ func discard_hand(cur_controller: PlayerController, opp_controller: PlayerContro
 		await card.on_discard(cur_controller, opp_controller)
 		if is_instance_valid(card_ui):
 			card_ui.deselect()
-	await get_tree().create_timer(SHORT_PAUSE).timeout
+	#await get_tree().create_timer(SHORT_PAUSE).timeout
 
 
 

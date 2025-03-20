@@ -44,9 +44,21 @@ func get_fate_cost() -> float:
 
 
 func get_copy() -> CombatCard:
-	print('WARNING: NOT IMPLEMENTED')
+	print('WARNING: get_copy() NOT IMPLEMENTED ON CARD ' + get_card_name())
 	return CombatCard.new()
 
 
+func on_knock(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+	pass
+
+
+func on_draw(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+	pass
+
+
 func on_action_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
+	pass
+
+
+func on_action_fails(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
 	pass

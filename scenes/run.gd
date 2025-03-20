@@ -68,7 +68,6 @@ func _change_view(scene: PackedScene) -> Node:
 
 func _generate_default_stats() -> void:
 	var strike = Strike.new()
-	var feint = Feint.new()
 	var salve = Salve.new()
 	var greater_salve = GreaterSalve.new()
 	var posturing = Posturing.new()
@@ -86,6 +85,14 @@ func _generate_default_stats() -> void:
 	var bloodlust = Bloodlust.new()
 	var fortify = Fortify.new()
 	var chokepoint = ChokePoint.new()
+	var forged = Forged.new()
+	var flank = Flank.new()
+	var gambit = Gambit.new()
+	var pyrrhic = Pyrrhic.new()
+	var harbinger = Harbinger.new()
+	var martyr = Martyr.new()
+	
+	#var feint = Feint.new() #NOTE: commented out for now while i decide what to do with status effects
 	
 	#var bite_and_claw = BiteAndClaw.new()
 	#var boiling_tar_boots = BoilingTarBoots.new()
@@ -109,7 +116,6 @@ func _generate_default_stats() -> void:
 		block: 5,
 		riposte: 5,
 		deadly: 3,
-		feint: 2,
 		salve: 1,
 		greater_salve: 1,
 		posturing: 1,
@@ -124,7 +130,40 @@ func _generate_default_stats() -> void:
 		bloodlust: 1,
 		fortify: 3,
 		chokepoint: 1,
+		forged: 1,
+		flank: 1,
+		gambit: 1,
+		pyrrhic: 1,
+		harbinger: 1,
+		martyr: 1,
+		#feint: 2,
 		}
+		
+	var test_deck1 = {
+		pyrrhic: 5,
+		harbinger: 3,
+		martyr: 3,
+	}
+	
+	var balance_deck = {
+		strike: 5,
+		deadly: 1,
+		gestalt: 1,
+		block: 5,
+		greater_salve: 2,
+		balance: 3,
+		trojka: 3,
+		posturing: 1
+	}
+	
+	
+	var inexorable_deck = {
+		forged: 5,
+		bloodlust: 3,
+		trojka: 2,
+		deadly: 2
+	}
+
 
 	var fury_deck = {
 		deadly: 2,
@@ -140,7 +179,7 @@ func _generate_default_stats() -> void:
 		block: 5,
 		riposte: 5,
 		deadly: 3,
-		feint: 2,
+		#feint: 2,
 		vainglory: 3,
 		gestalt: 3,
 		turtle: 1, 
@@ -158,9 +197,9 @@ func _generate_default_stats() -> void:
 
 	
 	p1_stats = Stats.new()
-	p1_stats.card_pile = fury_deck
+	p1_stats.card_pile = test_deck1
 		
 	p2_stats = Stats.new()
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
-	p2_stats.card_pile = clown_deck
+	p2_stats.card_pile = inexorable_deck
