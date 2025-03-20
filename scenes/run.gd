@@ -163,4 +163,4 @@ func _generate_default_stats() -> void:
 	p2_stats = Stats.new()
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
-	p2_stats.card_pile = defensive_deck
+	p2_stats.card_pile = clown_deck

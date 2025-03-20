@@ -55,6 +55,7 @@ func apply_damage(dmg: int) -> void:
 
 
 func boost_hp(amt: int) -> void:
+	print('BOOST HP: ', name, ', amt: ', amt)
 	current_health += amt
 
 

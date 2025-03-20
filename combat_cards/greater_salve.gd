@@ -26,5 +26,6 @@ func get_copy() -> GreaterSalve:
 
 
 func on_action_succedes(cur_controller: PlayerController, opp_controller: PlayerController) -> void:
-	var hand_count = len(cur_controller.combat_cards.deck)
+	var hand_count = len(cur_controller.combat_cards.hand)
+	print('GREATER SALVE executed, hp_boost: ', hp_boost*hand_count)
 	cur_controller.stats.boost_hp(hp_boost * hand_count)

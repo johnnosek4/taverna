@@ -56,15 +56,18 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 
 [node name="DrawPileP2" parent="TextureRect/VBoxContainer/P2UI" instance=ExtResource("5_2bxfb")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 4
 pile_name = "Deck P2"
 
 [node name="DiscardPileP2" parent="TextureRect/VBoxContainer/P2UI" instance=ExtResource("5_2bxfb")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 4
 pile_name = "Discard P2"
 
 [node name="PlayerStatsAndLog" type="HBoxContainer" parent="TextureRect/VBoxContainer"]
@@ -94,15 +97,18 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 
 [node name="DrawPileP1" parent="TextureRect/VBoxContainer/P1UI" instance=ExtResource("5_2bxfb")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 4
 pile_name = "Deck P1"
 
 [node name="DiscardPileP1" parent="TextureRect/VBoxContainer/P1UI" instance=ExtResource("5_2bxfb")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 4
 pile_name = "Discard P1"
 
 [node name="Background" type="Sprite2D" parent="."]
