@@ -21,11 +21,11 @@ func get_card_description() -> String:
 
 
 func get_defense_mult(hand: Array[CombatCard]) -> float:
-	var _defense: int = 0
+	var _defense_mult: float = 0
 	for card in hand:
 		if card.get_card_type() == Type.DEFENSIVE:
-			_defense += defense_mult_per_card
-	return _defense
+			_defense_mult += defense_mult_per_card
+	return _defense_mult
 
 
 func get_copy() -> Fortify:

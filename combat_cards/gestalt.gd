@@ -25,7 +25,7 @@ func get_card_description() -> String:
 func get_attack(hand: Array[CombatCard]) -> int:
 	var hand_attack: int = 0
 	for card in hand:
-		if not card == self:
+		if not card.get_card_name() == NAME:
 			hand_attack += card.get_attack(hand)
 	return hand_attack
 

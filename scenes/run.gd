@@ -85,6 +85,7 @@ func _generate_default_stats() -> void:
 	var balance = Balance.new()
 	var bloodlust = Bloodlust.new()
 	var fortify = Fortify.new()
+	var chokepoint = ChokePoint.new()
 	
 	#var bite_and_claw = BiteAndClaw.new()
 	#var boiling_tar_boots = BoilingTarBoots.new()
@@ -104,14 +105,9 @@ func _generate_default_stats() -> void:
 	#var wand_of_affliction = WandOfAffliction.new()
 	#var worm_fetish = WormFetish.new()
 
-	
-
-	
-	p1_stats = Stats.new()
-	p1_stats.card_pile = {
-		strike: 5,
+	var template_deck = {
 		block: 5,
-		riposte: 1,
+		riposte: 5,
 		deadly: 3,
 		feint: 2,
 		salve: 1,
@@ -127,53 +123,44 @@ func _generate_default_stats() -> void:
 		balance: 1,
 		bloodlust: 1,
 		fortify: 3,
-
-
-		#bite_and_claw: 1,
-		#boiling_tar_boots: 1,
-		#chains_of_malice: 1,
-		#crystal_skin: 1,
-		#death_ray: 1,
-		#dragon_scale_kite: 1,
-		#feaster: 1,
-		#glacier_stone: 1,
-		#harden_scales: 1,
-		#heartstring_bow: 1,
-		#killer_instinct: 1,
-		#pocked_smithy: 1,
-		#spider_fang_mail: 1,
-		#stone_fists: 1,
-		#turn_to_smoke: 1,
-		#wand_of_affliction: 1,
-		#worm_fetish: 1,
+		chokepoint: 1,
 		}
+
+	var fury_deck = {
+		deadly: 2,
+		gestalt: 1,
+		finisher: 1,
+		swarm: 5,
+		trojka: 2,
+		bloodlust: 2,
+		}
+		
+	#this would work better
+	var defensive_deck = {
+		block: 5,
+		riposte: 5,
+		deadly: 3,
+		feint: 2,
+		vainglory: 3,
+		gestalt: 3,
+		turtle: 1, 
+		fortify: 3,
+		chokepoint: 1,
+		}
+
+
+	var clown_deck = {
+		greater_salve: 5,
+		noxious: 5,
+		trojka: 3,
+		balance: 3,
+		}
+
+	
+	p1_stats = Stats.new()
+	p1_stats.card_pile = fury_deck
 		
 	p2_stats = Stats.new()
 	p2_stats.name = "Opponent"
 	p2_stats.player_type = Stats.PlayerType.AI
-	p2_stats.card_pile = {
-		bloodlust: 2,
-		#balance: 2,
-		strike: 5,
-		#block: 5,
-		swarm: 5,
-		#trojka: 3,
-		finisher: 3,
-		#bite_and_claw: 1,
-		#boiling_tar_boots: 1,
-		#chains_of_malice: 1,
-		#crystal_skin: 1,
-		#death_ray: 1,
-		#dragon_scale_kite: 1,
-		#feaster: 1,
-		#glacier_stone: 1,
-		#harden_scales: 1,
-		#heartstring_bow: 1,
-		#killer_instinct: 1,
-		#pocked_smithy: 1,
-		#spider_fang_mail: 1,
-		#stone_fists: 1,
-		#turn_to_smoke: 1,
-		#wand_of_affliction: 1,
-		#worm_fetish: 1,
-		}
+	p2_stats.card_pile = defensive_deck

@@ -51,12 +51,12 @@ const deck_builder_scene = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 @onready var draw_pile_p2: StackPileUI = %DrawPileP2
 @onready var spread_pile_p2: SpreadPileUI = %SpreadPileP2
 @onready var discard_pile_p2: StackPileUI = %DiscardPileP2
-@onready var graveyard_pile_p2: StackPileUI = %GraveyardPileP2
+#@onready var graveyard_pile_p2: StackPileUI = %GraveyardPileP2
 
 @onready var discard_pile_p1: StackPileUI = %DiscardPileP1
 @onready var spread_pile_p1: SpreadPileUI = %SpreadPileP1
 @onready var draw_pile_p1: StackPileUI = %DrawPileP1
-@onready var graveyard_pile_p1: StackPileUI = %GraveyardPileP1
+#@onready var graveyard_pile_p1: StackPileUI = %GraveyardPileP1
 
 @onready var player1_stats_ui = %Player1StatsUI
 @onready var player2_stats_ui = %Player2StatsUI
@@ -112,10 +112,10 @@ func initialize() -> void:
 	discard_pile_p1.update()
 	discard_pile_p2.card_pile = p2_combat_cards_state.discard_pile
 	discard_pile_p2.update()
-	graveyard_pile_p1.card_pile = p1_combat_cards_state.graveyard_pile
-	graveyard_pile_p1.update()
-	graveyard_pile_p2.card_pile = p2_combat_cards_state.graveyard_pile
-	graveyard_pile_p2.update()
+	#graveyard_pile_p1.card_pile = p1_combat_cards_state.graveyard_pile
+	#graveyard_pile_p1.update()
+	#graveyard_pile_p2.card_pile = p2_combat_cards_state.graveyard_pile
+	#graveyard_pile_p2.update()
 	
 	hand_stats_ui_p1.combat_cards = p1_combat_cards_state
 	hand_stats_ui_p1.update()
@@ -132,16 +132,16 @@ func initialize() -> void:
 	
 	p1_ui.deck = draw_pile_p1
 	p1_ui.discard_pile = discard_pile_p1
-	p1_ui.graveyard_pile = graveyard_pile_p1
-	p1_ui.void_pile = graveyard_pile_p1 #TODO: update this reference
+	#p1_ui.graveyard_pile = graveyard_pile_p1
+	#p1_ui.void_pile = graveyard_pile_p1 #TODO: update this reference
 	p1_ui.hand = spread_pile_p1
 	p1_ui.stats = player1_stats_ui
 	p1_ui.hand_stats = hand_stats_ui_p1
 	
 	p2_ui.deck = draw_pile_p2
 	p2_ui.discard_pile = discard_pile_p2
-	p2_ui.graveyard_pile = graveyard_pile_p2
-	p2_ui.void_pile = graveyard_pile_p2 #TODO: update this reference
+	#p2_ui.graveyard_pile = graveyard_pile_p2
+	#p2_ui.void_pile = graveyard_pile_p2 #TODO: update this reference
 	p2_ui.hand = spread_pile_p2
 	p2_ui.stats = player2_stats_ui
 	p2_ui.hand_stats = hand_stats_ui_p2
@@ -180,12 +180,12 @@ func initialize() -> void:
 	card_animator.setup_ui_mapping(
 		draw_pile_p1,
 		discard_pile_p1,
-		graveyard_pile_p1,
+		discard_pile_p1,
 		spread_pile_p1,
 		discard_pile_p1,
 		draw_pile_p2,
 		discard_pile_p2,
-		graveyard_pile_p2,
+		discard_pile_p2,
 		spread_pile_p2,
 		discard_pile_p2
 	)
@@ -344,7 +344,7 @@ func start_action() -> void:
 		p2_action = true
 	else:
 		#combat_log.log_event('P2 Action Fails with a roll of ' + str(p2_roll) + ' vs fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) +'%')
-		combat_log.log_event('P1 Action Fails!')
+		combat_log.log_event('P2 Action Fails!')
 	await get_tree().create_timer(SHORT_PAUSE).timeout
 	
 	# TRIGGER on_action_succedes/fails abilities P1
