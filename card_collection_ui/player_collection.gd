@@ -35,11 +35,13 @@ func delete_deck(deck_id: String) -> bool:
 func save_collection() -> void:
 	var save_path = SAVE_PATH
 	#var save_path = SAVE_PATH + player_name + '.tres'
+	print('SAVE COLLECTION CALLED')
 	ResourceSaver.save(self, save_path)
 
 
 func load_collection() -> bool:
-	var save_path = SAVE_PATH + player_name + '.tres'
+	print('LOAD COLLECTION CALLED')
+	var save_path = SAVE_PATH
 	#var save_path = SAVE_PATH + player_name + '.tres'
 	if FileAccess.file_exists(save_path):
 		var loaded = ResourceLoader.load(save_path)
