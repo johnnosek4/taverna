@@ -3,26 +3,38 @@
 [ext_resource type="Script" path="res://card_collection_ui/deck_item.gd" id="1_hx0tj"]
 [ext_resource type="Texture2D" uid="uid://d04ixd31eb0pd" path="res://icon.svg" id="2_bl7hh"]
 
-[node name="DeckItem" type="Button"]
-custom_minimum_size = Vector2(0, 150)
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="DeckItem" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
 script = ExtResource("1_hx0tj")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="DeckDetailButton" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 150)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DeckDetailButton"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="DeckIcon" type="TextureRect" parent="HBoxContainer"]
+[node name="DeckIcon" type="TextureRect" parent="DeckDetailButton/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_bl7hh")
 
-[node name="DeckName" type="Label" parent="HBoxContainer"]
+[node name="DeckName" type="Label" parent="DeckDetailButton/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="DeckDetailButton/HBoxContainer"]
 layout_mode = 2
 
-[node name="CardCount" type="Label" parent="HBoxContainer"]
+[node name="CardCount" type="Label" parent="DeckDetailButton/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+
+[node name="DeleteDeckButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Delete"

@@ -1,10 +1,14 @@
-# deck_item.gd
-extends Button
+class_name DeckItem
+extends HBoxContainer
 
 var deck_data: Deck
 
-@onready var deck_name_label = $HBoxContainer/DeckName
-@onready var card_count_label = $HBoxContainer/CardCount
+
+@onready var deck_name_label: Label = %DeckName
+@onready var card_count_label: Label = %CardCount
+@onready var deck_detail_button: Button = %DeckDetailButton
+@onready var delete_deck_button: Button = %DeleteDeckButton
+
 
 func _ready():
 	update_display()

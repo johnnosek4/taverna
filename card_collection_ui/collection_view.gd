@@ -70,10 +70,12 @@ func populate_deck_list():
 	# Add decks
 	for deck_id in collection.decks:
 		var deck = collection.decks[deck_id]
-		var deck_item = deck_item_scene.instantiate()
+		var deck_item = deck_item_scene.instantiate() as DeckItem
 		deck_item.deck_data = deck
-		deck_item.connect("pressed", func(): _on_deck_selected(deck_id))
 		deck_list.add_child(deck_item)
+		deck_item.deck_detail_button.connect("pressed", func(): _on_deck_selected(deck_id))
+		deck_item.delete_deck_button.connect("pressed", func(): _on_deck_deleted(deck_id))
+		
 
 
 #func _on_card_selected(card_id):
@@ -81,7 +83,11 @@ func populate_deck_list():
 	#var details_popup = $CardDetailsPopup
 	#details_popup.display_card(cards_database[card_id])
 	#details_popup.show()
-	
+
+func _on_deck_deleted(deck_id: String) -> void:
+	collection.delete_deck(deck_id)
+	populate_deck_list()
+
 func _on_deck_selected(deck_id):
 	emit_signal("deck_selected", deck_id)
 	
