@@ -10,6 +10,7 @@ var def_mult_per_card: float = 1.0
 
 
 func _init() -> void:
+	_id = "004"
 	_base_fate_cost = 0.1
 	_card_type = Type.DEFENSIVE
 

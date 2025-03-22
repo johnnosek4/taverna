@@ -7,6 +7,7 @@ const DESC = "Add 10 Defense; Add -1x Attack Mult"
 
 
 func _init() -> void:
+	_id = "026"
 	_base_defense = 10
 	_base_attack_mult = -1.
 	_base_fate_cost = 0.1

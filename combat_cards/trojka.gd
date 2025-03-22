@@ -10,6 +10,7 @@ var _count_threshold: int = 3
 
 
 func _init() -> void:
+	_id = "025"
 	_base_fate_cost = 0.1
 	_card_type = Type.CHAOTIC #Offensive?
 

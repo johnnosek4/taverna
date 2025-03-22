@@ -7,6 +7,7 @@ const DESC = "Add 3 Defense; Add 2 Attack"
 
 
 func _init() -> void:
+	_id = "021"
 	_base_attack = 2
 	_base_defense = 3
 	_card_type = Type.DEFENSIVE

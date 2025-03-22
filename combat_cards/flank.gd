@@ -10,6 +10,7 @@ var _defense = 4
 
 
 func _init() -> void:
+	_id = "008"
 	_base_fate_cost = 0.1
 	_card_type = Type.OFFENSIVE
 

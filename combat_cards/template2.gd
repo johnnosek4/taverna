@@ -7,6 +7,7 @@ const DESC = "..."
 
 
 func _init() -> void:
+	_id = '000'
 	_base_attack = 0
 	_base_defense = 0
 	_base_attack_mult = 1.0

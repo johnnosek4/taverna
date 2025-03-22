@@ -7,6 +7,7 @@ const DESC = "Add 10 Attack; If Roll fails, destroy cards in Hand"
 
 
 func _init() -> void:
+	_id = "011"
 	_base_attack = 10
 	_base_fate_cost = 0.1
 	_card_type = Type.OFFENSIVE

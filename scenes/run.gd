@@ -11,20 +11,33 @@ enum Mode {
 
 const COMBAT_SCENE = preload("res://combat_scene.tscn")
 const DECK_BUILDER_SCENE = preload("res://ui/menus/deck/deck_builder_ui.tscn")
+const COLLECTION_SCENE = preload("res://card_collection_ui/collection_view.tscn")
+const DECK_MANAGER_SCENE = preload("res://deck_manager.tscn")
 
 @onready var current_view: Node = %CurrentView
 @onready var combat_menu: CombatMenu = %CombatMenu
+@onready var card_database: CardDatabase = %CardDatabase
+
 
 var p1_stats: Stats
 var p2_stats: Stats
+var cur_player_name: String = "TEST"
+var cur_player_collection: PlayerCollection
 var mode: Mode = Mode.HOTSEAT
 
 
 func _ready() -> void:
+	cur_player_collection = PlayerCollection.new()
+	cur_player_collection.player_name = cur_player_name
+	
+	#UNLOCK all cards for testing
+	cur_player_collection.unlocked_cards = card_database.get_all_ids()
+	#LOAD collection from storage, if multiple players, this would be done on player selection ofc
+	cur_player_collection.load_collection()
+	
 	_generate_default_stats()
 	combat_menu.single_player_button.pressed.connect(_on_combat_menu_single_player_button_pressed)
-	combat_menu.p1_deck_view_button.pressed.connect(_on_combat_menu_p1_deck_view_button_pressed)
-	combat_menu.p2_deck_view_button.pressed.connect(_on_combat_menu_p2_deck_view_button_pressed)
+	combat_menu.deck_view_button.pressed.connect(_on_combat_menu_deck_view_button_pressed)
 	combat_menu.pvp_button.pressed.connect(_on_combat_menu_pvp_button_pressed)
 
 func _on_combat_menu_single_player_button_pressed() -> void:
@@ -34,16 +47,24 @@ func _on_combat_menu_single_player_button_pressed() -> void:
 	sp_combat_scene.initialize()
 
 
-func _on_combat_menu_p1_deck_view_button_pressed() -> void:
-	var deck_builder_scene = _change_view(DECK_BUILDER_SCENE) as DeckBuilderUI
-	deck_builder_scene.stats = p1_stats
-	deck_builder_scene.generate_card_views()
+#TODO: 
+# update this and pass in card database reference
+# also, need to load player collection and pass into collection view too
+func _on_combat_menu_deck_view_button_pressed() -> void:
+	var deck_manager_scene = _change_view(DECK_MANAGER_SCENE) as DeckManager
+	deck_manager_scene.player_collection = cur_player_collection
+	deck_manager_scene.card_database = card_database
+	deck_manager_scene.complete_setup()
+	
+	#var deck_builder_scene = _change_view(DECK_BUILDER_SCENE) as DeckBuilderUI
+	#deck_builder_scene.stats = p1_stats
+	#deck_builder_scene.generate_card_views()
 	
 
-func _on_combat_menu_p2_deck_view_button_pressed() -> void:
-	var deck_builder_scene = _change_view(DECK_BUILDER_SCENE) as DeckBuilderUI
-	deck_builder_scene.stats = p2_stats
-	deck_builder_scene.generate_card_views()
+#func _on_combat_menu_p2_deck_view_button_pressed() -> void:
+	#var deck_builder_scene = _change_view(DECK_BUILDER_SCENE) as DeckBuilderUI
+	#deck_builder_scene.stats = p2_stats
+	#deck_builder_scene.generate_card_views()
 	
 
 func _on_combat_menu_pvp_button_pressed() -> void:

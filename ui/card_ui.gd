@@ -1,6 +1,8 @@
 class_name CardUI
 extends Control
 
+signal card_selected(card_id)
+
 var card: CombatCard
 
 @onready var card_name_label = %CardNameLabel
@@ -12,6 +14,7 @@ var card: CombatCard
 
 
 func _ready() -> void:
+	
 	if card:
 		update()
 
@@ -44,5 +47,15 @@ func select() -> void:
 func deselect() -> void:
 	color_rect.color = Color('373737a8')
 	
+
+func _gui_input(event):
+	#if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.pressed:
+		emit_signal("card_selected", card.get_id())
+
+
+
+#func _on_pressed():
+	#emit_signal("card_selected", card.get_id())
 
 	

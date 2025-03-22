@@ -10,6 +10,7 @@ var dmg_per_card: int = 1
 
 
 func _init() -> void:
+	_id = "018"
 	_base_fate_cost = 0.1
 	_card_type = Type.OFFENSIVE
 

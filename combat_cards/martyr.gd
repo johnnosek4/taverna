@@ -8,6 +8,7 @@ const DESC = "Add 3 Defense; Heal 2 HP on Discard"
 var _heal_amount: int = 2
 
 func _init() -> void:
+	_id = "017"
 	_base_defense = 3
 	_base_fate_cost = 0.1
 	_card_type = Type.DEFENSIVE

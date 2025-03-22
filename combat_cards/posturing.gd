@@ -7,6 +7,7 @@ const DESC = "This card has no effect"
 
 
 func _init() -> void:
+	_id = "019"
 	_base_fate_cost = 0.0
 	_card_type = Type.CHAOTIC
 

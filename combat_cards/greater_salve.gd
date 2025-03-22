@@ -9,6 +9,7 @@ var hp_boost: int = 2
 
 
 func _init() -> void:
+	_id = "013"
 	_base_fate_cost = 0.1
 	_card_type = Type.DEFENSIVE
 

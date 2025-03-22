@@ -7,6 +7,7 @@ const DESC = "Add attack equal to the sum of attacks of all other cards in hand"
 
 
 func _init() -> void:
+	_id = "012"
 	_base_fate_cost = 0.1
 	_card_type = Type.OFFENSIVE
 

@@ -8,6 +8,7 @@ const DESC = "Add 10 attack; subtract 2 attack per every other card in hand"
 var card_penalty: int = 2
 
 func _init() -> void:
+	_id = "027"
 	_base_attack = 10
 	_base_fate_cost = 0.1
 	_card_type = Type.OFFENSIVE

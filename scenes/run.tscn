@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://ba72j310dsrxx"]
+[gd_scene load_steps=4 format=3 uid="uid://ba72j310dsrxx"]
 
 [ext_resource type="Script" path="res://scenes/run.gd" id="1_5t501"]
 [ext_resource type="PackedScene" uid="uid://cykm0te5eebg3" path="res://ui/menus/combat_menu.tscn" id="2_s076a"]
+[ext_resource type="PackedScene" uid="uid://dyigje2ammf1l" path="res://card_database.tscn" id="3_b18r4"]
 
 [node name="Run" type="Node"]
 script = ExtResource("1_5t501")
+
+[node name="CardDatabase" parent="." instance=ExtResource("3_b18r4")]
+unique_name_in_owner = true
 
 [node name="CombatMenu" parent="." instance=ExtResource("2_s076a")]
 unique_name_in_owner = true

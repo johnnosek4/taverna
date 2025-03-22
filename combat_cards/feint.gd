@@ -7,6 +7,7 @@ const DESC = "Apply Vulnerable to Opponent"
 
 
 func _init() -> void:
+	_id = "006"
 	_base_fate_cost = 0.1
 	_card_type = Type.CHAOTIC
 

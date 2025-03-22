@@ -10,6 +10,7 @@ var attack_per_discard: int = 2
 
 
 func _init() -> void:
+	_id = "009"
 	_base_attack = 3
 	_base_fate_cost = 0.1
 	_card_type = Type.OFFENSIVE

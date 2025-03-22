@@ -1,5 +1,5 @@
 class_name CombatCard
-extends Resource
+extends RefCounted
 
 enum Type {
 	OFFENSIVE,
@@ -13,6 +13,7 @@ enum Type {
 const DISCARD_TIME = 0.2
 const DESTROY_TIME = 0.2
 
+var _id: String
 var _base_attack: int = 0
 var _base_defense: int = 0
 var _base_attack_mult: float = 0.0
@@ -27,6 +28,9 @@ var combat_ui_manager: CombatUIManager
 
 #func _init() -> void:
 	#_all_abilities = _base_abilities.duplicate()
+
+func get_id() -> String:
+	return _id
 
 
 func get_card_name() -> String:

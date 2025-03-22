@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=3 uid="uid://cps02b0oci3ul"]
+
+[ext_resource type="Theme" uid="uid://duma77qj7qwgx" path="res://themes/menu.tres" id="1_21h7h"]
+[ext_resource type="Script" path="res://card_collection_ui/collection_view.gd" id="1_xug5r"]
+
+[node name="CollectionView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_21h7h")
+script = ExtResource("1_xug5r")
+
+[node name="BackgroundPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Card Collection"
+horizontal_alignment = 1
+
+[node name="CreateDeckButton" type="Button" parent="VBoxContainer/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create Deck"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Decks" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/Decks"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/HSplitContainer/Decks/VBoxContainer2"]
+layout_mode = 2
+text = "Deck List"
+
+[node name="DeckList" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/Decks/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CardCollection" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/CardCollection"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/HSplitContainer/CardCollection/VBoxContainer"]
+layout_mode = 2
+text = "Cards"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HSplitContainer/CardCollection/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1000)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CardGrid" type="HFlowContainer" parent="VBoxContainer/HSplitContainer/CardCollection/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20

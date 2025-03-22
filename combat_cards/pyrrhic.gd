@@ -7,6 +7,7 @@ const DESC = "Add 5 Attack; Add 1x Attack Mult; Destroy top card in Deck"
 
 
 func _init() -> void:
+	_id = "020"
 	_base_attack = 5
 	_base_attack_mult = 1.0
 	_base_fate_cost = 0.1

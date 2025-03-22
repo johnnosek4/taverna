@@ -1,0 +1,138 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfnwewwqie8b7"]
+
+[ext_resource type="Theme" uid="uid://duma77qj7qwgx" path="res://themes/menu.tres" id="1_dggma"]
+[ext_resource type="Script" path="res://card_collection_ui/deck_editor.gd" id="1_os8sa"]
+
+[node name="DeckEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_dggma")
+script = ExtResource("1_os8sa")
+
+[node name="BackgroundPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopPanel"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="TopPanel/HBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="DeckNameEdit" type="LineEdit" parent="TopPanel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Deck Name"
+
+[node name="CardCountLabel" type="Label" parent="TopPanel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cards: 0"
+
+[node name="SaveButton" type="Button" parent="TopPanel/HBoxContainer"]
+layout_mode = 2
+text = "Save Deck"
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DeckArea" type="PanelContainer" parent="VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VboxContainer" type="VBoxContainer" parent="VSplitContainer/DeckArea"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="VSplitContainer/DeckArea/VboxContainer"]
+layout_mode = 2
+text = "Current Deck"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/DeckArea/VboxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DeckCards" type="HFlowContainer" parent="VSplitContainer/DeckArea/VboxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="CollectionArea" type="PanelContainer" parent="VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TitleLabel" type="Label" parent="VSplitContainer/CollectionArea"]
+layout_mode = 2
+text = "Available Cards"
+horizontal_alignment = 1
+
+[node name="VboxContainer" type="VBoxContainer" parent="VSplitContainer/CollectionArea"]
+layout_mode = 2
+
+[node name="FilterOptions" type="HBoxContainer" parent="VSplitContainer/CollectionArea/VboxContainer"]
+layout_mode = 2
+
+[node name="SearchBar" type="LineEdit" parent="VSplitContainer/CollectionArea/VboxContainer/FilterOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter cards..."
+
+[node name="TypeFilter" type="OptionButton" parent="VSplitContainer/CollectionArea/VboxContainer/FilterOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "All Types"
+
+[node name="RarityFilter" type="OptionButton" parent="VSplitContainer/CollectionArea/VboxContainer/FilterOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "All Rarities"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/CollectionArea/VboxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CollectionCards" type="HFlowContainer" parent="VSplitContainer/CollectionArea/VboxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="CardDetailsPopup" type="PopupPanel" parent="."]
+size = Vector2i(400, 500)
+
+[connection signal="pressed" from="TopPanel/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="TopPanel/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]

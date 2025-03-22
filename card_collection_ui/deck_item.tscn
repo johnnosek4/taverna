@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://kr5ob51f40gy"]
+
+[ext_resource type="Script" path="res://card_collection_ui/deck_item.gd" id="1_hx0tj"]
+[ext_resource type="Texture2D" uid="uid://d04ixd31eb0pd" path="res://icon.svg" id="2_bl7hh"]
+
+[node name="DeckItem" type="Button"]
+custom_minimum_size = Vector2(0, 150)
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_hx0tj")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DeckIcon" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_bl7hh")
+
+[node name="DeckName" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="CardCount" type="Label" parent="HBoxContainer"]
+layout_mode = 2
