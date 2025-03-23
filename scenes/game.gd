@@ -1,4 +1,4 @@
-class_name Run
+class_name Game
 extends Node
 
 
@@ -13,11 +13,12 @@ const COMBAT_SCENE = preload("res://combat_scene.tscn")
 const DECK_BUILDER_SCENE = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 const COLLECTION_SCENE = preload("res://card_collection_ui/collection_view.tscn")
 const DECK_MANAGER_SCENE = preload("res://deck_manager.tscn")
+const MAIN_MENU = preload("res://ui/menus/main_menu.tscn")
 
 @onready var current_view: Node = %CurrentView
-@onready var combat_menu: CombatMenu = %CombatMenu
+@onready var main_menu: MainMenu = %MainMenu
 @onready var card_database: CardDatabase = %CardDatabase
-
+@onready var view_controller: ViewController = %ViewController
 
 var p1_stats: Stats
 var p2_stats: Stats
@@ -35,10 +36,17 @@ func _ready() -> void:
 	#LOAD collection from storage, if multiple players, this would be done on player selection ofc
 	cur_player_collection.load_collection()
 	
+	main_menu.player_collection = cur_player_collection
+	main_menu.card_database = card_database
+	main_menu.view_controller = view_controller
+	
+	#
+	#_change_view(MAIN_MENU) #we'll try with the main menu in the background the whole time
+	
 	_generate_default_stats()
-	combat_menu.single_player_button.pressed.connect(_on_combat_menu_single_player_button_pressed)
-	combat_menu.deck_view_button.pressed.connect(_on_combat_menu_deck_view_button_pressed)
-	combat_menu.pvp_button.pressed.connect(_on_combat_menu_pvp_button_pressed)
+	#combat_menu.single_player_button.pressed.connect(_on_combat_menu_single_player_button_pressed)
+	#combat_menu.deck_view_button.pressed.connect(_on_combat_menu_deck_view_button_pressed)
+	#combat_menu.pvp_button.pressed.connect(_on_combat_menu_pvp_button_pressed)
 
 func _on_combat_menu_single_player_button_pressed() -> void:
 	var sp_combat_scene = _change_view(COMBAT_SCENE) as CombatScene
@@ -70,6 +78,7 @@ func _on_combat_menu_deck_view_button_pressed() -> void:
 func _on_combat_menu_pvp_button_pressed() -> void:
 	var sp_combat_scene = _change_view(COMBAT_SCENE) as CombatScene
 	p2_stats.player_type = Stats.PlayerType.HUMAN
+	sp_combat_scene.card_database = card_database
 	sp_combat_scene.p1_stats = p1_stats
 	sp_combat_scene.p2_stats = p2_stats
 	sp_combat_scene.initialize()
@@ -217,10 +226,10 @@ func _generate_default_stats() -> void:
 		}
 
 	
-	p1_stats = Stats.new()
-	p1_stats.card_pile = test_deck1
-		
-	p2_stats = Stats.new()
-	p2_stats.name = "Opponent"
-	p2_stats.player_type = Stats.PlayerType.AI
-	p2_stats.card_pile = inexorable_deck
+	#p1_stats = Stats.new()
+	#p1_stats.card_pile = test_deck1
+		#
+	#p2_stats = Stats.new()
+	#p2_stats.name = "Opponent"
+	#p2_stats.player_type = Stats.PlayerType.AI
+	#p2_stats.card_pile = inexorable_deck

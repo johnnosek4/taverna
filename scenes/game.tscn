@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://ba72j310dsrxx"]
+
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_652w8"]
+[ext_resource type="PackedScene" uid="uid://dyigje2ammf1l" path="res://card_database.tscn" id="2_1a4bn"]
+[ext_resource type="Script" path="res://view_controller.gd" id="3_5t3wk"]
+[ext_resource type="PackedScene" uid="uid://cykm0te5eebg3" path="res://ui/menus/main_menu.tscn" id="3_ey6cy"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_652w8")
+
+[node name="CardDatabase" parent="." instance=ExtResource("2_1a4bn")]
+unique_name_in_owner = true
+
+[node name="ViewController" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_5t3wk")
+
+[node name="MainMenu" parent="." instance=ExtResource("3_ey6cy")]
+unique_name_in_owner = true
+
+[node name="CurrentView" type="Node" parent="."]
+unique_name_in_owner = true

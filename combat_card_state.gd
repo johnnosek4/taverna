@@ -63,8 +63,25 @@ func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> 
 	# for some reason, when Card 3 goes to move itself out of the hand, we're gonna have issues
 	if not pile_mapping[from_pile].has(card):
 		print('WARNING: CARD: ' + card.get_card_name() + ' HAS ALREADY BEEN MOVED FROM: ' + CardTarget.keys()[from_pile])
+	
+	#####
+	#print("Before move:", pile_mapping)
+	#print("Moving card:", card, "from", from_pile, "to", to_pile)
+#
+	#if not pile_mapping.has(to_pile):
+		#pile_mapping[to_pile] = []
+	#if not card in pile_mapping[to_pile]:
+		#pile_mapping[to_pile].append(card)
+#
+	#pile_mapping[from_pile].erase(card)
+#
+	#print("After move:", pile_mapping)
+	######
+	
 	pile_mapping[from_pile].erase(card)
 	pile_mapping[to_pile].append(card)
+
+
 	_calc_hand_stats()
 	card_moved.emit(controller, card, from_pile, to_pile)
 
@@ -145,12 +162,14 @@ func reset_round() -> void:
 	hand_defense = 0
 
 
-func init_deck(source_deck: Array[CombatCard], combat_ui_manager: CombatUIManager) -> void:
-	#TODO: I think we may need a custom duplicate to actually duplicate card instances
-	for card in source_deck:
-		var copy = card.get_copy()
-		copy.combat_ui_manager = combat_ui_manager
-		deck.append(copy)
+func init_deck(card_database: CardDatabase, source_deck: Deck, combat_ui_manager: CombatUIManager) -> void:
+	print('INIT DECK CALLED')
+	deck = []
+	for card_id in source_deck.cards:
+		for i in range(source_deck.cards[card_id]):
+			var copy = card_database.get_card(card_id)
+			copy.combat_ui_manager = combat_ui_manager
+			deck.append(copy)
 	deck.shuffle()
 	#_card_state_changed()
 
@@ -161,6 +180,12 @@ func reshuffle_discard() -> void:
 		move_card(card, CardTarget.DISCARD, CardTarget.DECK)
 	deck.shuffle()
 	
+	
+	
+	
+#func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> void:
+	#pile_mapping[to_pile].append(card)
+	#pile_mapping[from_pile].erase(card)
 	
 	#OLD CODE:
 	#func move_card(card: CombatCard, from: CardTarget, to: CardTarget) -> void:

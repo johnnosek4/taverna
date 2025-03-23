@@ -15,8 +15,9 @@ var player_type: PlayerType = PlayerType.HUMAN
 var logger: CombatLog
 var current_health: int = 100: set = set_current_health
 var max_health: int = 100
-var card_pile: Dictionary = {}: set = _on_card_pile_update #Dictionary of cards w/ key/value being card/card_count_of_deck
-var deck: Array = [CombatCard] #Array of Cards
+#var card_pile: Dictionary = {}: set = _on_card_pile_update #Dictionary of cards w/ key/value being card/card_count_of_deck
+#var deck: Array = [CombatCard] #Array of Cards
+var deck: Deck
 var effects: Array[Effect] = [] #May not be needed in 2.0
 
 var vulnerable_base_mult: float = 1.5
@@ -33,18 +34,18 @@ func set_current_health(value: int) -> void:
 	stats_changed.emit()
 
 
-func _on_card_pile_update(value) -> void:
-	card_pile = value
-	deck = construct_deck_from_pile(card_pile)
-
-
-static func construct_deck_from_pile(pile: Dictionary) -> Array[CombatCard]:
-	var new_deck: Array[CombatCard] = []
-	for card in pile:
-		for i in range(pile[card]):
-			var copy = card.get_copy()
-			new_deck.append(copy)
-	return new_deck
+#func _on_card_pile_update(value) -> void:
+	#card_pile = value
+	#deck = construct_deck_from_pile(card_pile)
+#
+#
+#static func construct_deck_from_pile(pile: Dictionary) -> Array[CombatCard]:
+	#var new_deck: Array[CombatCard] = []
+	#for card in pile:
+		#for i in range(pile[card]):
+			#var copy = card.get_copy()
+			#new_deck.append(copy)
+	#return new_deck
 
 
 func apply_damage(dmg: int) -> void:

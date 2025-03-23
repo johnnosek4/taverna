@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvl501cevkgko"]
+
+[ext_resource type="Script" path="res://view_controller.gd" id="1_sk5wg"]
+
+[node name="ViewController" type="Node"]
+script = ExtResource("1_sk5wg")

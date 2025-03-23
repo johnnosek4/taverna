@@ -40,7 +40,8 @@ var p2_ui: PlayerUI
 var rolling: bool = false
 var p1_is_setup: bool = false #these are the variables used to determine when to start the Action
 var p2_is_setup: bool = false
-var mode: Run.Mode = Run.Mode.HOTSEAT
+var mode: Game.Mode = Game.Mode.HOTSEAT
+var card_database: CardDatabase
 
 const card_ui_scene = preload("res://ui/card_ui.tscn")
 const end_menu_scene = preload("res://ui/menus/end_game_menu.tscn")
@@ -71,6 +72,11 @@ const deck_builder_scene = preload("res://ui/menus/deck/deck_builder_ui.tscn")
 #@onready var end_setup_button = %EndsetupButton
 @onready var view_cards_button: Button = %ViewCardsButton
 #@onready var d10_dice_ui: D10DiceUI = %D10DiceUI
+@onready var back_button: Button = %BackButton
+
+
+func _ready() -> void:
+	back_button.pressed.connect(_on_back_button_pressed)
 
 
 func initialize() -> void:
@@ -79,13 +85,13 @@ func initialize() -> void:
 	add_child(combat_ui_manager)
 	
 	p1_combat_cards_state = CombatCardState.new()
-	p1_combat_cards_state.init_deck(p1_stats.deck, combat_ui_manager)
+	p1_combat_cards_state.init_deck(card_database, p1_stats.deck, combat_ui_manager)
 	p1_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
 	p1_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
 
 	
 	p2_combat_cards_state = CombatCardState.new()
-	p2_combat_cards_state.init_deck(p2_stats.deck, combat_ui_manager)
+	p2_combat_cards_state.init_deck(card_database, p2_stats.deck, combat_ui_manager)
 	p2_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
 	p2_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
 
@@ -202,7 +208,7 @@ func start_round() -> void:
 	combat_log.log_event('~~~~~~~~~~~~~~~~~~~~~~~~START ROUND~~~~~~~~~~~~~~~~~~~~~~~~')
 	combat_log.log_event('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
-	if mode == Run.Mode.HOTSEAT:
+	if mode == Game.Mode.HOTSEAT:
 		current_controller.start_setup()
 	else:
 		for controller in controllers:
@@ -234,12 +240,12 @@ func on_setup_ended(controller: PlayerController) -> void:
 	# Update readiness for action based on which controllers have called the callback
 	if controller == p1_controller:
 		p1_is_setup = true
-		if mode == Run.Mode.HOTSEAT and not p2_is_setup:
+		if mode == Game.Mode.HOTSEAT and not p2_is_setup:
 			switch_current_controller()
 			current_controller.start_setup()
 	else:
 		p2_is_setup = true
-		if mode == Run.Mode.HOTSEAT and not p1_is_setup:
+		if mode == Game.Mode.HOTSEAT and not p1_is_setup:
 			switch_current_controller()
 			current_controller.start_setup()
 		
@@ -526,7 +532,8 @@ func discard_hand(cur_controller: PlayerController, opp_controller: PlayerContro
 			card_ui.deselect()
 	#await get_tree().create_timer(SHORT_PAUSE).timeout
 
-
+func _on_back_button_pressed() -> void:
+	queue_free()
 
 
 
