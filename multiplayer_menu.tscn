@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d3qabheqsurgj"]
 
-[ext_resource type="Theme" uid="uid://duma77qj7qwgx" path="res://themes/menu.tres" id="1_r73hd"]
+[ext_resource type="Theme" uid="uid://c5xb0uny7l3in" path="res://themes/main_menu.tres" id="1_8au7c"]
 [ext_resource type="Script" path="res://multiplayer_menu.gd" id="1_uebcx"]
 
 [node name="MultiplayerMenu" type="Control"]
@@ -17,7 +17,7 @@ offset_right = 300.0
 offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_r73hd")
+theme = ExtResource("1_8au7c")
 script = ExtResource("1_uebcx")
 
 [node name="TextureRect" type="ColorRect" parent="."]
@@ -27,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0.249183, 0.253286, 1)
+color = Color(0.154583, 0.162039, 0.163043, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(600, 800)

@@ -1,16 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://co24ufbs8g3pc"]
+[gd_scene load_steps=3 format=3 uid="uid://co24ufbs8g3pc"]
 
+[ext_resource type="Theme" uid="uid://owgyr10s2ebc" path="res://themes/main.tres" id="1_5yug5"]
 [ext_resource type="Script" path="res://ui/player_stats_ui.gd" id="1_ftcdd"]
 
 [node name="PlayerStatsUI" type="Panel"]
-custom_minimum_size = Vector2(320, 200)
+custom_minimum_size = Vector2(320, 100)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1670.0
-offset_bottom = -780.0
+offset_right = -1600.0
+offset_bottom = -980.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_5yug5")
 script = ExtResource("1_ftcdd")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -24,15 +26,14 @@ grow_vertical = 2
 [node name="NameLabel" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
 
 [node name="HealthLabel" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
 
 [node name="TimerLabel" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 

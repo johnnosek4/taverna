@@ -39,7 +39,7 @@ var hand_attack: int
 var hand_defense: int
 
 var pile_mapping := {
-	CardTarget.DECK: deck,
+	CardTarget.DECK: deck as Array[CombatCard],
 	CardTarget.DISCARD: discard_pile,
 	CardTarget.GRAVEYARD: graveyard_pile,
 	CardTarget.HAND: hand,
@@ -64,23 +64,8 @@ func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> 
 	if not pile_mapping[from_pile].has(card):
 		print('WARNING: CARD: ' + card.get_card_name() + ' HAS ALREADY BEEN MOVED FROM: ' + CardTarget.keys()[from_pile])
 	
-	#####
-	#print("Before move:", pile_mapping)
-	#print("Moving card:", card, "from", from_pile, "to", to_pile)
-#
-	#if not pile_mapping.has(to_pile):
-		#pile_mapping[to_pile] = []
-	#if not card in pile_mapping[to_pile]:
-		#pile_mapping[to_pile].append(card)
-#
-	#pile_mapping[from_pile].erase(card)
-#
-	#print("After move:", pile_mapping)
-	######
-	
 	pile_mapping[from_pile].erase(card)
 	pile_mapping[to_pile].append(card)
-
 
 	_calc_hand_stats()
 	card_moved.emit(controller, card, from_pile, to_pile)
@@ -90,6 +75,7 @@ func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> 
 	
 func add_card(card: CombatCard, to_pile: CardTarget, source: Node = controller.ui.stats) -> void:
 	pile_mapping[to_pile].append(card)
+
 	_calc_hand_stats()
 	card_added.emit(controller, card, to_pile, source)
 	
@@ -163,13 +149,14 @@ func reset_round() -> void:
 
 
 func init_deck(card_database: CardDatabase, source_deck: Deck, combat_ui_manager: CombatUIManager) -> void:
-	print('INIT DECK CALLED')
-	deck = []
+	deck.clear()
+	
 	for card_id in source_deck.cards:
 		for i in range(source_deck.cards[card_id]):
 			var copy = card_database.get_card(card_id)
 			copy.combat_ui_manager = combat_ui_manager
 			deck.append(copy)
+			
 	deck.shuffle()
 	#_card_state_changed()
 

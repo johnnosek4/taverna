@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cykm0te5eebg3"]
 
-[ext_resource type="Theme" uid="uid://duma77qj7qwgx" path="res://themes/menu.tres" id="1_376bn"]
 [ext_resource type="Script" path="res://combat_menu.gd" id="1_krucl"]
+[ext_resource type="Theme" uid="uid://c5xb0uny7l3in" path="res://themes/main_menu.tres" id="1_tpghw"]
 
 [node name="MainMenu" type="ColorRect"]
 anchors_preset = 15
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_376bn")
+theme = ExtResource("1_tpghw")
 color = Color(0.099986, 0.099986, 0.099986, 1)
 script = ExtResource("1_krucl")
 
@@ -38,23 +38,19 @@ horizontal_alignment = 1
 [node name="SinglePlayerButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
 text = "Single Player"
 
 [node name="MultiplayerButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
 text = "Multiplayer"
 
 [node name="OptionsButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
 text = "Options"
 
 [node name="ExitButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
 text = "Exit"
