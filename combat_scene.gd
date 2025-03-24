@@ -22,8 +22,8 @@ enum Player {
 	TWO
 }
 
-const LONG_PAUSE: float = 1.0
-const SHORT_PAUSE: float = 1.0
+const LONG_PAUSE: float = 0.5
+const SHORT_PAUSE: float = 0.5
 
 var p1_stats: Stats #Persistent Player State
 var p2_stats: Stats
