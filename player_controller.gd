@@ -20,6 +20,8 @@ var timer_enabled: bool = false
 var seconds_per_round: int = 60
 var seconds_left: int
 var timer: Timer
+var is_attacker: bool = false
+var ai_controller: AIController
 
 var on_setup_ended: Callable
 var on_card_drawn: Callable
@@ -31,10 +33,14 @@ func start_setup() -> void:
 		_start_timer()
 	stats.update_effect_durations() #NOTE: may not be necessary in 2.0
 	
-	#Adding in this timer because I suspect the 'roll' event input is causing issues by 'lasting too long'
-	#and getting called even after the controller switchover
-	await get_tree().create_timer(0.5).timeout
-	accept_inputs = true
+	if ai_controller:
+		ai_controller.start_setup()
+	
+	else:
+		#Adding in this timer because I suspect the 'roll' event input is causing issues by 'lasting too long'
+		#and getting called even after the controller switchover
+		await get_tree().create_timer(0.5).timeout
+		accept_inputs = true
 
 
 func draw_card(): #optionally resetups a combat card if one exists

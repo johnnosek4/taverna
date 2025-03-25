@@ -31,6 +31,8 @@ var p1_combat_cards_state: CombatCardState #Card State for ONLY one combat
 var p2_combat_cards_state: CombatCardState
 var p1_controller: PlayerController
 var p2_controller: PlayerController
+var p1_ai_controller: AIController
+var p2_ai_controller: AIController
 var controllers: Array[PlayerController]
 var current_controller: PlayerController
 var current_controller_idx: int = 0 #this is purely for determining whether setup is done concurrently, or serially
@@ -156,8 +158,22 @@ func initialize() -> void:
 	combat_ui_manager.p2_ui = p2_ui
 	
 	#TODO: streamline initialization and configuration of controllers
-	p1_controller = HumanController.new() if p1_stats.player_type == Stats.PlayerType.HUMAN else AIController.new()
-	p2_controller = HumanController.new() if p2_stats.player_type == Stats.PlayerType.HUMAN else AIController.new()
+	if p1_ai_controller:
+		p1_controller = PlayerController.new()
+		p1_controller.ai_controller = p1_ai_controller
+		p1_ai_controller._controller = p1_controller
+		p1_ai_controller._opp_controller = p2_controller
+	else:
+		p1_controller = HumanController.new()
+
+	if p2_ai_controller:
+		p2_controller = PlayerController.new()
+		p2_controller.ai_controller = p2_ai_controller
+		p2_ai_controller._controller = p2_controller
+		p2_ai_controller._opp_controller = p1_controller
+	else:
+		p2_controller = HumanController.new()
+		
 	p1_combat_cards_state.controller = p1_controller #NOTE: I HATE THIS; can we replace with enum or something else at some point??
 	p1_controller.stats = p1_stats
 	p1_controller.combat_cards = p1_combat_cards_state
@@ -199,6 +215,7 @@ func initialize() -> void:
 
 func start_combat() -> void:
 	current_controller = p1_controller
+	current_controller.is_attacker = true
 	start_round()
 
 
@@ -285,6 +302,14 @@ func on_card_drawn(controller: PlayerController, card: CombatCard) -> void:
 func start_action() -> void:
 	var p1_action: bool = false
 	var p2_action: bool = false
+	var p1_attack = p1_controller.combat_cards.hand_attack
+	var p1_defense = p1_controller.combat_cards.hand_defense
+	var p2_attack = p2_controller.combat_cards.hand_attack
+	var p2_defense = p2_controller.combat_cards.hand_defense
+	if p1_ai_controller:
+		p1_ai_controller.store_combat_data(p2_attack, p2_defense)
+	if p2_ai_controller:
+		p2_ai_controller.store_combat_data(p1_attack, p1_defense)
 	
 	#await get_tree().create_timer(LONG_PAUSE).timeout
 	combat_log.log_event('')
@@ -400,9 +425,12 @@ func start_action() -> void:
 		# Set the current_controller for the next round as the attacker - 
 		# TODO? or only on succesful attack?
 		current_controller = attacker
+		attacker.is_attacker = true
+
 					
 		defender = p1_controller if attacker == p2_controller else p2_controller
 		#combat_log.log_event('Attacker is ' + attacker.stats.name + ', Defender is ' + defender.stats.name)
+		defender.is_attacker = false
 
 		await get_tree().create_timer(SHORT_PAUSE).timeout
 		
@@ -518,6 +546,7 @@ func start_action() -> void:
 		combat_log.log_event('Both Actions Fail!')
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
+	
 	
 	end_round()
 

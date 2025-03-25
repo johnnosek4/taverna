@@ -18,6 +18,8 @@ func change_to_combat_scene_multiplayer_hotseat(
 	p2_name: String,
 	p1_deck: Deck,
 	p2_deck: Deck,
+	p1_ai_controller: AIController,
+	p2_ai_controller: AIController,
 ) -> void:
 	var combat_scene = _change_view(COMBAT_SCENE) as CombatScene
 	
@@ -33,6 +35,8 @@ func change_to_combat_scene_multiplayer_hotseat(
 	#also - rename the initialize? since this happens wayy after init, and node is already added
 	combat_scene.p1_stats = p1_stats
 	combat_scene.p2_stats = p2_stats
+	combat_scene.p1_ai_controller = p1_ai_controller
+	combat_scene.p2_ai_controller = p2_ai_controller
 	combat_scene.card_database = card_database
 	combat_scene.initialize()
 	combat_scene.start_combat()

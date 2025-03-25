@@ -107,6 +107,7 @@ func _calc_hand_stats() -> void:
 		
 	hand_attack = round(hand_base_attack * (1.0 + hand_attack_mult))
 	hand_defense = round(hand_base_defense * (1.0 + hand_defense_mult))
+	print('COMBAT_CARD_STATE: _calc_hand_stats_complete')
 	hand_stats_updated.emit()
 	
 	
