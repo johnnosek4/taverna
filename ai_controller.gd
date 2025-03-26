@@ -1,7 +1,7 @@
 class_name AIController
 extends RefCounted
 
-const THINK_TIME: float = 1.6
+const THINK_TIME: float = 1.0
 
 # Reference to the controller that provides game state and executes commands
 var _controller: PlayerController
@@ -16,6 +16,13 @@ var _opp_controller: PlayerController
 var deal_dmg_weighting: float = 0.5
 var avoid_dmg_weighting: float = 0.5
 var min_fate_tolerance: float = 0.5
+var min_relative_attack_def_threshold_aggressive: float = 0.10
+var min_absolute_attack_threshold_aggressive: int = 5
+var min_relative_attack_def_delta_threshold_defensive: float = 0.10
+var min_absolute_defense_threshold_defensive: int = 5
+
+
+
 var draw_count: int = 0
 var opp_attacks: Array[int]
 var opp_defenses: Array[int]
@@ -46,24 +53,40 @@ func regenerate_temperament_vars():
 			deal_dmg_weighting = randf_range(0.4, 0.6)
 			avoid_dmg_weighting = 1.0 - deal_dmg_weighting
 			min_fate_tolerance = randf_range(0.4, 0.6)
+			min_relative_attack_def_threshold_aggressive = randf_range(0.0, 0.05)
+			min_absolute_attack_threshold_aggressive = randi_range(3,7)
+			min_relative_attack_def_delta_threshold_defensive = randf_range(0.1, 0.2)
+			min_absolute_defense_threshold_defensive = randi_range(3,7)
 		Temperament.AGGRESSIVE:
 			#base_min_max_draw_amts = [2, randi_range(6,8)]
 			#base_min_max_draw_likelihoods = [1.0, 0.4]
 			deal_dmg_weighting = randf_range(0.6, 0.9)
 			avoid_dmg_weighting = 1.0 - deal_dmg_weighting
-			min_fate_tolerance = randf_range(0.1, 0.5)
+			min_fate_tolerance = randf_range(0.3, 0.5)
+			min_relative_attack_def_threshold_aggressive = randf_range(0.1, 0.2)
+			min_absolute_attack_threshold_aggressive = randi_range(5,15)
+			min_relative_attack_def_delta_threshold_defensive = randf_range(0.2, 0.3)
+			min_absolute_defense_threshold_defensive = randi_range(0,0)
 		Temperament.DEFENSIVE:
 			#base_min_max_draw_amts = [1, randi_range(5,7)]
 			#base_min_max_draw_likelihoods = [1.0, 0.4]
 			deal_dmg_weighting = randf_range(0.1, 0.4)
 			avoid_dmg_weighting = 1.0 - deal_dmg_weighting
 			min_fate_tolerance = randf_range(0.5, 0.6)
+			min_relative_attack_def_threshold_aggressive = randf_range(0.0, 0.0)
+			min_absolute_attack_threshold_aggressive = randi_range(0,0)
+			min_relative_attack_def_delta_threshold_defensive = randf_range(0.05, 0.10)
+			min_absolute_defense_threshold_defensive = randi_range(5,10)
 		Temperament.CHAOTIC:
 			#base_min_max_draw_amts = [1, randi_range(5,9)]
 			#base_min_max_draw_likelihoods = [1.0, 0.4]
 			deal_dmg_weighting = randf_range(0.1, 0.9)
 			avoid_dmg_weighting = 1.0 - deal_dmg_weighting
-			min_fate_tolerance = randf_range(0.2, 0.4)
+			min_fate_tolerance = randf_range(0.3, 0.7)
+			min_relative_attack_def_threshold_aggressive = randf_range(0.0, 0.3)
+			min_absolute_attack_threshold_aggressive = randi_range(0,15)
+			min_relative_attack_def_delta_threshold_defensive = randf_range(0.05, 0.30)
+			min_absolute_defense_threshold_defensive = randi_range(0,15)
 
 
 func start_setup() -> void:
@@ -76,6 +99,10 @@ func start_setup() -> void:
 	print('AI: deal_dmg_weighting: ', deal_dmg_weighting)
 	print('AI: avoid_dmg_weighting: ', avoid_dmg_weighting)
 	print('AI: min_fate_tolerance: ', min_fate_tolerance)
+	print('AI: min_relative_attack_def_threshold_aggressive: ', min_relative_attack_def_threshold_aggressive)
+	print('AI: min_absolute_attack_threshold_aggressive: ', min_absolute_attack_threshold_aggressive)
+	print('AI: min_relative_attack_def_delta_threshold_defensive: ', min_relative_attack_def_delta_threshold_defensive)
+	print('AI: min_absolute_defense_threshold_defensive: ', min_absolute_defense_threshold_defensive)
 	
 	take_turn()
 	
@@ -246,6 +273,16 @@ func decide_draw_card(
 		print('AI: Atack/Defense = 0/0, draw again')
 		return true
 	
+	if opp_attack - defense > cur_health:
+		print('AI: opp_attack - defense > cur_health, draw again')
+		return true
+
+	var attacks_scalar = 1.3
+	if is_attacker and defense - round(attacks_scalar * get_average(opp_defenses)) > cur_health:
+		print('AI: expected_opp_attack - defense > cur_health, draw again')
+		return true
+	
+	
 	# TODO: Implement all special cases once cards are known.  E.g. finisher, troijka, etc
 	
 	# Check Draw for attack reasons	
@@ -287,7 +324,7 @@ func decide_draw_card(
 	)
 	
 	var defense_probability_roll = randf()
-	print('AI: attack_probability_roll: ', attack_probability_roll)
+	print('AI: defense_probability_roll: ', defense_probability_roll)
 	if defense_probability_roll > (1 - prob_to_draw_for_defense_reasons) and fate >= min_fate_tolerance:
 		print('AI: DRAWING for defense reasons')
 		return true
@@ -317,7 +354,7 @@ func calc_prob_to_draw_for_attack_reasons(
 	opp_fate: float,
 	is_attacker: bool, 
 	card_probabilities: Dictionary) -> float:
-	print('AI: calc_prob_to_draw_for_attack_reasons')
+	print('AI: CALC_PROB_to_draw_for_ATTACK_reasons')
 	var prob_to_draw_for_attack_reasons: float = 0.0
 	
 	var _opp_def = opp_defense
@@ -328,7 +365,7 @@ func calc_prob_to_draw_for_attack_reasons(
 		print('AI: average_opp_defense: ', _opp_def)
 
 	var attack_def_delta = attack - _opp_def
-	var attack_def_delta_as_pcnt_opponent_cur_health = float(attack_def_delta) / opp_cur_health
+	var attack_def_delta_as_pcnt_opponent_cur_health = max(float(attack_def_delta) / opp_cur_health, 0.0)
 	print('AI: attack: ', attack)
 	print('AI: attack_def_delta: ', attack_def_delta)
 	print('AI: attack_def_delta_as_pcnt_opponent_cur_health: ', attack_def_delta_as_pcnt_opponent_cur_health)
@@ -339,16 +376,18 @@ func calc_prob_to_draw_for_attack_reasons(
 	# NOTE/TODO: these apply to the attack_def_delta, rather than just attack
 	# Makes sense for now as aggressive temperament, but maybe just change it to be
 	# based off of just attack
-	var min_relative_attack_threshold_aggressive: float = 0.1
-	var min_absolute_attack_threshold_aggressive: int = 5
-	if _temperament == Temperament.AGGRESSIVE and (attack_def_delta_as_pcnt_opponent_cur_health < min_relative_attack_threshold_aggressive or attack_def_delta < min_absolute_attack_threshold_aggressive):
-		print('AI: attack_prob == 1 due to min thresholds')
-		return 1.0
 
+	# NOTE: like, do we reallly need this???  I feel like the deal_dmg_weight kinda does this
+	#if (attack_def_delta_as_pcnt_opponent_cur_health < min_relative_attack_def_threshold_aggressive or attack < min_absolute_attack_threshold_aggressive):
+		#print('AI: attack_prob == 1 due to min thresholds')
+		#prob_to_draw_for_attack_reasons = 1.0
+	#else:
+	
 	# NOTE: THIS actually seems really good, and intuitive and makes physical sense
 	prob_to_draw_for_attack_reasons = (1-attack_def_delta_as_pcnt_opponent_cur_health)
 	print('AI: prob_to_draw_for_attack_reasons: ', prob_to_draw_for_attack_reasons)
-	
+
+
 	# What are the chances another card will actually add attack?
 	var probability_to_increase_attack_from_draw: float = calc_probability_to_increase_attack(attack, defense, fate, opp_attack, opp_defense, opp_fate, is_attacker, card_probabilities)
 	print('AI: probability_to_increase_attack_from_draw: ', probability_to_increase_attack_from_draw)
@@ -364,11 +403,16 @@ func calc_prob_to_draw_for_attack_reasons(
 	
 	# The idea here is that now its just a question of weighing fate against desire to deal dmg
 	# Another option is to simply have the dmg weighting = to deal_dmg weight, and then weight the fate per the remiainder, e.g.
+	# NOTE: this option seems to weight fate too little, such that aggressive personality is routinely drawing 7 cards
+	# I don't mind that happening periodically but I think its too much rn
 	var fate_weighting = 1.0 - deal_dmg_weighting
 	#var fate_weighting: float = 0.5
 	#var dmg_weighting: float = 0.5
 	
 	var fate_dmg_weighted_modifier = (fate_weighting * delta_from_min_fate_as_pct) + (deal_dmg_weighting)
+	print('AI: fate_weighting: ', fate_weighting)
+	print('AI: fate_weighting * delta_from_min_fate_as_pct: ', fate_weighting * delta_from_min_fate_as_pct)
+	print('AI: deal_dmg_weighting: ', deal_dmg_weighting)
 	print('AI: fate_dmg_weighted_modifier: ', fate_dmg_weighted_modifier)
 
 	prob_to_draw_for_attack_reasons = prob_to_draw_for_attack_reasons * fate_dmg_weighted_modifier
@@ -389,7 +433,7 @@ func calc_prob_to_draw_for_defense_reasons(
 	opp_fate: float,
 	is_attacker: bool, 
 	card_probabilities: Dictionary) -> float:
-	print('AI: calc_prob_to_draw_for_defense_reasons')
+	print('AI: CALC_PROB_to_draw_for_DEFENSE_reasons')
 	var prob_to_draw_for_defense_reasons: float = 0.0
 	
 	var _opp_attack = opp_attack
@@ -407,18 +451,36 @@ func calc_prob_to_draw_for_defense_reasons(
 	print('AI: def_attack_delta: ', attack_def_delta)
 	print('AI: attack_def_delta_as_pcnt_cur_health: ', attack_def_delta_as_pcnt_cur_health)
 	
-	#TODO: could have these be instance vars and set them via temperament as well
-	var min_relative_defense_threshold_defensive: float = 0.10
-	var min_absolute_defense_threshold_defensive: int = 10
-	if _temperament == Temperament.DEFENSIVE and (attack_def_delta_as_pcnt_cur_health > min_relative_defense_threshold_defensive or attack_def_delta > min_absolute_defense_threshold_defensive):
-		print('AI: defend_prob == 1 due to min thresholds')
-		return 1.0
 	
+	if (attack_def_delta_as_pcnt_cur_health > min_relative_attack_def_delta_threshold_defensive or defense < min_absolute_defense_threshold_defensive):
+		print('AI: defend_prob == 1 due to min thresholds')
+		prob_to_draw_for_defense_reasons = 1.0
+	else:
+		print('AI: no defense thresholds hit')
+		prob_to_draw_for_defense_reasons = inverse_lerp(0.0, min_relative_attack_def_delta_threshold_defensive, attack_def_delta_as_pcnt_cur_health)
+		#linear interpolate from zero to min_relative_attack_def_delta_threshold_defensive
+	print('AI: prob_to_draw_for_defense_reasons: ', prob_to_draw_for_defense_reasons)
+
+
 	#TODO: figure out a better system for this
 	#prob_to_draw_for_defense_reasons = 1.0
-	prob_to_draw_for_defense_reasons = attack_def_delta_as_pcnt_cur_health
-	print('AI: prob_to_draw_for_defense_reasons: ', prob_to_draw_for_defense_reasons)
-	
+	'''
+	like, this should not happen:
+	AI: def_attack_delta: 42
+	AI: attack_def_delta_as_pcnt_cur_health: 0.42
+	AI: prob_to_draw_for_defense_reasons: 0.5
+	so maybe we create a threshold above which the value is 1, and then interpolate from 
+	there to zero.  The value could be set based on temperament.  E.g. defensive might be at 5% of cur health
+	while balanced could be at 10%, and offensive could be at 20%
+	and then still pass at 1.0 through other calcs, since the probability of drawina
+	a defensive card is still important.
+	'''
+	#var floor_probability: float = 0.5
+	#prob_to_draw_for_defense_reasons = max(attack_def_delta_as_pcnt_cur_health, floor_probability)
+	#print('AI: prob_to_draw_for_defense_reasons: ', prob_to_draw_for_defense_reasons)
+#
+
+
 	# What are the chances another card will actually add attack?
 	var probability_to_increase_defense_from_draw: float = calc_probability_to_increase_defense(attack, defense, fate, opp_attack, opp_defense, opp_fate, is_attacker, card_probabilities)
 	print('AI: probability_to_increase_defense_from_draw: ', probability_to_increase_defense_from_draw)
@@ -436,6 +498,9 @@ func calc_prob_to_draw_for_defense_reasons(
 	var fate_weighting = 1.0 - avoid_dmg_weighting
 	
 	var fate_dmg_weighted_modifier = (fate_weighting * delta_from_min_fate_as_pct) + (avoid_dmg_weighting)
+	print('AI: fate_weighting: ', fate_weighting)
+	print('AI: fate_weighting * delta_from_min_fate_as_pct: ', fate_weighting * delta_from_min_fate_as_pct)
+	print('AI: avoid_dmg_weighting: ', avoid_dmg_weighting)
 	print('AI: fate_dmg_weighted_modifier: ', fate_dmg_weighted_modifier)
 
 	prob_to_draw_for_defense_reasons = prob_to_draw_for_defense_reasons * fate_dmg_weighted_modifier
@@ -453,7 +518,11 @@ func calc_probability_to_increase_attack(
 	opp_fate: float,
 	is_attacker: bool, 
 	card_probabilities: Dictionary) -> float:
-	var prob = card_probabilities[CombatCard.Type.OFFENSIVE]
+	#NOTE: the probabilities to increase attack were super low
+	#I think this has alot to do with chaotic card increasing the denominator
+	#so we'll add them to both the prob to increase attack and increase defense for now
+	#until we can perform more detailed simulation analysis
+	var prob = card_probabilities[CombatCard.Type.OFFENSIVE] + card_probabilities[CombatCard.Type.CHAOTIC]
 	return prob
 	
 	
@@ -466,7 +535,7 @@ func calc_probability_to_increase_defense(
 	opp_fate: float,
 	is_attacker: bool, 
 	card_probabilities: Dictionary) -> float:
-	var prob = card_probabilities[CombatCard.Type.DEFENSIVE]
+	var prob = card_probabilities[CombatCard.Type.DEFENSIVE] + card_probabilities[CombatCard.Type.CHAOTIC]
 	return prob
 
 

@@ -12,8 +12,43 @@ const card_ui_scene = preload("res://ui/card_ui.tscn")
 var p1_ui_mapping := {}
 var p2_ui_mapping := {}
 
+var is_peeping_deck: bool = false
+var peeped_card: Node
+var peep_duration: int = 5
+
+
+func peep_deck(controller: PlayerController, cards: Array[CombatCard]) -> void:
+	#just implementing this for single card for now.  TODO: update for multiple cards in future
+	var card = cards.back()
+	
+	# Instantiate card ui for tween
+	peeped_card = card_ui_scene.instantiate()
+	peeped_card.card = card
+	add_child(peeped_card)
+	
+	# Assign the respective pile_objects based on enum and player conroller
+	var mapping = p1_ui_mapping if controller.player == CombatScene.Player.ONE else p2_ui_mapping
+
+	var deck_ui = mapping[CombatCardState.CardTarget.DECK] as PileUI
+	
+	# Call get_add_location of card from 'to_pile'
+	var add_location = deck_ui.get_add_location()
+	
+	peeped_card.global_position = add_location
+	
+	await get_tree().create_timer(peep_duration).timeout
+	remove_peeped_card()
+
+
+func remove_peeped_card() -> void:
+	if peeped_card:
+		#TODO: animation
+		peeped_card.queue_free()
+		peeped_card = null
+
 
 func move_card_with_animation(controller: PlayerController, card: CombatCard, from_pile: CombatCardState.CardTarget, to_pile: CombatCardState.CardTarget):
+	remove_peeped_card()
 	#print('move_card_with_animation')
 	# Instantiate card ui for tween
 	var temp_card = card_ui_scene.instantiate()
@@ -50,6 +85,7 @@ func move_card_with_animation(controller: PlayerController, card: CombatCard, fr
 	
 	
 func add_card_with_animation(controller: PlayerController, card: CombatCard, to_pile: CombatCardState.CardTarget, source: Node):
+	remove_peeped_card()
 	# Instantiate card ui for tween
 	var temp_card = card_ui_scene.instantiate()
 	temp_card.card = card

@@ -35,6 +35,7 @@ func init_all_cards():
 	Pyrrhic.new(),
 	Harbinger.new(),
 	Martyr.new(),
+	Scouting.new(),
 	
 	#Feint.new(), #NOTE: commented out for now while i decide what to do with status effects
 	]

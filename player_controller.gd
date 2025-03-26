@@ -20,11 +20,17 @@ var timer_enabled: bool = false
 var seconds_per_round: int = 60
 var seconds_left: int
 var timer: Timer
-var is_attacker: bool = false
+var is_attacker: bool = false #: set = _on_is_attacker_set
 var ai_controller: AIController
 
 var on_setup_ended: Callable
 var on_card_drawn: Callable
+
+
+#func _on_is_attacker_set(value: bool) -> void:
+	#if ai_controller:
+		#ai_controller.is_attacker = value
+	#is_attacker = value
 
 
 func start_setup() -> void:

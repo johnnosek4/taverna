@@ -50,13 +50,48 @@ layout_mode = 2
 text = "Match Setup"
 horizontal_alignment = 1
 
-[node name="P1DeckSelectorButton" type="OptionButton" parent="VBoxContainer"]
-unique_name_in_owner = true
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="P2DeckSelectorButton" type="OptionButton" parent="VBoxContainer"]
+[node name="P1NameLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Player 1"
+
+[node name="P1DeckSelectorButton" type="OptionButton" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="P2NameLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Player 2"
+
+[node name="P2DeckSelectorButton" type="OptionButton" parent="VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "AI Temperament"
+
+[node name="AITemperamentOptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="StartMatchButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true

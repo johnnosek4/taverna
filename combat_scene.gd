@@ -90,13 +90,14 @@ func initialize() -> void:
 	p1_combat_cards_state.init_deck(card_database, p1_stats.deck, combat_ui_manager)
 	p1_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
 	p1_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
+	p1_combat_cards_state.deck_peeped.connect(card_animator.peep_deck)
 
 	
 	p2_combat_cards_state = CombatCardState.new()
 	p2_combat_cards_state.init_deck(card_database, p2_stats.deck, combat_ui_manager)
 	p2_combat_cards_state.card_moved.connect(card_animator.move_card_with_animation)
 	p2_combat_cards_state.card_added.connect(card_animator.add_card_with_animation)
-
+	p2_combat_cards_state.deck_peeped.connect(card_animator.peep_deck)
 
 	#view_cards_button.pressed.connect(_on_view_cards_pressed)
 	
@@ -522,6 +523,8 @@ func start_action() -> void:
 
 		#set current controller for next round to p1 if p2 fails
 		current_controller = p1_controller
+		p1_controller.is_attacker = true
+		p2_controller.is_attacker = false
 
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)
@@ -535,6 +538,8 @@ func start_action() -> void:
 
 		#set current controller for next round to p2 if p1 fails
 		current_controller = p2_controller
+		p1_controller.is_attacker = false
+		p2_controller.is_attacker = true
 		
 		await discard_hand(p1_controller, p2_controller)
 		await discard_hand(p2_controller, p1_controller)

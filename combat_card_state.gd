@@ -4,6 +4,7 @@ extends RefCounted
 #signal card_drawn(card: CombatCard)
 signal card_moved(controller: PlayerController, card: CombatCard, from: CardTarget, to: CardTarget)
 signal card_added(controller: PlayerController, card: CombatCard, to: CardTarget, source: Node) #Not sure what to do about source
+signal deck_peeped(controller: PlayerController, cards: Array[CombatCard])
 
 signal hand_stats_updated
 signal lost
@@ -54,6 +55,12 @@ func draw_card() -> void:
 		hand.append(card)
 		_calc_hand_stats()
 		card_moved.emit(controller, drawn_card, CardTarget.DECK, CardTarget.HAND)
+
+
+func peep_deck(amt: int) -> Array[CombatCard]:
+	var top_x = deck.slice(-amt, deck.size())
+	deck_peeped.emit(controller, top_x)
+	return top_x
 
 
 func move_card(card: CombatCard, from_pile: CardTarget, to_pile: CardTarget) -> void:

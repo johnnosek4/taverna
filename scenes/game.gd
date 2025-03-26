@@ -31,10 +31,12 @@ func _ready() -> void:
 	cur_player_collection = PlayerCollection.new()
 	cur_player_collection.player_name = cur_player_name
 	
-	#UNLOCK all cards for testing
-	cur_player_collection.unlocked_cards = card_database.get_all_ids()
 	#LOAD collection from storage, if multiple players, this would be done on player selection ofc
 	cur_player_collection.load_collection()
+	
+	#UNLOCK all cards for testing
+	cur_player_collection.unlocked_cards = card_database.get_all_ids()
+
 	
 	main_menu.player_collection = cur_player_collection
 	main_menu.card_database = card_database
