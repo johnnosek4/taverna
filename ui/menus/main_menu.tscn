@@ -35,15 +35,15 @@ theme_override_font_sizes/font_size = 58
 text = "Taverna"
 horizontal_alignment = 1
 
-[node name="SinglePlayerButton" type="Button" parent="VBoxContainer"]
+[node name="StoryButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Single Player"
+text = "Story"
 
-[node name="MultiplayerButton" type="Button" parent="VBoxContainer"]
+[node name="MatchButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Multiplayer"
+text = "Bout"
 
 [node name="OptionsButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true

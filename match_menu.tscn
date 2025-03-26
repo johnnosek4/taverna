@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://d3qabheqsurgj"]
 
-[ext_resource type="Theme" uid="uid://c5xb0uny7l3in" path="res://themes/main_menu.tres" id="1_8au7c"]
-[ext_resource type="Script" path="res://multiplayer_menu.gd" id="1_uebcx"]
+[ext_resource type="Theme" uid="uid://c5xb0uny7l3in" path="res://themes/main_menu.tres" id="1_feybw"]
+[ext_resource type="Script" path="res://match_menu.gd" id="2_wieix"]
 
-[node name="MultiplayerMenu" type="Control"]
+[node name="MatchMenu" type="Control"]
 custom_minimum_size = Vector2(600, 800)
 layout_mode = 3
 anchors_preset = 8
@@ -17,8 +17,8 @@ offset_right = 300.0
 offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_8au7c")
-script = ExtResource("1_uebcx")
+theme = ExtResource("1_feybw")
+script = ExtResource("2_wieix")
 
 [node name="TextureRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -54,13 +54,18 @@ text = "Back"
 
 [node name="MenuTitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Multiplayer"
+text = "Bout"
 horizontal_alignment = 1
 
 [node name="DeckBuilderButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Deck Builder"
+
+[node name="SinglePlayerButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Singleplayer"
 
 [node name="HotseatButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -69,5 +74,6 @@ text = "Hotseat"
 
 [node name="OnlineButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Online"

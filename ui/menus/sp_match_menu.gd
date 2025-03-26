@@ -6,6 +6,7 @@ const COMBAT_SCENE = preload("res://combat_scene.tscn")
 
 var player_collection: PlayerCollection
 var view_controller: ViewController
+
 var deck_list: Array[Deck]
 var temperament_list: Array[int]
 var id_for_random: int
@@ -18,6 +19,7 @@ var id_for_random: int
 @onready var back_button: Button = %BackButton
 @onready var start_match_button: Button = %StartMatchButton
 @onready var ai_temperament_option_button: OptionButton = %AITemperamentOptionButton
+@onready var bout_type_option_button: OptionButton = %BoutTypeOptionButton
 
 
 func _ready() -> void:
@@ -48,6 +50,9 @@ func populate_selector_buttons() -> void:
 		ai_temperament_option_button.add_item(temperament)
 	ai_temperament_option_button.select(0)
 	
+	bout_type_option_button.add_item('Double Roll')
+	bout_type_option_button.add_item('Single Roll')
+	bout_type_option_button.select(1)
 
 
 func _on_start_match_button_pressed() -> void:
@@ -75,6 +80,7 @@ func _on_start_match_button_pressed() -> void:
 	p2_ai_controller = AIController.new()
 	p2_ai_controller._temperament = selected_temperament
 	
+	var is_single_roll = bout_type_option_button.get_selected_id()
 
 	view_controller.change_to_combat_scene_multiplayer_hotseat(
 		p1_name,
@@ -83,6 +89,7 @@ func _on_start_match_button_pressed() -> void:
 		p2_deck,
 		p1_ai_controller,
 		p2_ai_controller,
+		is_single_roll,
 	)
 	
 

@@ -20,6 +20,7 @@ func change_to_combat_scene_multiplayer_hotseat(
 	p2_deck: Deck,
 	p1_ai_controller: AIController,
 	p2_ai_controller: AIController,
+	is_single_roll: bool = true
 ) -> void:
 	var combat_scene = _change_view(COMBAT_SCENE) as CombatScene
 	
@@ -38,6 +39,7 @@ func change_to_combat_scene_multiplayer_hotseat(
 	combat_scene.p1_ai_controller = p1_ai_controller
 	combat_scene.p2_ai_controller = p2_ai_controller
 	combat_scene.card_database = card_database
+	combat_scene.is_single_roll = is_single_roll
 	combat_scene.initialize()
 	combat_scene.start_combat()
 
