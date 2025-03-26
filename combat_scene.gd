@@ -44,6 +44,7 @@ var p1_is_setup: bool = false #these are the variables used to determine when to
 var p2_is_setup: bool = false
 var mode: Game.Mode = Game.Mode.HOTSEAT
 var card_database: CardDatabase
+var is_single_roll: bool = false
 
 const card_ui_scene = preload("res://ui/card_ui.tscn")
 const end_menu_scene = preload("res://ui/menus/end_game_menu.tscn")
@@ -313,10 +314,16 @@ func start_action() -> void:
 		p2_ai_controller.store_combat_data(p1_attack, p1_defense)
 	
 	#await get_tree().create_timer(LONG_PAUSE).timeout
-	combat_log.log_event('')
+	#combat_log.log_event('')
 	combat_log.log_event('######################START ACTION######################')
-	combat_log.log_event('')
-	combat_log.log_event('----------------------------P1 Action Roll----------------------------')
+	#combat_log.log_event('')
+	
+	var first_roll = randi_range(1,10)
+	if is_single_roll:
+		combat_log.log_event('Roll is ' + str(first_roll) + '!')
+		await get_tree().create_timer(LONG_PAUSE).timeout
+	
+	combat_log.log_event('----------------------------P1 Action----------------------------')
 
 	combat_log.log_event('P1 needs to match or beat ' + str(round((1 - p1_controller.combat_cards.hand_fate) * 10)+1) + ' with a fate of ' + str(p1_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
 	print('FATE: ', p1_controller.combat_cards.hand_fate)
@@ -326,13 +333,12 @@ func start_action() -> void:
 	await get_tree().create_timer(LONG_PAUSE).timeout
 	
 	# ROLL fate of hand1
-	var p1_roll = randi_range(1,10)
-	
-	combat_log.log_event('P1 rolls ' + str(p1_roll))
-	await get_tree().create_timer(LONG_PAUSE).timeout
+	if not is_single_roll:
+		combat_log.log_event('P1 rolls ' + str(first_roll))
+		await get_tree().create_timer(LONG_PAUSE).timeout
 	
 	# CHECK against hand1 fate
-	if p1_roll >= (round((1 - p1_controller.combat_cards.hand_fate) * 10)+1):
+	if first_roll >= (round((1 - p1_controller.combat_cards.hand_fate) * 10)+1):
 		#combat_log.log_event('P1 Action Succeeds with a roll of ' + str(p1_roll) + ' vs fate of ' + str(p1_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
 		combat_log.log_event('P1 Action Succeeds!')
 		p1_action = true
@@ -359,18 +365,20 @@ func start_action() -> void:
 			card.on_action_fails(p1_controller, p2_controller)
 			card_ui.deselect()
 	
-	combat_log.log_event('')
-	combat_log.log_event('----------------------------P2 Action Roll----------------------------')
+	#combat_log.log_event('')
+	combat_log.log_event('----------------------------P2 Action----------------------------')
 	combat_log.log_event('P2 needs to match or beat ' + str(round((1 - p2_controller.combat_cards.hand_fate) * 10)+1) + ' with a fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
 	await get_tree().create_timer(LONG_PAUSE).timeout
 
-	# ROLL fate of hand2
-	var p2_roll = randi_range(1,10)
-	combat_log.log_event('P2 rolls ' + str(p2_roll))
-	await get_tree().create_timer(LONG_PAUSE).timeout
+	var second_roll = first_roll
+	if not is_single_roll:
+		# ROLL fate of hand2
+		second_roll = randi_range(1,10)
+		combat_log.log_event('P2 rolls ' + str(second_roll))
+		await get_tree().create_timer(LONG_PAUSE).timeout
 	
 	# CHECK against hand2 fate
-	if p2_roll >= (round((1 - p2_controller.combat_cards.hand_fate) * 10)+1):
+	if second_roll >= (round((1 - p2_controller.combat_cards.hand_fate) * 10)+1):
 		#combat_log.log_event('P2 Action Succeeds with a roll of ' + str(p2_roll) + ' vs fate of ' + str(p2_controller.combat_cards.hand_fate).pad_decimals(2) + '%')
 		combat_log.log_event('P2 Action Succeeds!')
 		p2_action = true
