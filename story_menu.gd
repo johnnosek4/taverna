@@ -20,7 +20,7 @@ func _ready() -> void:
 	get_tree().paused = false
 	continue_button.disabled = SaveGame.load_data() == null
 	back_button.pressed.connect(_on_back_button_pressed)
-	continue_button.pressed.connect(_on_back_button_pressed)
+	continue_button.pressed.connect(_on_continue_button_pressed)
 	new_story_button.pressed.connect(_on_new_story_button_pressed)
 
 

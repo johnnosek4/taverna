@@ -13,9 +13,9 @@ const RUN_SCENE = preload("res://run.tscn")
 @onready var start_button: Button = %StartButton
 
 
-@onready var title: Label = %Title
-@onready var description: Label = %Description
-@onready var character_portrait: TextureRect = %CharacterPortrait
+#@onready var title: Label = %Title
+#@onready var description: Label = %Description
+#@onready var character_portrait: TextureRect = %CharacterPortrait
 
 var current_character: Stats : set = set_current_character
 

@@ -39,7 +39,7 @@ func set_current_health(value: int) -> void:
 
 
 func create_instance() -> Resource:
-	var instance: Stats = self.duplicate()
+	var instance: Stats = self.duplicate(true)
 	instance.current_health = max_health
 	instance.deck = instance.starting_deck.duplicate()
 	instance.available_cards = instance.starting_available_cards.duplicate()

@@ -48,6 +48,13 @@ func _ready() -> void:
 			get_tree().change_scene_to_file(MAIN_MENU_PATH)
 	)
 	
+	table.table_exited.connect(_on_table_exited)
+	
+	# NOTE: this is a hack while trying to figure out why deck resource wont work
+	var warrior_deck = load("res://warrior_starting_deck.tres") #as Deck
+	print('WARRIOR DECK: ', warrior_deck)
+	run_startup.selected_character.starting_deck = warrior_deck
+	
 	match run_startup.type:
 		RunStartup.Type.NEW_RUN:
 			character_stats = run_startup.selected_character.create_instance()
@@ -75,7 +82,8 @@ func _save_run(was_on_map: bool) -> void:
 	save_data.run_stats = run_stats
 	save_data.char_stats = character_stats
 	save_data.last_story_event = table.last_story_event
-	save_data.map_data = table.table_data.duplicate() #TODO: doesn't this need to be deep copy/ maybe even custom?
+	save_data.cur_story_card_idx = table.cur_story_card_idx
+	save_data.table_data = table.table_data.duplicate() #TODO: doesn't this need to be deep copy/ maybe even custom?
 	save_data.was_on_map = was_on_map
 	save_data.save_data()
 	#save_data.floors_climbed = map.floors_climbed
@@ -97,9 +105,9 @@ func _load_run() -> void:
 	#_setup_top_bar()
 	#_setup_event_connections()
 	
-	table.load_table(save_data.table_data, save_data.last_story_event)
-	if save_data.last_StoryEvent and not save_data.was_on_map:
-		_on_map_exited(save_data.last_StoryEvent)
+	table.load_table(save_data.table_data, save_data.last_story_event, save_data.cur_story_card_idx)
+	if save_data.last_story_event and not save_data.was_on_map:
+		_on_table_exited(save_data.last_story_event)
 
 
 func _change_view(scene: PackedScene) -> Node:
@@ -156,6 +164,7 @@ func _show_table() -> void:
 
 func _show_regular_battle_rewards() -> void:
 	print("Show Battle Reward Scene")
+	_show_table()
 	#var reward_scene := _change_view(BATTLE_REWARD_SCENE) as BattleReward
 	#reward_scene.run_stats = stats
 	#reward_scene.character_stats = character
@@ -173,7 +182,7 @@ func _on_combat_story_event_entered(story_event: StoryEvent) -> void:
 	combat_scene.p2_ai_controller = opp_ai
 	combat_scene.card_database = card_database
 	combat_scene.is_single_roll = is_single_roll
-	combat_scene.combat_ended.connect(_on_battle_ended)
+	combat_scene.combat_ended.connect(_on_combat_ended)
 	combat_scene.initialize()
 	combat_scene.start_combat()
 
@@ -220,9 +229,13 @@ func _on_event_story_event_entered(story_event: StoryEvent) -> void:
 	#event_story_event.setup()
 
 
-func _on_battle_ended(winner: CombatScene.Player) -> void:
-	if winner == CombatScene.Player.ONE:
-		if table.last_story_event + 1 == TableGenerator.LENGTH:
+func _on_combat_ended(stats_of_dead_player: Stats) -> void:
+	print('on_combat_ended')
+	print('stats_of_dead_player.name: ',stats_of_dead_player.name)
+	print('character_stats.name: ',character_stats.name)
+
+	if not stats_of_dead_player.name == character_stats.name:
+		if table.cur_story_card_idx + 1 == TableGenerator.LENGTH:
 			print('Player is Victorious')
 			SaveGame.delete_data()
 		else:
@@ -231,7 +244,7 @@ func _on_battle_ended(winner: CombatScene.Player) -> void:
 		print('Player is DEAD')
 
 
-func _on_map_exited(story_event: StoryEvent) -> void:
+func _on_table_exited(story_event: StoryEvent) -> void:
 	_save_run(false)
 	
 	match story_event.type:

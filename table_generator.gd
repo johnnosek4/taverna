@@ -69,6 +69,15 @@ func _setup_event_based_on_type() -> void:
 				var combat_stats = CombatStats.new()
 				combat_stats.opp_temperament = _generate_opponent_temperament()
 				combat_stats.opp_stats = _generate_opponent_stats_from_combat_stats(combat_stats)
+				
+				#NOTE: hack for now
+				var deck = load("res://warrior_starting_deck.tres")
+				var deck2 = Deck.new()
+				deck2.id = "002"
+				deck2.cards = {"023": 5}
+				
+				combat_stats.opp_stats.deck = deck2
+				
 				event.combat_stats = combat_stats
 				
 
@@ -79,6 +88,9 @@ func _generate_opponent_temperament() -> int:
 			
 func _generate_opponent_stats_from_combat_stats(combat_stats: CombatStats) -> Stats:
 	var opp_stats = Stats.new()
+	opp_stats.max_health = 10
+	opp_stats.current_health = 1
+	opp_stats.name = "putrid urgl"
 	return opp_stats
 	
 	

@@ -7,6 +7,7 @@ extends Resource
 @export var gold_reward_max: int
 @export var opp_stats: Stats
 @export var opp_temperament: AIController.Temperament
+@export var opp_deck: Deck
 
 var accumulated_weight: float = 0.0
 

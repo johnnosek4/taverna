@@ -7,9 +7,10 @@ const SAVE_PATH := "user://savegame.tres"
 @export var rng_state: int
 @export var run_stats: RunStats
 @export var char_stats: Stats
-@export var current_health: int
+#@export var current_health: int
 @export var table_data: Array[StoryEvent]
-@export var last_story_event: int
+@export var last_story_event: StoryEvent
+@export var cur_story_card_idx: int
 @export var was_on_map: bool
 #@export var relics: Array[Relic]
 #@export var floors_climbed: int

@@ -262,6 +262,12 @@ func decide_draw_card(
 	opp_fate: float,
 	is_attacker: bool, 
 	card_type_probabilities: Dictionary) -> bool:
+		
+	var draw_count_limit = 6 #TODO: this should not be here, it should be higher up somethwer, probably just imposed by the game/controller
+	if draw_count > draw_count_limit:
+		print('AI: draw_count > draw_count_limit, end turn')
+		return false
+		
 	# Always draw the first card
 	if draw_count <= 1:
 		print('AI: draw_count <= 1, draw again')
