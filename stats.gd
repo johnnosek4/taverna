@@ -1,5 +1,5 @@
 class_name Stats
-extends RefCounted
+extends Resource
 
 enum PlayerType {HUMAN, AI}
 

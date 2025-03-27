@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6i7dqkafd7ts"]
+
+[ext_resource type="Script" path="res://table.gd" id="1_gf080"]
+[ext_resource type="PackedScene" uid="uid://cb2grttrsn6n" path="res://table_ui.tscn" id="2_cxgdq"]
+[ext_resource type="Script" path="res://table_generator.gd" id="2_jyvvo"]
+[ext_resource type="Texture2D" uid="uid://bjujtd1i53mt3" path="res://assets/table-background.jpg" id="3_23mdf"]
+
+[node name="Table" type="Node2D"]
+script = ExtResource("1_gf080")
+
+[node name="TableUI" parent="." instance=ExtResource("2_cxgdq")]
+unique_name_in_owner = true
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 1600.0
+offset_bottom = 800.0
+
+[node name="TableGenerator" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_jyvvo")
+
+[node name="TableBackground" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="TableBackground"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_23mdf")

@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxifbatqy3l6p"]
+
+[ext_resource type="Theme" uid="uid://b4yti0oqt7xi0" path="res://themes/card.tres" id="1_r0vsp"]
+[ext_resource type="Script" path="res://story_event_card.gd" id="2_8bayo"]
+
+[node name="StoryEventCard" type="Control"]
+custom_minimum_size = Vector2(240, 300)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1680.0
+offset_bottom = -780.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_r0vsp")
+script = ExtResource("2_8bayo")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EventNameLabel" type="Label" parent="Panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EventTypeLabel" type="Label" parent="Panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
