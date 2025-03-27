@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=3 format=3 uid="uid://43j6ry57ajs1"]
+
+[ext_resource type="Script" path="res://stats.gd" id="1_kcg4s"]
+[ext_resource type="Resource" uid="uid://dmsysnhfsuq0j" path="res://warrior_starting_deck.tres" id="2_v1qty"]
+
+[resource]
+script = ExtResource("1_kcg4s")
+starting_deck = ExtResource("2_v1qty")
+starting_available_cards = Array[String](["023", "002"])

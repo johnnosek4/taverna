@@ -2,7 +2,7 @@ class_name MainMenu
 extends ColorRect
 
 const MATCH_MENU_SCENE = preload("res://match_menu.tscn")
-const SINGLEPLAYER_MENU_SCENE = preload("res://singleplayer_menu.tscn")
+const STORY_MENU_SCENE = preload("res://story_menu.tscn")
 
 @onready var story_button: Button = %StoryButton
 @onready var match_button: Button = %MatchButton
@@ -30,7 +30,8 @@ func _on_match_button_pressed() -> void:
 
 
 func _on_story_button_pressed() -> void:
-	pass
+	var story_menu = STORY_MENU_SCENE.instantiate() as StoryMenu
+	add_child(story_menu)
 	#var singleplayer_menu = SINGLEPLAYER_MENU_SCENE.instantiate() as SingleplayerMenu
 	#singleplayer_menu.player_collection = player_collection
 	#singleplayer_menu.card_database = card_database

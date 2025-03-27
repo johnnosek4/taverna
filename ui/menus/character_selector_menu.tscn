@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://bchh7ysqpxgt1"]
+
+[ext_resource type="Theme" uid="uid://c5xb0uny7l3in" path="res://themes/main_menu.tres" id="1_ih5al"]
+[ext_resource type="Script" path="res://ui/menus/character_selector_menu.gd" id="2_0wmkw"]
+[ext_resource type="Resource" uid="uid://ddjy2bccyunn2" path="res://run_startup.tres" id="3_y4j87"]
+
+[node name="CharacterSelectorMenu" type="Control"]
+custom_minimum_size = Vector2(600, 800)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -400.0
+offset_right = 300.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ih5al")
+script = ExtResource("2_0wmkw")
+run_startup = ExtResource("3_y4j87")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.152941, 0.160784, 0.164706, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Match Setup"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Name"
+
+[node name="P1NameLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Story"

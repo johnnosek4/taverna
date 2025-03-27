@@ -17,6 +17,8 @@ we'll assume hotseat, and then focus on the Action Logic
 
 '''
 
+signal combat_ended(winner: Player)
+
 enum Player {
 	ONE,
 	TWO
@@ -237,8 +239,11 @@ func start_round() -> void:
 func end_round() -> void:
 	if p1_controller.combat_cards.perform_loss_check():
 		_on_death(p1_controller.stats)
+		combat_ended.emit(Player.TWO)
+		
 	if p2_controller.combat_cards.perform_loss_check():
 		_on_death(p2_controller.stats)
+		combat_ended.emit(Player.ONE)
 	
 	# TODO: implement method on spread piles to reorganize 
 	# and call it here (e.g. Endure may mean some spaces after discard)
@@ -288,8 +293,9 @@ func get_opposing_controller(controller: PlayerController) -> PlayerController:
 func _on_death(stats: Stats) -> void: #TODO: move up to run?
 	#TODO: Needs to account for player vs AI
 	combat_log.log_event(stats.name + ' is dead!')
-	var new_end_menu = end_menu_scene.instantiate()
-	menu_ui.add_child(new_end_menu)
+	
+	#var new_end_menu = end_menu_scene.instantiate()
+	#menu_ui.add_child(new_end_menu)
 	
 	
 func on_card_drawn(controller: PlayerController, card: CombatCard) -> void:

@@ -17,7 +17,11 @@ var current_health: int = 100: set = set_current_health
 var max_health: int = 100
 #var card_pile: Dictionary = {}: set = _on_card_pile_update #Dictionary of cards w/ key/value being card/card_count_of_deck
 #var deck: Array = [CombatCard] #Array of Cards
+@export var starting_deck: Deck
+@export var starting_available_cards:Array[String] = ["023","002"] #array card_ids TODO; make sure this is the best way to do it
+
 var deck: Deck
+var available_cards: Array[String] #array card_ids TODO; make sure this is the best way to do it
 var effects: Array[Effect] = [] #May not be needed in 2.0
 
 var vulnerable_base_mult: float = 1.5
@@ -33,6 +37,13 @@ func set_current_health(value: int) -> void:
 		print('DEAD')
 	stats_changed.emit()
 
+
+func create_instance() -> Resource:
+	var instance: Stats = self.duplicate()
+	instance.current_health = max_health
+	instance.deck = instance.starting_deck.duplicate()
+	instance.available_cards = instance.starting_available_cards.duplicate()
+	return instance
 
 #func _on_card_pile_update(value) -> void:
 	#card_pile = value

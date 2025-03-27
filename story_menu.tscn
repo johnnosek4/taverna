@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcf85kk6lrljg"]
+
+[ext_resource type="Theme" uid="uid://c5xb0uny7l3in" path="res://themes/main_menu.tres" id="1_p1bn1"]
+[ext_resource type="Script" path="res://story_menu.gd" id="2_00y2g"]
+[ext_resource type="Resource" uid="uid://ddjy2bccyunn2" path="res://run_startup.tres" id="3_nsx5m"]
+
+[node name="StoryMenu" type="Control"]
+custom_minimum_size = Vector2(600, 800)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -400.0
+offset_right = 300.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_p1bn1")
+script = ExtResource("2_00y2g")
+run_startup = ExtResource("3_nsx5m")
+
+[node name="TextureRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.154583, 0.162039, 0.163043, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(600, 800)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = -81.5
+offset_right = 53.0
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="MenuTitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Story"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Continue"
+
+[node name="NewStoryButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "New"

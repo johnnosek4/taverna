@@ -1,6 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://uvcjju0ehjp5"]
+[gd_scene load_steps=5 format=3 uid="uid://uvcjju0ehjp5"]
 
 [ext_resource type="Script" path="res://run.gd" id="1_wywic"]
+[ext_resource type="Resource" uid="uid://ddjy2bccyunn2" path="res://run_startup.tres" id="2_5l4ds"]
+[ext_resource type="PackedScene" uid="uid://c6i7dqkafd7ts" path="res://table.tscn" id="2_5xpbp"]
+[ext_resource type="Script" path="res://pause_menu.gd" id="3_1g7t5"]
 
 [node name="Run" type="Node"]
 script = ExtResource("1_wywic")
+run_startup = ExtResource("2_5l4ds")
+
+[node name="Table" parent="." instance=ExtResource("2_5xpbp")]
+unique_name_in_owner = true
+
+[node name="CurrentView" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_1g7t5")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="PauseMenu/VBoxContainer"]
+layout_mode = 2
+text = "Paused"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackToGameButton" type="Button" parent="PauseMenu/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="SaveAndQuitButton" type="Button" parent="PauseMenu/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Main Menu"

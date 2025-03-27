@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Deck" load_steps=2 format=3 uid="uid://dmsysnhfsuq0j"]
+
+[ext_resource type="Script" path="res://card_collection_ui/deck.gd" id="1_kcynm"]
+
+[resource]
+script = ExtResource("1_kcynm")
+id = "001"
+name = "Warrior"
+cards = {
+"002": 5,
+"023": 5
+}
+creation_date = 0
+last_modified = 0

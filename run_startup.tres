@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RunStartup" load_steps=3 format=3 uid="uid://ddjy2bccyunn2"]
+
+[ext_resource type="Script" path="res://run_startup.gd" id="1_nbi1b"]
+[ext_resource type="Resource" uid="uid://43j6ry57ajs1" path="res://run_startup_stats.tres" id="2_xhne2"]
+
+[resource]
+script = ExtResource("1_nbi1b")
+type = 0
+selected_character = ExtResource("2_xhne2")
